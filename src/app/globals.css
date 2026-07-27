@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+:root {
+  --palette-cream: #EFE9DE;
+  --palette-clay: #CEA980;
+  --palette-umber: #765032;
+  --palette-ink: #162F3E;
+  --palette-linen: #E1D2B9;
+
+  --background: var(--palette-cream);
+  --foreground: var(--palette-ink);
+  --surface: var(--palette-linen);
+  --accent: var(--palette-clay);
+  --accent-deep: var(--palette-umber);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cream: var(--palette-cream);
+  --color-clay: var(--palette-clay);
+  --color-umber: var(--palette-umber);
+  --color-ink: var(--palette-ink);
+  --color-linen: var(--palette-linen);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --font-display: var(--font-abygaer), var(--font-raleway), Arial, Helvetica, sans-serif;
+  --font-sans: var(--font-raleway), Arial, Helvetica, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-raleway), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-abygaer), var(--font-raleway), Arial, Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slide-down 0.4s ease-out;
+  }
+
+  .animate-slide-left {
+    animation: slide-left 0.4s ease-out;
+  }
+
+  .animate-slide-right {
+    animation: slide-right 0.4s ease-out;
+  }
+
+  /* Semantic typography utilities */
+  .h1 {
+    @apply text-5xl md:text-6xl font-display font-normal tracking-tight;
+  }
+
+  .h2 {
+    @apply text-4xl md:text-5xl font-display font-normal;
+  }
+
+  .h3 {
+    @apply text-3xl md:text-4xl font-display font-normal;
+  }
+
+  .h4 {
+    @apply text-2xl md:text-3xl font-display font-normal;
+  }
+
+  .h5 {
+    @apply text-xl md:text-2xl font-sans font-semibold;
+  }
+
+  .body-md {
+    @apply text-base md:text-lg font-sans font-normal leading-relaxed;
+  }
+
+  .body-sm {
+    @apply text-sm md:text-base font-sans font-normal leading-normal;
+  }
+
+  .caption {
+    @apply text-xs md:text-sm font-sans font-normal uppercase tracking-widest;
+  }
+
+  .label {
+    @apply text-sm font-sans font-medium uppercase tracking-wide;
+  }
+
+  /* Button semantic utilities */
+  .btn-base {
+    @apply inline-flex items-center justify-center rounded-lg font-sans font-medium transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-accent text-white hover:bg-amber-700 active:bg-umber;
+  }
+
+  .btn-secondary {
+    @apply btn-base border-2 border-accent text-accent hover:bg-cream active:bg-linen;
+  }
+
+  .btn-ghost {
+    @apply btn-base text-accent hover:bg-cream active:bg-linen;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-md {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  /* Container utilities */
+  .container-base {
+    @apply w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  .container-narrow {
+    @apply w-full max-w-4xl mx-auto px-4 md:px-6;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-12 md:py-20 lg:py-28;
+  }
+
+  .section-sm {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
+  .section-lg {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* Card utilities */
+  .card-base {
+    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow;
+  }
+
+  .card-elevated {
+    @apply bg-white rounded-lg shadow-lg p-8;
+  }
+
+  .card-bordered {
+    @apply bg-white rounded-lg border-2 border-linen p-6;
+  }
+
+  /* Link utilities */
+  .link-default {
+    @apply text-accent hover:text-umber underline transition-colors;
+  }
+
+  .link-navigation {
+    @apply text-foreground hover:text-accent transition-colors;
+  }
+
+  /* Responsive display utilities */
+  .hide-mobile {
+    @apply hidden md:block;
+  }
+
+  .show-mobile {
+    @apply block md:hidden;
+  }
+
+  .hide-tablet {
+    @apply hidden lg:block;
+  }
+
+  .show-tablet {
+    @apply hidden md:block lg:hidden;
+  }
+
+  /* Focus ring utilities */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-200;
+  }
+
+  .transition-smooth-slow {
+    @apply transition-all duration-500;
+  }
+
+  .transition-smooth-fast {
+    @apply transition-all duration-100;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
