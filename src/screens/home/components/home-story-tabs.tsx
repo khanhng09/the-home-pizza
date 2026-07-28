@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { storyStates } from '../constants/home.constant';
 import { cn } from '@/shared/lib/utils';
 
@@ -22,7 +21,7 @@ export function HomeStoryTabs() {
                 onClick={() => setActiveIndex(index)}
                 aria-pressed={isActive}
                 className={cn(
-                  'whitespace-nowrap rounded-full max-w-90 w-full h-15 font-display text-4xl transition-all duration-300',
+                  'whitespace-nowrap rounded-full max-w-90 w-full h-12 sm:h-14 md:h-16 lg:h-15 font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl transition-all duration-300 min-h-11',
                   isActive ? 'bg-gold text-ink' : 'bg-ink text-cream hover:brightness-110'
                 )}
               >
@@ -36,15 +35,13 @@ export function HomeStoryTabs() {
       {/* Crossfading state images */}
       <div className="relative aspect-1402/512 max-h-128 w-full overflow-hidden">
         {storyStates.map((state, index) => (
-          <Image
+          <img
             key={state.id}
             src={state.image}
             alt={state.label}
-            fill
-            sizes="100vw"
-            priority={index === 0}
+            loading={index === 0 ? 'eager' : 'lazy'}
             className={cn(
-              'object-cover transition-[opacity,transform] duration-700 ease-out',
+              'absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out',
               index === activeIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
             )}
           />

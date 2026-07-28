@@ -5,9 +5,9 @@ export function HomeHeroSection() {
   return (
     <section className="relative">
       {/* Video background */}
-      <div className="relative flex items-center min-h-160 lg:min-h-screen overflow-hidden bg-ink">
+      <div className="relative flex items-center min-h-262.5 lg:min-h-screen overflow-hidden bg-ink">
         <video
-          className="absolute inset-0 h-full w-full object-cover object-[50%_75%]"
+          className="absolute inset-0 h-full w-full object-cover object-center md:object-[50%_75%]"
           autoPlay
           muted
           loop
@@ -32,14 +32,14 @@ export function HomeHeroSection() {
 
         {/* Content */}
         <div className="container-base relative z-10 flex h-full flex-col items-end justify-center gap-4.5 text-right">
-          <p className="font-sans text-lg text-cream md:text-4xl mb-4.5">{heroContent.eyebrow}</p>
-          <h1 className="font-display text-6xl leading-[1.05] text-cream md:text-7xl lg:text-8xl mb-3.5 max-w-[600px] uppercase">
+          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream mb-4.5">{heroContent.eyebrow}</p>
+          <h1 className="font-display text-5xl sm:text-[54px] md:text-6xl lg:text-7xl leading-[1.05] text-cream mb-3.5 max-w-100 lg:max-w-150 uppercase">
             {heroContent.heading}
           </h1>
-          <p className="font-sans text-xl text-cream md:text-4xl">{heroContent.subheading}</p>
+          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream">{heroContent.subheading}</p>
           <Link
             href="#reservation"
-            className="btn-base h-8 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
+            className="btn-base h-12 sm:h-11 md:h-10 px-6 py-3 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
           >
             {heroContent.cta}
           </Link>
@@ -49,8 +49,13 @@ export function HomeHeroSection() {
       {/* Trust badges bar */}
       <div className="absolute bottom-0 overflow-hidden w-full border-t border-black">
         <div
-          className="absolute z-0 inset-0 backdrop-blur-[65.49px] bg-gold/30"
-        // style={{ backgroundImage: "radial-gradient(circle, rgba(210, 171, 126, 1) 0%, rgba(121, 82, 49, 0.22) 77%, rgba(20, 48, 63, 0) 100%)" }}
+          // className="absolute z-0 inset-0 backdrop-blur-[65.49px] bg-gold/30"
+          className="absolute z-0 inset-0"
+          style={{
+            background: "radial-gradient(151.92% 127.02% at 15.32% 21.04%, rgba(210, 171, 126, 0.20) 0%, rgba(121, 82, 49, 0.04) 77.08%, rgba(20, 48, 63, 0.00) 100%)",
+            backdropFilter: "blur(32px)",
+          }}
+
         ></div>
         <div className="relative container-base grid grid-cols-2 gap-8 pt-10 pb-6 lg:grid-cols-4 z-1">
           {trustBadges.map((badge) => (

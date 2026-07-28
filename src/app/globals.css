@@ -6,6 +6,7 @@
   --palette-gold: #D3AC7E;
   --palette-umber: #765032;
   --palette-ink: #162F3E;
+  --palette-deep: #14303F;
   --palette-linen: #E1D2B9;
 
   --background: var(--palette-cream);
@@ -23,6 +24,7 @@
   --color-gold: var(--palette-gold);
   --color-umber: var(--palette-umber);
   --color-ink: var(--palette-ink);
+  --color-deep: var(--palette-deep);
   --color-linen: var(--palette-linen);
   --color-surface: var(--surface);
   --color-accent: var(--accent);
@@ -127,31 +129,35 @@ h3 {
 
   /* Semantic typography utilities */
   .h1 {
-    @apply text-5xl md:text-6xl font-display font-normal tracking-tight;
+    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-normal tracking-tight;
   }
 
   .h2 {
-    @apply text-4xl md:text-5xl font-display font-normal;
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-normal;
   }
 
   .h3 {
-    @apply text-3xl md:text-4xl font-display font-normal;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-normal;
   }
 
   .h4 {
-    @apply text-2xl md:text-3xl font-display font-normal;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-normal;
   }
 
   .h5 {
-    @apply text-xl md:text-2xl font-sans font-semibold;
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-sans font-semibold;
+  }
+
+  .body-lg {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-normal leading-relaxed;
   }
 
   .body-md {
-    @apply text-base md:text-lg font-sans font-normal leading-relaxed;
+    @apply text-sm sm:text-base md:text-lg lg:text-xl font-sans font-normal leading-relaxed;
   }
 
   .body-sm {
-    @apply text-sm md:text-base font-sans font-normal leading-normal;
+    @apply text-xs sm:text-sm md:text-base lg:text-lg font-sans font-normal leading-normal;
   }
 
   .caption {
@@ -180,15 +186,15 @@ h3 {
   }
 
   .btn-sm {
-    @apply px-4 py-2 text-sm;
+    @apply px-4 py-3 sm:py-2 text-sm min-h-11 sm:min-h-10;
   }
 
   .btn-md {
-    @apply px-6 py-3 text-base;
+    @apply px-6 py-3 sm:py-2.5 text-base min-h-12 sm:min-h-11;
   }
 
   .btn-lg {
-    @apply px-8 py-4 text-lg;
+    @apply px-8 py-4 sm:py-3 text-lg min-h-14 sm:min-h-12;
   }
 
   /* Container utilities */
