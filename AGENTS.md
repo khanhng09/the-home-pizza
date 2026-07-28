@@ -20,48 +20,82 @@ This project is a marketing/landing site (The Home Pizza). Everything below appl
 
 ## Folder structure
 
-Follow and extend the existing convention already in `src/` — barrel-exported, feature/kind-based folders, colocated with the `app` router but outside route segments:
+Code is organized **by screen** (one route/page = one folder under `screens/`), plus a **`shared/`** layer for anything used by more than one screen. This replaced an earlier flat `components/`+`lib/` layout — if you see stray files still using the old shape, migrate them instead of adding more to it.
+
+> **Never create a top-level folder literally named `pages`.** Next.js scans *any* `pages/` (including `src/pages/`) as the legacy Pages Router even when the app only uses the App Router, and it will hard-fail the build on barrel `export *` files inside it (`export-all-in-page` error) no matter what the individual files are named. Use `screens/` for this project's "one folder per page" concept.
 
 ```
 src/
   app/
     layout.tsx            # root layout: fonts, metadata, <html>/<body>
-    page.tsx               # the landing page route (/)
+    page.tsx               # thin composition for the `/` route — imports sections from screens/home
     globals.css            # Tailwind v4 import + design tokens (CSS vars)
     sitemap.ts              # generated sitemap (file convention)
     robots.ts               # generated robots.txt (file convention)
     opengraph-image.tsx     # static or generated OG image (optional)
     favicon.ico
-  components/
-    layout/                # Header, Footer, Container, PageShell — structural chrome
-    sections/               # One folder per landing-page section (Hero, Menu, About, Testimonials, CTA, ...)
-      hero/
-        hero.tsx
-        hero-video.tsx      # split out client-only pieces from the server section
+  screens/
+    home/                   # everything specific to the `/` (home) screen — nothing here is imported by another screen
+      sections/
+        home-hero.section.tsx        # export HomeHeroSection
+        home-story.section.tsx       # export HomeStorySection
+      components/
+        home-story-tabs.tsx          # export HomeStoryTabs — a section's client-only sub-piece
+      hooks/
+        home-use-something.hook.ts   # export useHomeSomething
+      constants/
+        home.constant.ts             # content/data used only by this screen (hero copy, trust badges, ...)
+      types/
+        home.type.ts                 # types used only by this screen
+      index.ts                       # barrel: re-exports this screen's *sections* only
+    menu/                   # the next screen follows the exact same shape
+      sections/
+      components/
+      constants/
+      index.ts
+  shared/                   # anything used by 2+ screens, or with no single screen owner
+    components/
+      layout/               # Header, Footer, Container — site chrome
+        header.tsx
+        footer.tsx
         index.ts
-    ui/                     # Small reusable primitives (Button, Badge, SectionHeading)
-    icons/                  # SVG icon components (existing convention, keep as-is)
-    index.ts                # top-level barrel, re-exports the above
-  lib/
-    constants.ts            # nav items, social links, business info
-    metadata.ts             # shared metadata builders (title templates, defaults)
-    utils.ts                # small pure helpers (cn(), formatters)
-  hooks/                    # client-only hooks (must be used from "use client" components)
-  types/                    # shared TS types/interfaces not colocated with a component
+      ui/                    # small reusable primitives (Button, Badge, SectionHeading)
+      icons/                 # SVG icon components — existing `ic-*.tsx` convention, keep as-is
+      illustrations/         # SVG ingredient/illustration components — existing `illus-*.tsx` convention
+      index.ts
+    constants/
+      site.constant.ts       # business info, nav items, social links — used by shared/components/layout
+    lib/
+      utils.ts                # small pure helpers (cn(), formatters)
+      metadata.ts              # shared metadata/JSON-LD builders
+      design-tokens.ts         # design token objects (color/spacing/type scale)
+      tailwind-utils.ts        # reusable Tailwind class collections
+    hooks/
+      use-in-view.hook.ts      # export useInView
+    types/
+      shared.type.ts
 
 public/
   fonts/                    # self-hosted font files for next/font/local
-  images/                   # organize by section, e.g. images/home/*
+  images/                   # organize by screen, e.g. images/home/*
   videos/                   # self-hosted video sources
 ```
 
-Rules:
+### Naming rules
 
-- A section = a folder under `components/sections/<name>/`, not a single giant file. Split client-interactive pieces (carousels, video controls, animated reveals) into their own `"use client"` file inside that folder so the rest of the section stays a Server Component.
-- Keep `page.tsx` a thin composition of `<Hero />`, `<Menu />`, etc. — no business logic or large JSX trees directly in `page.tsx`.
-- Use the `@/*` path alias (already configured in `tsconfig.json`) for all internal imports — no deep relative `../../../` chains.
+- **File names inside a screen start with that screen's name**: `screens/home/sections/home-story.section.tsx`, `screens/home/components/home-story-tabs.tsx`. Files under `shared/` are never screen-prefixed (`shared/components/layout/header.tsx`, not `shared-header.tsx`).
+- **Only section files get a type suffix on the filename — `.section.tsx`.** A section is a top-level slice of a screen, composed directly in that screen's `index.ts`/`app/page.tsx` (Hero, Story, Menu, ...). Its exported component is PascalCase `<Screen><Name>Section` — e.g. `home-story.section.tsx` exports `HomeStorySection`.
+- **Regular components get no suffix** — `<screen>-<name>.tsx` exporting `<Screen><Name>` for screen-scoped pieces (`home-story-tabs.tsx` → `HomeStoryTabs`), or `<name>.tsx` exporting `<Name>` for anything in `shared/components/` (`header.tsx` → `Header`, `footer.tsx` → `Footer`).
+- **Icons and illustrations are exempt** from both the prefix and suffix rules — keep the existing `ic-*.tsx` / `illus-*.tsx` naming (it's already an unambiguous type signal on its own) in `shared/components/icons/` and `shared/components/illustrations/`.
+- **Hooks get `.hook.ts`**: `<screen>-<name>.hook.ts` exporting `use<Screen><Name>` under a screen, or `<name>.hook.ts` exporting `use<Name>` under `shared/hooks/`.
+- **Constants get `.constant.ts`**: `<screen>.constant.ts` under `screens/<screen>/constants/` (one file per screen is normally enough), or `<name>.constant.ts` under `shared/constants/`.
+- **Types get `.type.ts`**: `<screen>.type.ts` under `screens/<screen>/types/`, or `<name>.type.ts` under `shared/types/` (e.g. the existing `icon.type.ts`).
+- **Decide screen-scoped vs. shared by actual usage, not by guessing**: if only one screen uses a component/hook/constant/type, it lives inside that screen's folder. Move it to `shared/` the moment a second screen needs it — don't shared-ify things pre-emptively "just in case".
+- A screen's `index.ts` barrel re-exports only that screen's **sections** — the pieces `app/page.tsx` composes. It does not re-export the screen's internal components/hooks/constants/types; import those directly by relative path from within the screen (`../constants/home.constant`).
+- Keep every route's `page.tsx` a thin composition that imports sections from `@/screens/<name>` and renders them in order — no business logic or large JSX trees directly in `page.tsx`.
+- Use the `@/*` path alias for all cross-folder imports (`@/shared/...`, `@/screens/...`) — no deep relative `../../../` chains. Relative imports are fine *within* a screen (e.g. a section importing its own screen's constants).
 - Barrel files (`index.ts`) only re-export; never put logic in them.
-- Anything not meant to be a route must live outside `app/`, or inside an `_private` folder if colocated — this project keeps everything outside `app/`, don't break that.
+- Anything not meant to be a route must live outside `app/` — this project keeps all non-route code in `screens/` and `shared/`, don't put components back under `app/`.
 
 ## SEO rules
 
@@ -82,7 +116,7 @@ Rules:
 - **JS bundle discipline**: default every component to a Server Component. Only add `"use client"` at the leaf that actually needs interactivity/state/browser APIs (e.g. a mobile-nav toggle, a video-controls overlay, a scroll-triggered animation hook) — not at the top of a whole section.
 - **Lazy load** non-critical, below-the-fold, or interaction-gated client components with `next/dynamic` (e.g. a lightbox/modal, a map embed, a heavy carousel library). Use `{ ssr: false }` only for things that truly can't render on the server (e.g. code touching `window` directly).
 - Don't hand-roll animation/carousel libraries pulled in eagerly on the landing page if a lighter CSS-only approach covers the same effect — check bundle cost before adding a dependency.
-- Avoid client-side data fetching for content that's static at build time (menu items, hours, addresses) — keep that as plain server-rendered data/constants in `lib/constants.ts` or fetched in a Server Component.
+- Avoid client-side data fetching for content that's static at build time (menu items, hours, addresses) — keep that as plain server-rendered data in the relevant `*.constant.ts` file (screen-scoped or `shared/constants/`) or fetched in a Server Component.
 - Don't introduce `cookies()`/`headers()`/other request-time APIs in the root layout or the landing page unless truly needed — any usage there opts the *entire app* into dynamic rendering, killing static prerendering of the landing page.
 
 ## Animation rules
@@ -90,12 +124,12 @@ Rules:
 - Prefer CSS transitions/animations (Tailwind utilities, `@keyframes` in `globals.css`) for simple hover/reveal/entrance effects — cheapest on the main thread, no JS shipped.
 - For page/route-level transitions or shared-element effects (e.g. a menu item image morphing into a detail view), use React's `<ViewTransition>` (from `react`) per the `view-transitions` guide, gated behind `experimental.viewTransition: true` in `next.config.ts`. Without that flag it's unavailable — don't assume it just works.
 - Any animation must respect `prefers-reduced-motion: reduce` — at minimum, zero out animation durations/delays under that media query (see the pattern in the view-transitions guide); don't ship a motion effect that can't be disabled this way.
-- For scroll-triggered reveals, prefer `IntersectionObserver` in a small client hook (`hooks/use-in-view.ts`) over a heavy scroll-animation library, unless the design genuinely needs one (parallax, scrubbed timelines).
+- For scroll-triggered reveals, prefer `IntersectionObserver` in a small client hook (`shared/hooks/use-in-view.hook.ts`, or a screen-scoped `*.hook.ts` if only one screen needs it) over a heavy scroll-animation library, unless the design genuinely needs one (parallax, scrubbed timelines).
 - Keep animation logic in the client leaf component that needs it (see JS bundle discipline above) — don't mark an entire section `"use client"` just to animate one child element.
 
 ## General conventions to keep consistent with existing code
 
 - Tailwind v4 via `@import "tailwindcss"` + CSS custom properties in `globals.css` (see the existing `--palette-*` / `--color-*` tokens) — add new design tokens there, don't hardcode hex values in components.
 - TypeScript strict mode is on (`tsconfig.json`) — no `any` without a clear reason, no unchecked non-null assertions.
-- Icons follow the existing `components/icons/ic-*.tsx` + barrel pattern — new icons go there, same naming.
+- Icons follow the existing `shared/components/icons/ic-*.tsx` + barrel pattern — new icons go there, same naming. Illustrations follow the same idea in `shared/components/illustrations/illus-*.tsx`.
 - Run `yarn lint` (ESLint flat config) before considering a change done; Next.js 16 no longer runs lint as part of `next build`.

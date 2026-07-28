@@ -197,6 +197,6 @@ export const cn = (...classes: (string | undefined | boolean | null)[]): string 
 /**
  * Merge multiple utility objects
  */
-export const mergeUtils = (...utils: Record<string, any>[]): Record<string, any> => {
+export const mergeUtils = (...utils: Record<string, unknown>[]): Record<string, unknown> => {
   return utils.reduce((acc, curr) => ({ ...acc, ...curr }), {});
 };

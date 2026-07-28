@@ -19,6 +19,7 @@ export { IlustOnion } from './illus-onion';
 export { IlustZucchini } from './illus-zucchini';
 export { IlustEggplant } from './illus-eggplant';
 export { IlustCorn } from './illus-corn';
+export { IlustChili } from './illus-chili';
 
 // Herbs & Greens
 export { IlustBasil } from './illus-basil';
@@ -34,6 +35,8 @@ export { IlustProsiutto } from './illus-prosciutto';
 export { IlustBeef } from './illus-beef';
 export { IlustCalamari } from './illus-calamari';
 export { IlustAnchovies } from './illus-anchovies';
+export { IlustShrimp } from './illus-shrimp';
+export { IlustClam } from './illus-clam';
 
 // Other
 export { IlustPasta } from './illus-pasta';

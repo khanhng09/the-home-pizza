@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { businessInfo, seoDefaults, SITE_URL } from './constants';
+import { businessInfo, seoDefaults, SITE_URL } from '@/shared/constants/site.constant';
 
 /**
  * Generate root metadata for the site
@@ -70,7 +70,7 @@ export function generatePageMetadata(
     image?: string;
     canonical?: string;
     noindex?: boolean;
-    ogType?: 'website' | 'article' | 'product';
+    ogType?: 'website' | 'article';
   }
 ): Metadata {
   const pageImage = options?.image || seoDefaults.image;
@@ -79,7 +79,7 @@ export function generatePageMetadata(
   return {
     title,
     description,
-    canonical: pageUrl,
+    alternates: pageUrl ? { canonical: pageUrl } : undefined,
     robots: options?.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
       type: options?.ogType || 'website',
@@ -110,7 +110,7 @@ export function generatePageMetadata(
 /**
  * Generate JSON-LD structured data
  */
-export function generateJsonLd(data: Record<string, any>): string {
+export function generateJsonLd(data: Record<string, unknown>): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
 
@@ -137,8 +137,8 @@ export function generateOrganizationSchema() {
     },
     address: {
       '@type': 'PostalAddress',
-      streetAddress: businessInfo.address.split(',')[0],
-      addressLocality: businessInfo.address.split(',')[1]?.trim(),
+      streetAddress: businessInfo.locations[0]?.address.split(',')[0],
+      addressLocality: businessInfo.locations[0]?.address.split(',')[1]?.trim(),
     },
   });
 }
@@ -159,8 +159,8 @@ export function generateRestaurantSchema() {
     email: businessInfo.email,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: businessInfo.address.split(',')[0],
-      addressLocality: businessInfo.address.split(',')[1]?.trim(),
+      streetAddress: businessInfo.locations[0]?.address.split(',')[0],
+      addressLocality: businessInfo.locations[0]?.address.split(',')[1]?.trim(),
     },
     openingHoursSpecification: [
       {

@@ -1,6 +1,6 @@
 /**
- * Global constants for The Home Pizza
- * Navigation, social links, business info, and static content
+ * Site-wide constants for The Home Pizza
+ * Business info, navigation, social links — shared across every page
  */
 
 export const SITE_NAME = "The Home Pizza";
@@ -10,32 +10,38 @@ export const SITE_URL = `https://${SITE_DOMAIN}`;
 // Business Information
 export const businessInfo = {
   name: "The Home Pizza",
-  tagline: "Handmade home-style pizza with slow-fermented dough, seasonal toppings, and warm table energy.",
+  tagline: "Đặc sản Việt trên đế bánh Pizza Ý",
   description:
-    "Authentic handmade pizzas crafted with slow-fermented dough, fresh seasonal toppings, and a passion for great food. Join us for an unforgettable dining experience.",
-  email: "hello@thehomepizza.com",
-  phone: "+1 (555) 123-4567",
-  address: "123 Main Street, Your City, State 12345",
-  hours: {
-    weekday: "5:00 PM - 11:00 PM",
-    weekend: "12:00 PM - 11:00 PM",
-    closed: "Mondays",
-  },
+    "Tại Nhà, mỗi chiếc pizza là một câu chuyện vùng miền. Từ nguyên liệu bản địa đến hương vị đặc trưng, Bản Đồ Pizza Đặc Sản Việt là hành trình đưa tinh hoa ẩm thực Việt lên đế bánh pizza chuẩn Ý.",
+  email: "thehomepizzapq@gmail.com",
+  phone: "+84 988 37 37 93",
+  locations: [
+    {
+      id: "phu-quoc",
+      name: "Phú Quốc",
+      address: "129 Trần Hưng Đạo, Dương Đông, Phú Quốc",
+    },
+    {
+      id: "nha-trang",
+      name: "Nha Trang",
+      address: "12 - 14 Trần Phú, Tân Thành, Nha Trang",
+    },
+  ],
 };
 
 // Navigation
 export const navigation = {
   main: [
-    { label: "Home", href: "/" },
+    { label: "Story of The Home", href: "#story" },
     { label: "Menu", href: "#menu" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Humans of The Home", href: "#humans" },
   ],
   footer: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Reservation", href: "/reservation" },
+    { label: "Humans of The Home", href: "#humans" },
+    { label: "Career Path", href: "#career" },
+    { label: "Nhà Tìm Người", href: "#careers" },
   ],
+  locales: [{ label: "EN", href: "/en" }],
 };
 
 // Social Media
@@ -54,36 +60,16 @@ export const socialLinks = [
   },
 ];
 
-// Menu Categories (example structure)
+// Menu Categories (placeholder, until the Menu page is built)
 export const menuCategories = [
-  {
-    id: "pizzas",
-    name: "Pizzas",
-    description: "Our signature handmade pizzas",
-  },
-  {
-    id: "appetizers",
-    name: "Appetizers",
-    description: "Perfect starters",
-  },
-  {
-    id: "salads",
-    name: "Salads",
-    description: "Fresh seasonal salads",
-  },
-  {
-    id: "desserts",
-    name: "Desserts",
-    description: "Sweet endings",
-  },
-  {
-    id: "beverages",
-    name: "Beverages",
-    description: "Drinks and wine selection",
-  },
+  { id: "pizzas", name: "Pizzas", description: "Our signature handmade pizzas" },
+  { id: "appetizers", name: "Appetizers", description: "Perfect starters" },
+  { id: "salads", name: "Salads", description: "Fresh seasonal salads" },
+  { id: "desserts", name: "Desserts", description: "Sweet endings" },
+  { id: "beverages", name: "Beverages", description: "Drinks and wine selection" },
 ];
 
-// Featured Menu Items (example)
+// Featured Menu Items (placeholder, until the Menu page is built)
 export const featuredMenuItems = [
   {
     id: 1,
@@ -105,7 +91,7 @@ export const featuredMenuItems = [
   },
 ];
 
-// Testimonials (example)
+// Testimonials (placeholder, until a Testimonials section is built)
 export const testimonials = [
   {
     id: 1,

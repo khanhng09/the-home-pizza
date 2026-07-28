@@ -3,6 +3,7 @@
 :root {
   --palette-cream: #EFE9DE;
   --palette-clay: #CEA980;
+  --palette-gold: #D3AC7E;
   --palette-umber: #765032;
   --palette-ink: #162F3E;
   --palette-linen: #E1D2B9;
@@ -19,6 +20,7 @@
   --color-foreground: var(--foreground);
   --color-cream: var(--palette-cream);
   --color-clay: var(--palette-clay);
+  --color-gold: var(--palette-gold);
   --color-umber: var(--palette-umber);
   --color-ink: var(--palette-ink);
   --color-linen: var(--palette-linen);
@@ -31,7 +33,7 @@
 }
 
 body {
-  background: var(--background);
+  /* background: var(--background); */
   color: var(--foreground);
   font-family: var(--font-raleway), Arial, Helvetica, sans-serif;
 }
@@ -162,19 +164,19 @@ h3 {
 
   /* Button semantic utilities */
   .btn-base {
-    @apply inline-flex items-center justify-center rounded-lg font-sans font-medium transition-colors duration-200;
+    @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200;
   }
 
   .btn-primary {
-    @apply btn-base bg-accent text-white hover:bg-amber-700 active:bg-umber;
+    @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200 bg-accent text-white hover:bg-amber-700 active:bg-umber;
   }
 
   .btn-secondary {
-    @apply btn-base border-2 border-accent text-accent hover:bg-cream active:bg-linen;
+    @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200 border-2 border-accent text-accent hover:bg-cream active:bg-linen;
   }
 
   .btn-ghost {
-    @apply btn-base text-accent hover:bg-cream active:bg-linen;
+    @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200 text-accent hover:bg-cream active:bg-linen;
   }
 
   .btn-sm {
