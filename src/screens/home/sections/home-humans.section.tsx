@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { IlustBasil, IlustBuffalo, IlustClam, IlustCrab } from '@/shared/components/illustrations';
+import { IlustBuffalo, IlustCrab, IlustDongHoHungQue, IlustDongHoTieu } from '@/shared/components/illustrations';
 import { IcArrowRight } from '@/shared/components/icons';
 import { humansContent, humansLinkList } from '../constants/home.constant';
 
@@ -19,7 +19,7 @@ export function HomeHumansSection() {
       />
 
       {/* Decorative illustration near the heading/CTA row */}
-      <IlustBasil className="pointer-events-none absolute right-[22%] top-6 hidden h-24 w-24 text-gold lg:top-8 lg:block lg:h-32 lg:w-32" />
+      <IlustDongHoHungQue className="pointer-events-none absolute right-[22%] top-6 hidden h-24 w-24 text-gold lg:top-8 lg:block lg:h-32 lg:w-32" />
 
       <div className="container-base relative py-16 lg:py-24">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4 lg:mb-14">
@@ -44,7 +44,7 @@ export function HomeHumansSection() {
         <div className="relative">
           <IlustCrab className="pointer-events-none absolute -left-6 top-[40%] h-24 w-24 text-gold sm:h-32 sm:w-32 lg:-left-10 lg:h-36 lg:w-36" />
           <IlustBuffalo className="pointer-events-none absolute -left-8 bottom-0 hidden h-24 w-24 text-gold lg:block lg:h-28 lg:w-28" />
-          <IlustClam className="pointer-events-none absolute -right-4 bottom-0 hidden h-28 w-32 text-gold lg:block lg:h-32 lg:w-36" />
+          <IlustDongHoTieu className="pointer-events-none absolute -right-4 bottom-0 hidden h-28 w-32 text-gold lg:block lg:h-32 lg:w-36" />
 
           <div className="grid grid-cols-2 items-start gap-4 lg:grid-cols-[1.4fr_1fr] lg:gap-6">
             <img

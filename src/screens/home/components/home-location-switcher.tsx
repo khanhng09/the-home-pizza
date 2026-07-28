@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { IcArrowRight } from '@/shared/components/icons';
-import { IlustBasil, IlustClam, IlustSpinach } from '@/shared/components/illustrations';
 import { cn } from '@/shared/lib/utils';
 import { locationContent, locationStates } from '../constants/home.constant';
+import { IlustDongHoBanhDa, IlustDongHoHungQue, IlustDongHoNgheu } from '@/shared/components';
 
 export function HomeLocationSwitcher() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,15 +29,15 @@ export function HomeLocationSwitcher() {
             {locationContent.paragraph}
           </p>
 
-          <IlustBasil
+          <IlustDongHoHungQue
             className="pointer-events-none absolute left-10 top-[182px] h-24 w-24 text-gold sm:top-[190px] lg:left-8 lg:top-[118px] lg:h-28 lg:w-28 xl:left-10 xl:h-32 xl:w-32"
             aria-hidden="true"
           />
-          <IlustClam
+          <IlustDongHoNgheu
             className="pointer-events-none absolute right-4 top-[300px] h-35 w-45 text-gold sm:right-8 lg:right-0 lg:top-[370px] lg:h-28 lg:w-36 xl:right-0 xl:top-[390px] xl:h-32 xl:w-44"
             aria-hidden="true"
           />
-          <IlustSpinach
+          <IlustDongHoBanhDa
             className="pointer-events-none absolute -bottom-18 left-[28%] hidden h-46 w-64 text-gold lg:block"
             aria-hidden="true"
           />

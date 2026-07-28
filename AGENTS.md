@@ -6,11 +6,9 @@ Key Next.js 16 breaking changes already confirmed for this repo (verified agains
 
 - Turbopack is the default bundler for both `next dev` and `next build`. Don't add `--turbopack` flags or webpack config unless a real need shows up.
 - `cookies()`, `headers()`, `draftMode()`, and `params`/`searchParams` are **async-only** — always `await` them, no sync fallback exists anymore.
-- `next/image`'s `priority` prop is **deprecated**. Use `preload` (boolean) instead for LCP/above-the-fold images. Prefer `loading="eager"` or `fetchPriority="high"` over `preload` when there are multiple candidate LCP images.
-- `images.qualities` defaults to `[75]` only — if a design calls for a different quality, add it explicitly to `next.config.ts` (`images.qualities`), otherwise the closest allowed value is silently substituted.
-- Local image `src` with a query string requires `images.localPatterns[].search` to be configured, or the request 400s.
 - `middleware.ts` is renamed to `proxy.ts` (export `proxy`, not `middleware`). Edge runtime is not supported in `proxy`.
 - `revalidateTag(tag)` now requires a second `cacheLife` argument, e.g. `revalidateTag('menu', 'max')`. Use `updateTag` in Server Actions when the user needs to see their own change immediately.
+- **This project deliberately does NOT use `next/image`** (see the Performance rules below for why). The `next/image`-specific breaking changes (`priority`→`preload`, `images.qualities`, `images.localPatterns`) therefore don't apply here. If you ever do reach for `next/image`, re-read the image guide in `node_modules/next/dist/docs/` first — but the default and expectation is native `<img>`/`<picture>`.
 
 ---
 
@@ -105,12 +103,36 @@ public/
 - Provide a real OG image: either a static `opengraph-image.png/jpg` in `app/`, or a generated `opengraph-image.tsx` using `next/og`'s `ImageResponse` if it needs to include dynamic branding. 1200x630 minimum.
 - Use exactly one `<h1>` per page (the hero headline), and a logical heading order (`h2` per section) — do not skip levels for styling reasons; control size with CSS, not heading level.
 - Add JSON-LD structured data (e.g. `Restaurant` or `LocalBusiness` schema from schema.org) as a native `<script type="application/ld+json">` in `page.tsx` or `layout.tsx` — not `next/script`, since JSON-LD isn't executable code. Escape `<` in the serialized payload (`.replace(/</g, '\\u003c')`) to avoid injection.
-- Every `<Image>` needs a meaningful `alt`. Decorative images get `alt=""`, never omitted.
+- Every `<img>` needs a meaningful `alt`. Decorative images get `alt=""`, never omitted. (We use native `<img>`/`<picture>`, not `next/image` — see Performance rules.)
 - Internal navigation (nav links, CTAs to sections/routes) must use `next/link`'s `<Link>`, never a plain `<a>`, so Next.js can prefetch.
+- `<html lang>` MUST match the page's actual content language **and** the `openGraph.locale` in metadata — keep them consistent. (e.g. `lang="vi"` ⇄ `locale: 'vi_VN'`; a `lang="vi"` page with `openGraph.locale: 'en_US'` is a bug.) Flag any mismatch you find and fix it.
+- Provide a canonical URL per route via `alternates.canonical` (already wired in `generatePageMetadata`) — every page should resolve to exactly one canonical URL.
+- Use descriptive, meaningful link/CTA text — never "click here" / "here". Link text should describe the destination (good for both SEO and screen readers).
+- Add `app/manifest.ts` (the web app manifest file convention) and a `<meta name="theme-color">` in `layout.tsx` for PWA/installability signals and better Lighthouse SEO/PWA scores. Keep `name`, `short_name`, `theme_color`, `background_color`, and `icons` in sync with the brand.
+- Keep `sitemap.ts` and `robots.ts` entries in sync with `SITE_URL` from `shared/constants/site.constant.ts` — don't hardcode the origin a second time.
 
 ## Performance rules
 
-- **Images**: always use `next/image`, never a raw `<img>`. Statically import local images so width/height/blur are inferred automatically. Set `preload` (not the deprecated `priority`) on the single largest above-the-fold image (hero). Provide `sizes` on any image that isn't a fixed pixel size, especially anything using `fill`.
+### Images (do NOT use `next/image`)
+
+- **Never `import Image from 'next/image'`.** For a static landing page served from a CDN, `next/image` adds a runtime optimization endpoint + a client loader script that delays LCP and costs Lighthouse points without buying real value. Use **native `<picture>` + `<img>`** with **pre-optimized assets** instead.
+- Always set an explicit **integer** `width` and `height` on `<img>` (or a CSS `aspect-ratio` on the container) so the browser reserves space — this is what prevents CLS. Avoid fractional pixel values like `width={170.53}` (round to `171`); they're invalid HTML and confuse layout. *(Migrate existing usages that still pass fractional widths when you touch them.)*
+- **LCP image** (the single largest above-the-fold image — usually the hero poster/map): set `fetchPriority="high"`, `loading="eager"`, `decoding="async"`. Do **not** lazy-load it.
+- **Every other image**: set `loading="lazy"` and `decoding="async"`. Never lazy-load an above-the-fold image.
+- Always provide a `sizes` attribute so the browser picks the correct `srcset` variant — e.g. `sizes="(max-width: 768px) 100vw, 50vw"`.
+- Serve modern formats via `<picture>`: an AVIF `<source>`, a WebP `<source>`, and a JPEG/PNG `<img src>` fallback in that order. Keep assets organized under `public/images/<screen>/`.
+- Pre-optimize assets at build time (a `sharp` prebuild script, or commit pre-optimized files) — never ship a raw 3MB photo to the browser. Target sensible width steps (e.g. 480 / 768 / 1024 / 1920) in the `srcset`.
+- Decorative images: `alt=""` **and** `aria-hidden="true"` **and** `loading="lazy"`, so they're ignored by AT and never block the LCP.
+- For background imagery, prefer CSS (`background-image`) over an `<img>` when the image carries no semantic meaning; reserve `<img>` for content images.
+
+### Lighthouse performance targets
+
+- Target these Core Web Vitals on **both mobile and desktop**, but **mobile first** (Lighthouse mobile uses slow 4G + CPU throttling and is the stricter check):
+  - **LCP < 2.5s** — keep the hero image/poster as the LCP candidate; avoid render-blocking JS/CSS ahead of it.
+  - **CLS < 0.1** — every image/video/ad slot has reserved dimensions or `aspect-ratio`.
+  - **INP < 200ms** / **TBT < 200ms** — minimal client JS; defer non-critical work.
+- Zero render-blocking third-party scripts on the landing page. Lazy-load below-the-fold or interaction-gated client components with `next/dynamic`.
+- The hero video keeps `preload="metadata"`/`"none"` and a poster image (poster = real LCP candidate, not the video).
 - **Fonts**: keep using `next/font/local` and `next/font/google` as already set up in `layout.tsx` (the `abygaer` display font + `Raleway`). Never add a `<link>` to Google Fonts or an external font `@import` — that defeats self-hosting and adds a network request. Always set `display: "swap"`.
 - **Video**: the hero video (`public/videos/home/hero-banner.mp4`) must be self-hosted `<video>` with `muted`, `playsInline`, and `preload="none"` or `"metadata"` (never `"auto"` for a large hero background) if `autoPlay` is used. Provide a poster image so there's no blank frame before load, and treat the poster image as the real LCP candidate, not the video.
 - **JS bundle discipline**: default every component to a Server Component. Only add `"use client"` at the leaf that actually needs interactivity/state/browser APIs (e.g. a mobile-nav toggle, a video-controls overlay, a scroll-triggered animation hook) — not at the top of a whole section.
@@ -119,6 +141,24 @@ public/
 - Avoid client-side data fetching for content that's static at build time (menu items, hours, addresses) — keep that as plain server-rendered data in the relevant `*.constant.ts` file (screen-scoped or `shared/constants/`) or fetched in a Server Component.
 - Don't introduce `cookies()`/`headers()`/other request-time APIs in the root layout or the landing page unless truly needed — any usage there opts the *entire app* into dynamic rendering, killing static prerendering of the landing page.
 
+## Accessibility rules
+
+Accessibility is scored as its own Lighthouse category — these rules exist to keep it ≥ 90 (target 100) on both mobile and desktop, and they overlap with SEO/Best Practices.
+
+- Use **semantic landmarks**: `<header>`, `<nav>` (with `aria-label` if there's more than one nav), `<main>`, `<footer>`, and `<section>` with a visible heading or `aria-labelledby` — don't build layout out of `<div>`/`<span>` where a semantic element fits.
+- Exactly one `<h1>` per page; never skip heading levels (don't jump `h2` → `h4`) for styling reasons — control size with CSS.
+- Interactive elements must use the right role: `<button>` for actions, `<a href>` for navigation. Never `<div onClick>` / `<span onClick>` — they're not keyboard-focusable or announceable.
+- All focusable elements (links, buttons, inputs) need a **visible focus ring**. The project's `.focus-ring` utility exists for this; don't remove outlines without a replacement.
+- **Touch targets ≥ 44×44px** (Lighthouse flags anything tighter). On mobile aim for 48×48px. Pad/icon-only buttons accordingly.
+- Icon-only or ambiguous controls (e.g. a hamburger, social link) must have an `aria-label` describing the action/destination.
+- **Color contrast** ≥ 4.5:1 for normal text, ≥ 3:1 for large text and UI component boundaries. Check the cream/clay/ink palette combos — light text on `gold/25` overlays is the usual failure.
+- Forms: every input has a real `<label>` (or `aria-label`), the correct `type`, sensible `autocomplete`, and errors wired via `aria-describedby` + `aria-invalid`.
+- Provide a **"skip to content"** link as the first focusable element in `<body>` (visually hidden until focused) — see the pattern already used in the layout.
+- Respect `prefers-reduced-motion: reduce` (the global override is already in `globals.css`); don't ship an animation that can't be disabled this way.
+- Keep `lang` on `<html>` matching the content language (and `lang` on individual elements that differ).
+- Never use `tabindex` > 0; prefer `tabindex={0}` for custom focusable elements and `tabindex={-1}` only for programmatic focus. Avoid positive tabindex entirely.
+- Decorative images: `alt=""` + `aria-hidden="true"` so screen readers skip them (see Performance rules).
+
 ## Animation rules
 
 - Prefer CSS transitions/animations (Tailwind utilities, `@keyframes` in `globals.css`) for simple hover/reveal/entrance effects — cheapest on the main thread, no JS shipped.
@@ -126,6 +166,35 @@ public/
 - Any animation must respect `prefers-reduced-motion: reduce` — at minimum, zero out animation durations/delays under that media query (see the pattern in the view-transitions guide); don't ship a motion effect that can't be disabled this way.
 - For scroll-triggered reveals, prefer `IntersectionObserver` in a small client hook (`shared/hooks/use-in-view.hook.ts`, or a screen-scoped `*.hook.ts` if only one screen needs it) over a heavy scroll-animation library, unless the design genuinely needs one (parallax, scrubbed timelines).
 - Keep animation logic in the client leaf component that needs it (see JS bundle discipline above) — don't mark an entire section `"use client"` just to animate one child element.
+
+## Mobile & desktop rules
+
+Lighthouse runs separately for mobile and desktop — both must pass, with **mobile as the stricter gate** (it applies slow-4G + CPU throttling).
+
+- Build **mobile-first**: base styles target the smallest viewport, then progressively enhance with Tailwind `md:`/`lg:`/`xl:`. Don't start from desktop and scale down.
+- **Touch targets ≥ 48×48 CSS px** on mobile (44 is Lighthouse's floor, 48 is the comfort target). Pay attention to icon-only buttons, nav links, and the mobile header — the current header's 46px-tall bar and 22px-tall CTA are below target and should be padded up.
+- **Body/inputs ≥ 16px** to stop iOS Safari from auto-zooming on input focus. Use `text-base` (1rem) as the floor for body copy; go smaller only for labels/captions.
+- **No hover-only interactions.** Every hover affordance (tooltips, dropdowns, reveal states) must have a tap/keyboard equivalent — there is no hover on touch.
+- **Responsive media**: each `<img>`/`<picture>` needs `sizes` + a `srcset` with mobile-appropriate width steps so phones don't download desktop-sized assets (see Performance rules).
+- Keep the mobile viewport free of horizontal overflow — test at 320px, 375px, and 768px. Use `overflow-x-hidden` only as a last resort; fix the root cause.
+- Verify the layout at the standard breakpoints: 360 / 414 / 768 / 1024 / 1280 / 1536.
+
+## Lighthouse quality gates (definition of done)
+
+Every page/section is considered done only when it passes these gates on **both mobile and desktop**:
+
+- **All four categories ≥ 90**: Performance, Accessibility, Best Practices, SEO (target 100 for Accessibility/SEO/Best Practices).
+- Preempt the common, predictable failures before running Lighthouse:
+  - Images without explicit dimensions → CLS.
+  - Missing `alt` / `aria-hidden` on images.
+  - Low-contrast text (especially cream/clay text on light or `gold/25` overlays).
+  - Missing or mismatched `<html lang>` / `openGraph.locale` / `description`.
+  - Tap targets < 44px.
+  - Render-blocking or unused large JS/CSS on the landing page.
+  - Oversized DOM, unoptimized/large images, non-modern image formats.
+  - Missing `manifest.ts` / `<meta name="theme-color">` / canonical URL.
+- **Required checks before closing a page**: `yarn build` must pass, `yarn lint` must be clean, and a Lighthouse run (mobile + desktop) must hit the gates above. Fix regressions before merging.
+- When a gate can't be met for a legitimate reason, call it out explicitly with the tradeoff — don't silently ship a regression.
 
 ## General conventions to keep consistent with existing code
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { IlustClam, IlustCorn } from '@/shared/components/illustrations';
 import { IcArrowRight } from '@/shared/components/icons';
 import { menuContent, menuCategoryList } from '../constants/home.constant';
+import { IlustDongHoTieu, IlustDongHoTre } from '@/shared/components';
 
 export function HomeMenuSection() {
   return (
@@ -21,8 +21,8 @@ export function HomeMenuSection() {
             aria-hidden="true"
           />
 
-          <IlustCorn className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
-          <IlustClam className="pointer-events-none absolute left-8 top-[42%] hidden h-16 w-20 text-accent/60 lg:left-16 lg:block lg:h-20 lg:w-28" />
+          <IlustDongHoTre className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
+          <IlustDongHoTieu className="pointer-events-none absolute left-8 top-[42%] hidden h-16 w-20 text-accent/60 lg:left-16 lg:block lg:h-20 lg:w-28" />
 
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream">{menuContent.heading}</h2>
           <p className="mt-6 max-w-md font-sans text-sm sm:text-base md:text-lg text-cream/80">
