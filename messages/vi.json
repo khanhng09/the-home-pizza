@@ -11,6 +11,10 @@
     "humans": {
       "title": "Người nhà",
       "description": "Câu chuyện của những con người đứng sau The Home Pizza — từ Chef Owner đến từng Người Nhà đồng hành cùng hành trình Pizza Đặc Sản Việt."
+    },
+    "space": {
+      "title": "Không gian Nhà",
+      "description": "Khám phá không gian The Home Pizza Signature tại Phú Quốc và Nha Trang — nơi tinh thần về nhà được kể bằng thiết kế, khu vườn và căn bếp ấm cúng."
     }
   },
   "common": {
@@ -241,6 +245,42 @@
       "heading": "Cùng trở thành \"người một Nhà\" nhé!",
       "cta": "Nhà tìm người Nhà",
       "imageAlt": "Không gian và đội ngũ The Home Pizza"
+    }
+  },
+  "spacePage": {
+    "locations": {
+      "phuQuoc": {
+        "heading": "The Home Pizza Signature Phú Quốc",
+        "paragraphs": [
+          "Năm 2019, Nhà hàng The Home Pizza đầu tiên được ra đời tại Phú Quốc, mang theo tầm nhìn lan tỏa văn hóa ẩm thực phương Tây trên tinh thần ẩm thực đặc sản Việt Nam. Sau 5 năm, hành trình ấy được tiếp tục trong diện mạo mới. Với cảm hứng xuất phát từ ý niệm \"về nhà\", năm 2024, The Home Pizza Signature ra đời mang theo mục tiêu tái hiện không gian ẩm thực dưới mái nhà ba gian truyền thống, thông qua ngôn ngữ thiết kế hiện đại và cảm giác \"tự nhiên như ở nhà\".",
+          "Từ tinh thần đó, bức tường gạch đỏ thô mộc làm nổi bật lên căn bếp mở ở gian trước, đón thực khách bằng những nụ cười của các đầu bếp Nhà ngay khi đặt chân đến. Trước sân nhà là khu vườn mát lành, nơi tán cau vươn cao đón nắng, bụi tre rì rào trong gió mát và cây khế dân dã. Người Việt xưa nay trồng cây cau trước nhà như một lời chào hiếu khách, trồng cây khế để giữ lại vị ngọt dân dã của vườn nhà, và để bụi tre rì rào bên hiên như biểu tượng cho sự che chở, bền bỉ qua năm tháng. Nhà không quên mang những dáng cây ấy vào khu vườn của mình, để bạn Nhà chạm vào cảm giác thân thuộc một cách vẹn tròn nhất.",
+          "Cùng với đó là các loại thảo mộc do người Nhà tự tay chăm sóc, để hương thơm nhẹ nhàng lan tỏa, tạo nên một khoảng không gian thư thả cho bạn Nhà thưởng thức Pizza Đặc Sản Việt cùng người thương.",
+          "Nổi bật trong lối sống cộng đồng của người Việt Nam là sự chú trọng không gian chung. Vậy nên Nhà dành trọn khoảng sân trước làm nơi bạn Nhà tụ họp đông đủ, cho những bữa ăn bên gia đình thêm đong đầy.",
+          "Khi bước vào gian nhà chính, không gian ẩm thực ấm cúng cùng quầy bar hiện đại mở ra, với ánh đèn vàng vừa đủ. Gian nhà chính được điểm xuyết những chi tiết mây đan mộc mạc, vừa đủ thân quen, vừa đủ hiện đại để bạn Nhà cảm nhận tinh thần Đặc Sản Việt trọn vẹn hơn.",
+          "Dưới bóng cây râm mát, hay trong không gian ấm cúng, là chiếc Pizza Đặc Sản Việt còn ấm nóng, là gian bếp đỏ lửa, là người Nhà đón bạn bằng nụ cười thân quen. Tất cả được chuẩn bị gọn gàng, chỉn chu, để bạn có thể ngồi xuống thật tự nhiên và thấy mình đang ở Nhà.",
+          "Giữa trung tâm đảo ngọc nhộn nhịp, The Home Pizza Signature đón bạn \"về nhà\" trong không gian thân thuộc và ấm cúng. Cứ tự nhiên như ở Nhà!"
+        ],
+        "galleryAlts": [
+          "Sân vườn và lối vào The Home Pizza Signature Phú Quốc",
+          "Không gian căn bếp mở tại The Home Pizza Signature Phú Quốc"
+        ]
+      },
+      "nhaTrang": {
+        "heading": "The Home Pizza Signature Nha Trang",
+        "paragraphs": [
+          "Ngôi nhà mới tại Nha Trang dự kiến đi vào hoạt động đầu năm 2026",
+          "Từ tinh thần đó, bức tường gạch đỏ thô mộc làm nổi bật lên căn bếp mở ở gian trước, đón thực khách bằng những nụ cười của các đầu bếp Nhà ngay khi đặt chân đến. Trước sân nhà là khu vườn mát lành, nơi tán cau vươn cao đón nắng, bụi tre rì rào trong gió mát và cây khế dân dã. Người Việt xưa nay trồng cây cau trước nhà như một lời chào hiếu khách, trồng cây khế để giữ lại vị ngọt dân dã của vườn nhà, và để bụi tre rì rào bên hiên như biểu tượng cho sự che chở, bền bỉ qua năm tháng. Nhà không quên mang những dáng cây ấy vào khu vườn của mình, để bạn Nhà chạm vào cảm giác thân thuộc một cách vẹn tròn nhất.",
+          "Cùng với đó là các loại thảo mộc do người Nhà tự tay chăm sóc, để hương thơm nhẹ nhàng lan tỏa, tạo nên một khoảng không gian thư thả cho bạn Nhà thưởng thức Pizza Đặc Sản Việt cùng người thương.",
+          "Nổi bật trong lối sống cộng đồng của người Việt Nam là sự chú trọng không gian chung. Vậy nên Nhà dành trọn khoảng sân trước làm nơi bạn Nhà tụ họp đông đủ, cho những bữa ăn bên gia đình thêm đong đầy.",
+          "Khi bước vào gian nhà chính, không gian ẩm thực ấm cúng cùng quầy bar hiện đại mở ra, với ánh đèn vàng vừa đủ. Gian nhà chính được điểm xuyết những chi tiết mây đan mộc mạc, vừa đủ thân quen, vừa đủ hiện đại để bạn Nhà cảm nhận tinh thần Đặc Sản Việt trọn vẹn hơn.",
+          "Dưới bóng cây râm mát, hay trong không gian ấm cúng, là chiếc Pizza Đặc Sản Việt còn ấm nóng, là gian bếp đỏ lửa, là người Nhà đón bạn bằng nụ cười thân quen. Tất cả được chuẩn bị gọn gàng, chỉn chu, để bạn có thể ngồi xuống thật tự nhiên và thấy mình đang ở Nhà.",
+          "Giữa trung tâm đảo ngọc nhộn nhịp, The Home Pizza Signature đón bạn \"về nhà\" trong không gian thân thuộc và ấm cúng. Cứ tự nhiên như ở Nhà!"
+        ],
+        "galleryAlts": [
+          "Không gian dùng bữa The Home Pizza Signature Nha Trang",
+          "Góc bàn và quầy The Home Pizza Signature Nha Trang"
+        ]
+      }
     }
   }
 }
