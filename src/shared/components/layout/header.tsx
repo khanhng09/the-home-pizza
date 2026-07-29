@@ -1,18 +1,26 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { navigation, businessInfo } from '@/shared/constants/site.constant';
+import { TheHomeLogo } from '@/shared/components/icons';
+import { Button } from '@/shared/components/ui/button';
+import { cn } from '@/shared/lib/utils';
 
 export function Header() {
+  const pathname = usePathname();
+  // The Menu page sits on a cream background (not the hero video), so it
+  // needs dark text/logo/button instead of the cream-on-video treatment.
+  const isDark = pathname?.startsWith('/menu');
+
   return (
     <header className="absolute top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md">
       <div className="container-base flex items-center justify-between h-[46px]">
         {/* Logo */}
         <Link href="/" className="shrink-0">
-          <img
-            src="/images/logo.webp"
-            alt={businessInfo.name}
-            width={170.53}
-            height={23.49}
-            className="h-6 w-auto"
+          <TheHomeLogo
+            aria-label={businessInfo.name}
+            className={cn('h-6 w-auto', isDark ? 'text-ink' : 'text-cream')}
           />
         </Link>
 
@@ -22,7 +30,10 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-base font-sans text-cream hover:text-white transition-colors"
+              className={cn(
+                'text-base font-sans transition-colors',
+                isDark ? 'text-ink hover:text-umber' : 'text-cream hover:text-white'
+              )}
             >
               {item.label}
             </Link>
@@ -41,12 +52,18 @@ export function Header() {
         </nav>
 
         {/* CTA Button */}
-        <Link
-          href="#reservation"
-          className="flex items-center justify-center uppercase max-w-35 font-bold text-sm w-full rounded-full h-5.5 border border-cream text-cream hover:bg-cream hover:text-ink transition-colors"
+        <Button
+          asChild
+          variant="outline"
+          className={cn(
+            'max-w-35 w-full h-5.5 rounded-full border bg-transparent uppercase font-bold text-sm transition-colors',
+            isDark
+              ? 'border-ink text-ink hover:bg-ink hover:text-cream'
+              : 'border-cream text-cream hover:bg-cream hover:text-ink'
+          )}
         >
-          Đặt bàn
-        </Link>
+          <Link href="#reservation">Đặt bàn</Link>
+        </Button>
       </div>
     </header>
   );

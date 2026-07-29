@@ -5,3 +5,4 @@ export * from './ic-facebook';
 export * from './ic-instagram';
 export * from './ic-file';
 export * from './ic-globe';
+export * from './the-home-logo';

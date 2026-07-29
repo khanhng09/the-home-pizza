@@ -5,33 +5,6 @@ import type { ComponentType } from "react";
 import { cn } from "@/shared/lib/utils";
 import type { IconProps } from "@/shared/components/icons/icon.type";
 import {
-  IlustPizza,
-  IlustMozzarella,
-  IlustMozzarellaFresh,
-  IlustRicotta,
-  IlustParmesan,
-  IlustTomato,
-  IlustPepper,
-  IlustMushroom,
-  IlustOnion,
-  IlustZucchini,
-  IlustEggplant,
-  IlustCorn,
-  IlustChili,
-  IlustBasil,
-  IlustOregano,
-  IlustSpinach,
-  IlustArugula,
-  IlustRocket,
-  IlustGarlic,
-  IlustOlive,
-  IlustProsiutto,
-  IlustBeef,
-  IlustCalamari,
-  IlustAnchovies,
-  IlustShrimp,
-  IlustClam,
-  IlustPasta,
   IlustDongHoBanhDa,
   IlustDongHoBo,
   IlustDongHoCaTrich,
@@ -82,56 +55,6 @@ interface BgPreset {
 }
 
 const CATEGORIES: Category[] = [
-  {
-    title: "Pizza & Cheese",
-    items: [
-      { name: "IlustPizza", Comp: IlustPizza },
-      { name: "IlustMozzarella", Comp: IlustMozzarella },
-      { name: "IlustMozzarellaFresh", Comp: IlustMozzarellaFresh },
-      { name: "IlustRicotta", Comp: IlustRicotta },
-      { name: "IlustParmesan", Comp: IlustParmesan },
-    ],
-  },
-  {
-    title: "Vegetables",
-    items: [
-      { name: "IlustTomato", Comp: IlustTomato },
-      { name: "IlustPepper", Comp: IlustPepper },
-      { name: "IlustMushroom", Comp: IlustMushroom },
-      { name: "IlustOnion", Comp: IlustOnion },
-      { name: "IlustZucchini", Comp: IlustZucchini },
-      { name: "IlustEggplant", Comp: IlustEggplant },
-      { name: "IlustCorn", Comp: IlustCorn },
-      { name: "IlustChili", Comp: IlustChili },
-    ],
-  },
-  {
-    title: "Herbs & Greens",
-    items: [
-      { name: "IlustBasil", Comp: IlustBasil },
-      { name: "IlustOregano", Comp: IlustOregano },
-      { name: "IlustSpinach", Comp: IlustSpinach },
-      { name: "IlustArugula", Comp: IlustArugula },
-      { name: "IlustRocket", Comp: IlustRocket },
-    ],
-  },
-  {
-    title: "Proteins & Toppings",
-    items: [
-      { name: "IlustGarlic", Comp: IlustGarlic },
-      { name: "IlustOlive", Comp: IlustOlive },
-      { name: "IlustProsiutto", Comp: IlustProsiutto },
-      { name: "IlustBeef", Comp: IlustBeef },
-      { name: "IlustCalamari", Comp: IlustCalamari },
-      { name: "IlustAnchovies", Comp: IlustAnchovies },
-      { name: "IlustShrimp", Comp: IlustShrimp },
-      { name: "IlustClam", Comp: IlustClam },
-    ],
-  },
-  {
-    title: "Other",
-    items: [{ name: "IlustPasta", Comp: IlustPasta }],
-  },
   {
     title: "Dong Ho Figma",
     items: [

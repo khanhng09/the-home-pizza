@@ -3,14 +3,15 @@
  * Common helpers for formatting, validation, etc.
  */
 
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 /**
- * Combine classnames, filtering out falsy values
- * Handles strings, arrays, and objects
+ * Combine classnames and resolve conflicting Tailwind utilities
+ * (e.g. `cn('px-2', condition && 'px-4')` keeps only `px-4`)
  */
-export const cn = (...classes: (string | undefined | boolean | null)[]): string => {
-  return classes
-    .filter((c): c is string => typeof c === 'string' && c.length > 0)
-    .join(' ');
+export const cn = (...classes: ClassValue[]): string => {
+  return twMerge(clsx(classes));
 };
 
 /**

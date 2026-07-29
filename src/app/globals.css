@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+/* shadcn/ui runtime primitives (from shadcn/dist/tailwind.css, inlined
+   because Turbopack doesn't resolve that bare-specifier @import inside the
+   Tailwind CSS pipeline). Only what shared/components/ui actually uses —
+   the accordion's open/close height animation — not shadcn's default color
+   tokens; this project's own palette below stays the source of truth. */
+@theme inline {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height, auto);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height, auto);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
 :root {
   --palette-cream: #EFE9DE;
   --palette-clay: #CEA980;
@@ -14,6 +56,10 @@
   --surface: var(--palette-linen);
   --accent: var(--palette-clay);
   --accent-deep: var(--palette-umber);
+  /* Focus ring for shadcn/ui primitives (Button, Accordion, …) — keeps
+     their default focus-visible:ring-ring styling working without a
+     per-instance override. */
+  --ring: var(--palette-gold);
 }
 
 @theme inline {
@@ -29,6 +75,7 @@
   --color-surface: var(--surface);
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
+  --color-ring: var(--ring);
   --font-display: var(--font-abygaer), var(--font-raleway), Arial, Helvetica, sans-serif;
   --font-sans: var(--font-raleway), Arial, Helvetica, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;

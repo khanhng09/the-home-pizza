@@ -33,7 +33,7 @@ export const businessInfo = {
 export const navigation = {
   main: [
     { label: "Story of The Home", href: "#story" },
-    { label: "Menu", href: "#menu" },
+    { label: "Menu", href: "/menu" },
     { label: "Humans of The Home", href: "#humans" },
   ],
   footer: [

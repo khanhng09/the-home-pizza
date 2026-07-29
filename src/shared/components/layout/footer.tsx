@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { businessInfo, navigation, socialLinks } from '@/shared/constants/site.constant';
-import { IcFacebook, IcInstagram } from '@/shared/components/icons';
+import { IcFacebook, IcInstagram, TheHomeLogo } from '@/shared/components/icons';
 
 const socialIcons = {
   IcFacebook,
@@ -13,9 +13,9 @@ export function Footer() {
       <div className="container-base grid grid-cols-1 gap-10 py-16 lg:grid-cols-3 lg:gap-8">
         {/* Logo */}
         <div>
-          <span className="font-display text-xl tracking-[0.3em] uppercase">
-            {businessInfo.name}
-          </span>
+          <Link href="/" className="inline-block">
+            <TheHomeLogo aria-label={businessInfo.name} className="h-8 w-auto text-cream" />
+          </Link>
         </div>
 
         {/* Contact Info */}

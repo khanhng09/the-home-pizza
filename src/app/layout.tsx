@@ -31,7 +31,7 @@ export default function RootLayout({
       lang="vi"
       className={`${dfvnAbygaer.variable} ${raleway.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
