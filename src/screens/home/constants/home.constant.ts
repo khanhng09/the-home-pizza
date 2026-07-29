@@ -83,10 +83,10 @@ export const menuContent = {
 };
 
 export const menuCategoryList = [
-  { id: "dac-san-viet", label: "Đặc sản Việt", href: "#menu-dac-san-viet" },
-  { id: "pizza-classic", label: "Pizza Classic", href: "#menu-pizza-classic" },
-  { id: "salad-appertiza", label: "Salad & Appertiza", href: "#menu-salad-appertiza" },
-  { id: "pasta", label: "Pasta", href: "#menu-pasta" },
+  { id: "dac-san-viet", label: "Đặc sản Việt", href: "/menu#dac-san-viet" },
+  { id: "pizza-classic", label: "Pizza Classic", href: "/menu#pizza-classic" },
+  { id: "salad-appertiza", label: "Salad & Appertiza", href: "/menu#salad" },
+  { id: "pasta", label: "Pasta", href: "/menu#pasta" },
 ] as const;
 
 // Humans section ("Người Nhà")

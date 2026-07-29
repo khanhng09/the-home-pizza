@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { storyStates } from '../constants/home.constant';
+import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 
 export function HomeStoryTabs() {
@@ -11,22 +12,22 @@ export function HomeStoryTabs() {
     <div className="relative">
       {/* Tabs */}
       <div className="absolute z-10 top-0 translate-y-[-50%] w-full">
-        <div className="w-full grid grid-cols-3 container-base gap-20 mx-auto">
+        <div className="container-base flex gap-3.5 overflow-x-auto lg:gap-5">
           {storyStates.map((state, index) => {
             const isActive = index === activeIndex;
             return (
-              <button
+              <Button
                 key={state.id}
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 aria-pressed={isActive}
                 className={cn(
-                  'whitespace-nowrap rounded-full max-w-90 w-full h-12 sm:h-14 md:h-16 lg:h-15 font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl transition-all duration-300 min-h-11',
-                  isActive ? 'bg-gold text-ink' : 'bg-ink text-cream hover:brightness-110'
+                  'h-10 shrink-0 whitespace-nowrap rounded-full px-5 font-display text-xs transition-all duration-300 sm:h-11 sm:px-6 sm:text-sm lg:h-15 lg:px-9 lg:text-4xl',
+                  isActive ? 'bg-gold text-ink hover:bg-gold' : 'bg-ink text-cream hover:brightness-110 hover:bg-ink'
                 )}
               >
                 {state.label}
-              </button>
+              </Button>
             );
           })}
         </div>

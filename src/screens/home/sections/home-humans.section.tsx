@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { IlustBuffalo, IlustCrab, IlustDongHoHungQue, IlustDongHoTieu } from '@/shared/components/illustrations';
 import { IcArrowRight } from '@/shared/components/icons';
+import { Button } from '@/shared/components/ui/button';
 import { humansContent, humansLinkList } from '../constants/home.constant';
 
 export function HomeHumansSection() {
@@ -26,12 +27,13 @@ export function HomeHumansSection() {
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-foreground">
             {humansContent.heading}
           </h2>
-          <Link
-            href="#humans"
-            className="inline-flex items-center justify-center rounded-[3px] border-2 border-umber px-6 sm:px-8 py-3 sm:py-2 min-h-11 sm:min-h-10 font-sans font-bold uppercase tracking-wide text-umber transition-colors hover:bg-umber hover:text-cream shrink-0"
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-[3px] border-2 border-umber bg-transparent px-6 sm:px-8 py-3 sm:py-2 min-h-11 sm:min-h-10 font-sans font-bold uppercase tracking-wide text-umber transition-colors hover:bg-umber hover:text-cream shrink-0"
           >
-            {humansContent.cta}
-          </Link>
+            <Link href="#humans">{humansContent.cta}</Link>
+          </Button>
         </div>
 
         {/* Images row. Each image keeps its native aspect ratio (no cropping)

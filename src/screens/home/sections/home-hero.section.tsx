@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Button } from '@/shared/components/ui/button';
 import { heroContent, trustBadges } from '../constants/home.constant';
 
 export function HomeHeroSection() {
@@ -37,12 +38,12 @@ export function HomeHeroSection() {
             {heroContent.heading}
           </h1>
           <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream">{heroContent.subheading}</p>
-          <Link
-            href="#reservation"
+          <Button
+            asChild
             className="btn-base h-12 sm:h-11 md:h-10 px-6 py-3 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
           >
-            {heroContent.cta}
-          </Link>
+            <Link href="#reservation">{heroContent.cta}</Link>
+          </Button>
         </div>
       </div>
 

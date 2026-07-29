@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { IcArrowRight } from '@/shared/components/icons';
+import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { locationContent, locationStates } from '../constants/home.constant';
 import { IlustDongHoBanhDa, IlustDongHoHungQue, IlustDongHoNgheu } from '@/shared/components';
@@ -14,7 +15,7 @@ export function HomeLocationSwitcher() {
     <div className="grid min-h-[1040px] bg-deep lg:min-h-[914px] lg:grid-cols-2">
       <div className="relative flex min-h-[598px] overflow-hidden px-7 pt-19 pb-0 sm:px-10 lg:min-h-[914px] lg:px-14 lg:pt-32 lg:pb-14 xl:px-16">
         <div
-          className="absolute inset-0 aspect-[430/598] lg:aspect-auto bg-cover bg-center lg:hidden"
+          className="absolute inset-0 bg-cover bg-center lg:hidden"
           style={{ backgroundImage: `url(${locationContent.backgroundImageMobile})` }}
           aria-hidden="true"
         />
@@ -42,20 +43,17 @@ export function HomeLocationSwitcher() {
             aria-hidden="true"
           />
 
-          <div className="mt-auto grid grid-cols-[auto_auto_1fr] items-end gap-x-8 sm:gap-x-12 lg:block">
+          <div className="mt-auto flex gap-4.5 lg:block">
             {locationStates.map((location, index) => {
               const isActive = index === activeIndex;
 
               return (
-                <button
+                <Button
                   key={location.id}
                   type="button"
                   onClick={() => setActiveIndex(index)}
                   aria-pressed={isActive}
-                  className={cn(
-                    'group min-h-14 pb-4 text-left font-sans text-[32px] uppercase leading-[1.16] text-cream transition-colors duration-300 focus-ring sm:text-4xl lg:flex lg:min-h-0 lg:w-full lg:items-center lg:justify-between lg:border-b lg:border-cream lg:py-8 lg:font-display lg:text-7xl lg:leading-none xl:text-[88px]',
-                    isActive ? 'border-b-6 border-gold lg:border-cream' : 'border-b-6 border-transparent text-cream/85 hover:text-cream lg:border-cream'
-                  )}
+                  className="group flex h-auto flex-col items-start justify-start gap-2 rounded-none bg-transparent px-0 pb-2 text-left font-sans text-xl uppercase leading-[1.2] text-cream hover:bg-transparent focus-ring lg:w-full lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:border-b lg:border-cream lg:py-8 lg:font-display lg:text-[clamp(2.5rem,5.3vw,4.65rem)] lg:leading-none"
                 >
                   <span className="lg:hidden">
                     {location.mobileLabel.map((line) => (
@@ -65,8 +63,12 @@ export function HomeLocationSwitcher() {
                     ))}
                   </span>
                   <span className="hidden lg:block">{location.label}</span>
-                  <IcArrowRight className="hidden h-14 w-14 shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-2 lg:block xl:h-16 xl:w-16" />
-                </button>
+                  <span
+                    aria-hidden="true"
+                    className={cn('h-1 w-full lg:hidden', isActive ? 'bg-gold' : 'bg-gold/0')}
+                  />
+                  <IcArrowRight className="hidden size-[62px] shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-2 lg:block" />
+                </Button>
               );
             })}
           </div>
@@ -87,7 +89,7 @@ export function HomeLocationSwitcher() {
         />
         <h2
           id="home-location-heading"
-          className="absolute bottom-7 left-1/2 -translate-x-1/2 font-display text-[72px] leading-none text-cream uppercase sm:text-[96px] lg:top-[103px] lg:bottom-auto lg:text-[128px] xl:text-[150px]"
+          className="absolute bottom-7 left-1/2 w-full max-w-full -translate-x-1/2 px-4 text-center font-display text-[clamp(2.5rem,15vw,4.5rem)] leading-none text-cream uppercase lg:top-[103px] lg:bottom-auto lg:px-8 lg:text-[clamp(4rem,8.5vw,9.5rem)]"
         >
           {locationContent.heading}
         </h2>

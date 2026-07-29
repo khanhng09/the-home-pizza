@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { IcArrowRight } from '@/shared/components/icons';
+import { Button } from '@/shared/components/ui/button';
 import { menuContent, menuCategoryList } from '../constants/home.constant';
 import { IlustDongHoTieu, IlustDongHoTre } from '@/shared/components';
 
@@ -23,17 +24,18 @@ export function HomeMenuSection() {
 
           <IlustDongHoTre className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
           <IlustDongHoTieu className="pointer-events-none absolute left-8 top-[42%] hidden h-16 w-20 text-accent/60 lg:left-16 lg:block lg:h-20 lg:w-28" />
-
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream">{menuContent.heading}</h2>
-          <p className="mt-6 max-w-md font-sans text-sm sm:text-base md:text-lg text-cream/80">
-            {menuContent.paragraph}
-          </p>
-          <Link
-            href="#menu"
-            className="btn-base btn-md mt-8 bg-cream font-bold uppercase tracking-wide text-ink hover:bg-linen"
-          >
-            {menuContent.cta}
-          </Link>
+          <div className='relative'>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream">{menuContent.heading}</h2>
+            <p className="mt-6 max-w-md font-sans text-sm sm:text-base md:text-lg text-cream/80">
+              {menuContent.paragraph}
+            </p>
+            <Button
+              asChild
+              className="btn-base btn-md mt-8 bg-cream font-bold uppercase tracking-wide text-ink hover:bg-linen"
+            >
+              <Link href="/menu">{menuContent.cta}</Link>
+            </Button>
+          </div>
 
           <ul className="relative mt-14 overflow-x-auto flex gap-4 lg:mt-24 lg:flex-col lg:gap-0 lg:overflow-x-visible">
             {menuCategoryList.map((category) => (
