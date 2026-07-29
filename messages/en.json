@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "root": {
+      "title": "The Home Pizza | Handmade Artisan Pizzas",
+      "description": "At The Home, every pizza tells the story of a region. From native ingredients to signature flavors, the Vietnamese Specialty Pizza Map is a journey that brings the essence of Vietnamese cuisine onto an authentic Italian pizza base."
+    },
+    "menu": {
+      "title": "Menu",
+      "description": "A map of Vietnamese specialties on an authentic Italian pizza base — explore The Home Pizza's menu region by region."
+    },
+    "humans": {
+      "title": "Humans of The Home",
+      "description": "The stories of the people behind The Home Pizza — from the Chef Owner to every member of The Home who shares in the journey of Vietnamese Specialty Pizza."
+    }
+  },
+  "common": {
+    "siteName": "The Home Pizza",
+    "bookTable": "Book a Table",
+    "language": {
+      "vi": "Tiếng Việt",
+      "en": "English"
+    }
+  },
+  "header": {
+    "nav": {
+      "story": "Story of The Home",
+      "menu": "Menu",
+      "humans": "Humans of The Home"
+    },
+    "menuLabel": "Menu",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
+  },
+  "footer": {
+    "mail": "Mail:",
+    "tel": "Tel:",
+    "address": "Address:",
+    "followUs": "Follow The Home",
+    "nav": {
+      "humans": "Humans of The Home",
+      "careerPath": "Career Path",
+      "nhaTimNguoi": "We're Hiring"
+    },
+    "social": {
+      "facebook": "Follow The Home on Facebook",
+      "instagram": "Follow The Home on Instagram"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Come discover",
+      "heading": "Vietnamese Specialties",
+      "subheading": "on an Italian Pizza Base",
+      "cta": "Book a Table"
+    },
+    "trustBadges": {
+      "tripadvisor-2023": {
+        "label": "Certificate of Excellence",
+        "year": "2023"
+      },
+      "tripadvisor-2024": {
+        "label": "Certificate of Excellence",
+        "year": "2024"
+      },
+      "tripadvisor-2025": {
+        "label": "Certificate of Excellence",
+        "year": "2025"
+      },
+      "restaurant-guru-2025": {
+        "label": "\"Recommended\" Certificate",
+        "year": "from Restaurant Guru, 2025"
+      }
+    },
+    "story": {
+      "heading": "The Home's Story",
+      "paragraphs": [
+        "At The Home, every pizza is a story of a region.",
+        "From native ingredients to signature flavors, the Vietnamese Specialty Pizza Map is a journey that brings the essence of Vietnamese cuisine onto an authentic Italian pizza base."
+      ],
+      "states": {
+        "dsv": "Vietnamese Specialties",
+        "ht": "The Journey",
+        "tt": "The “Home” Spirit"
+      }
+    },
+    "menu": {
+      "heading": "Menu",
+      "paragraph": "Join us on a journey to discover the map of Vietnamese specialties, together with The Home, on an authentic Italian pizza base...",
+      "cta": "View Menu",
+      "categories": {
+        "dac-san-viet": "Vietnamese Specialties",
+        "pizza-classic": "Pizza Classic",
+        "salad-appertiza": "Salad & Appetizers",
+        "pasta": "Pasta"
+      }
+    },
+    "humans": {
+      "heading": "Humans of The Home",
+      "cta": "Read More",
+      "images": {
+        "human-1": "A member of The Home carrying a tray of food",
+        "human-2": "The Home Pizza restaurant space"
+      },
+      "linkList": {
+        "humans-of-the-home": "Humans of The Home",
+        "career-path": "Career Path",
+        "nha-tim-nguoi": "We're Hiring"
+      }
+    },
+    "location": {
+      "heading": "Location",
+      "paragraph": "Inspired by the local spirit at its core, each Home carries its own rhythm — so that wherever you are, The Home's journey is always told through the flavor and spirit of that very land.",
+      "states": {
+        "phu-quoc": {
+          "label": "Phú Quốc",
+          "mobileLabel": [
+            "Phú",
+            "Quốc"
+          ],
+          "alt": "The Home Pizza restaurant space in Phú Quốc"
+        },
+        "nha-trang": {
+          "label": "Nha Trang",
+          "mobileLabel": [
+            "Nha",
+            "Trang"
+          ],
+          "alt": "The Home Pizza restaurant space in Nha Trang"
+        }
+      }
+    }
+  },
+  "menuPage": {
+    "hero": {
+      "greeting": "The Home welcomes you,",
+      "paragraphs": [
+        "Join us on a journey to discover the map of Vietnamese specialties with The Home on an authentic Italian pizza base, where every slice carries the mark of Vietnam's regional flavors — shaped by geography, climate, soil, and culture into a rich diversity of ingredients and signature tastes. From the belief that Vietnamese cuisine is rich enough to step onto the world stage, The Home is committed to its mission of drawing the Vietnamese Specialty Pizza Map.",
+        "At The Home, make yourself at home!"
+      ],
+      "mapAlt": "Map of Vietnamese specialties on a pizza base"
+    },
+    "regions": {
+      "bac-bo": "Northern Vietnam",
+      "trung-bo": "Central Vietnam",
+      "nam-bo": "Southern Vietnam",
+      "phu-quoc": "Phú Quốc"
+    },
+    "catalog": {
+      "dac-san-viet": {
+        "label": "Vietnamese Specialties",
+        "spreads": [
+          "Vietnamese Specialties Menu — Rạch Vẹm Shrimp Salad Pizza",
+          "Vietnamese Specialties Menu — Phú Quốc Durian Pizza"
+        ]
+      },
+      "pizza-classic": {
+        "label": "Pizza Classic",
+        "spreads": [
+          "Pizza Classic Menu — page 1",
+          "Pizza Classic Menu — page 2"
+        ]
+      },
+      "salad": {
+        "label": "Salad",
+        "spreads": []
+      },
+      "mon-chinh": {
+        "label": "Main Courses",
+        "spreads": [
+          "Main Courses Menu — BBQ Grilled Ribs",
+          "Main Courses Menu — page 2"
+        ]
+      },
+      "pasta": {
+        "label": "Pasta",
+        "spreads": [
+          "Pasta Menu — page 1",
+          "Pasta Menu — page 2"
+        ]
+      },
+      "trang-mieng": {
+        "label": "Desserts",
+        "spreads": [
+          "Desserts Menu — page 1",
+          "Desserts Menu — page 2"
+        ]
+      }
+    },
+    "catalogHeading": "Menu by Category",
+    "comingSoon": "This menu is coming soon."
+  },
+  "humansPage": {
+    "hero": {
+      "heading": "Humans of The Home",
+      "linkList": {
+        "humans-of-the-home": "Humans of the Home",
+        "career-path": "Career Path",
+        "nha-tim-nguoi": "We're Hiring"
+      }
+    },
+    "intro": {
+      "paragraph": "Every pizza carries the flavor and mark of The Home's passionate team, like a bridge that brings you closer to the journey of Vietnamese specialty pizza. The Home is delighted to have you stop by, enjoy a pizza, and share your own story — who knows, your story might inspire The Home's chefs to create new flavors, marking another milestone on the Vietnamese Specialty Pizza Map.",
+      "quoteLines": [
+        "If you love what The Home stands for,",
+        "let's become \"one Home family\" together!"
+      ]
+    },
+    "chefStory": {
+      "heading": "The Chef's Story",
+      "imageAlt": "The Home's Chef Owner kneading pizza dough",
+      "paragraphs": [
+        "With many years immersed in the world of Italian and European cuisine, The Home's Chef Owner spent years experiencing hundreds of pizza flavors around the world. Every country tells its own story through this familiar dish. But throughout that journey, he kept asking himself: why does Vietnam, with its rich and diverse cuisine stretching from north to south, still not have a pizza that carries the true soul of Vietnam?",
+        "From that question, the dream of a Vietnamese Specialty Pizza began — a pizza combining Western craftsmanship with homegrown ingredients: from rich H'mong duck meat to sweet Rạch Vẹm shrimp, to the distinctive herbs of Vietnam's S-shaped land. That dream was nurtured in The Home's kitchen, where the Chef Owner and his fellow chefs came together, sharing their love for Vietnamese flavors and their respect for every ingredient.",
+        "At The Home, every pizza that comes out of the oven isn't just a dish — it's The Home's way of telling the story of Vietnamese flavor in a new language."
+      ]
+    },
+    "peopleStory": {
+      "heading": "The People's Story",
+      "imageAlt": "A member of The Home serving guests at the restaurant",
+      "paragraphs": [
+        "The Home believes that genuine connection begins with the smallest things: a warm greeting, a thoughtful gesture, or the feeling of being truly cared for. The people of The Home carry kindness into every small moment, so that each time you visit, you're not just looking for a meal — you're coming home to somewhere familiar.",
+        "The Home's creative spirit doesn't just live in the kitchen — it shows up in how guests are served, too. Drawing inspiration from Vietnamese cuisine spanning the North, Central, South, and Phú Quốc, the people of The Home are always ready to tell you the story behind every dish and every ingredient, so you feel closer to Vietnamese flavor on a traditional Italian pizza base.",
+        "At The Home, everything is cared for just enough so you can sit back, enjoy your meal, and talk freely — just like you would at home."
+      ]
+    },
+    "values": {
+      "ket-noi": {
+        "label": "Connection",
+        "paragraph": "Grounded in the finest essence of Vietnamese cuisine spanning north to south, and inspired by the art of traditional Italian pizza-making, The Home never stops exploring and innovating in every recipe — so each pizza is a refined fusion of Vietnamese specialties and classic pizza craft, delivering a unique, bold, and deeply proud taste experience."
+      },
+      "sang-tao": {
+        "label": "Creativity",
+        "paragraph": "The Home wants to build a genuine connection between The Home Pizza and its guests, rooted in the kindness of The Home's own people — its true companions. From there, the spirit and values of Home spread to every team member, so every guest can feel it too."
+      },
+      "tan-tam": {
+        "label": "Dedication",
+        "paragraph": "With guests at the center of everything, we constantly strive to deliver the fullest “Home” experience — from the food to the service."
+      }
+    },
+    "cta": {
+      "heading": "Let's become \"one Home family\" together!",
+      "cta": "We're Hiring",
+      "imageAlt": "The Home Pizza's space and team"
+    }
+  }
+}

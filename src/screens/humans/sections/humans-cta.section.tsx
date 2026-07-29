@@ -1,7 +1,10 @@
+import { getTranslations } from 'next-intl/server';
 import { Button } from '@/shared/components/ui/button';
 import { humansCtaContent } from '../constants/humans.constant';
 
-export function HumansCtaSection() {
+export async function HumansCtaSection() {
+  const t = await getTranslations('humansPage.cta');
+
   return (
     <section id="nha-tim-nguoi" className="relative overflow-hidden bg-ink">
       <div className="relative aspect-[430/561] w-full lg:aspect-[1402/512]">
@@ -9,7 +12,7 @@ export function HumansCtaSection() {
           <source media="(min-width: 1024px)" srcSet={humansCtaContent.image.src} />
           <img
             src={humansCtaContent.image.mobileSrc}
-            alt={humansCtaContent.image.alt}
+            alt={t('imageAlt')}
             loading="lazy"
             decoding="async"
             className="absolute inset-0 size-full object-cover"
@@ -19,13 +22,13 @@ export function HumansCtaSection() {
 
         <div className="container-base absolute inset-x-0 bottom-10 flex flex-col items-start gap-8 lg:bottom-16 lg:gap-10">
           <h2 className="max-w-88 font-display text-4xl leading-[1.2] text-cream lg:max-w-98 lg:text-[64px]">
-            {humansCtaContent.heading}
+            {t('heading')}
           </h2>
           <Button
             asChild
             className="btn-base h-12 max-w-55 w-full rounded-full border border-cream bg-cream px-6 py-3 font-sans text-sm font-bold uppercase tracking-wide text-ink hover:bg-linen sm:h-11"
           >
-            <a href={humansCtaContent.ctaHref}>{humansCtaContent.cta}</a>
+            <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
           </Button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import type { MouseEvent } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Accordion,
   AccordionContent,
@@ -71,6 +72,9 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
  * previous one" behavior the design calls for.
  */
 export function MenuCategoryAccordion() {
+  const t = useTranslations('menuPage');
+  const tCatalog = useTranslations('menuPage.catalog');
+
   return (
     <Accordion
       type="single"
@@ -78,7 +82,9 @@ export function MenuCategoryAccordion() {
       defaultValue={menuCatalog[0].id}
       className="w-full border-b border-ink/25"
     >
-      {menuCatalog.map((category) => (
+      {menuCatalog.map((category) => {
+        const spreadAlts = tCatalog.raw(`${category.id}.spreads`) as string[];
+        return (
         <AccordionItem
           key={category.id}
           value={category.id}
@@ -89,7 +95,7 @@ export function MenuCategoryAccordion() {
             className="relative h-16 items-center justify-center gap-4 rounded-none border-none bg-linen px-14 py-0 text-center font-normal hover:bg-linen/70 hover:no-underline focus-visible:rounded-none focus-visible:border-none focus-visible:ring-0 lg:h-[99px] [&_[data-slot=accordion-trigger-icon]]:hidden"
           >
             <span className="font-display text-[33px] text-ink lg:text-[59px]">
-              {category.label}
+              {tCatalog(`${category.id}.label`)}
             </span>
             <IcArrowRight
               aria-hidden="true"
@@ -104,7 +110,7 @@ export function MenuCategoryAccordion() {
                   <img
                     key={spread.src}
                     src={spread.src}
-                    alt={spread.alt}
+                    alt={spreadAlts[index]}
                     width={spread.width}
                     height={spread.height}
                     loading="lazy"
@@ -116,12 +122,13 @@ export function MenuCategoryAccordion() {
               </div>
             ) : (
               <p className="px-6 py-16 text-center font-sans text-lg text-ink/60">
-                Thực đơn đang được cập nhật.
+                {t('comingSoon')}
               </p>
             )}
           </AccordionContent>
         </AccordionItem>
-      ))}
+        );
+      })}
     </Accordion>
   );
 }

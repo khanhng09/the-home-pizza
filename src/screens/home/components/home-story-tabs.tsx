@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { storyStates } from '../constants/home.constant';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 
 export function HomeStoryTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const t = useTranslations('home.story.states');
 
   return (
     <div className="relative">
@@ -26,7 +28,7 @@ export function HomeStoryTabs() {
                   isActive ? 'bg-gold text-ink hover:bg-gold' : 'bg-ink text-cream hover:brightness-110 hover:bg-ink'
                 )}
               >
-                {state.label}
+                {t(state.id)}
               </Button>
             );
           })}
@@ -39,7 +41,7 @@ export function HomeStoryTabs() {
           <img
             key={state.id}
             src={state.image}
-            alt={state.label}
+            alt={t(state.id)}
             loading={index === 0 ? 'eager' : 'lazy'}
             className={cn(
               'absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out',

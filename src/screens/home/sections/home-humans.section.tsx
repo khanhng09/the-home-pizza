@@ -1,10 +1,13 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { IlustBuffalo, IlustCrab, IlustDongHoHungQue, IlustDongHoTieu } from '@/shared/components/illustrations';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { humansContent, humansLinkList } from '../constants/home.constant';
 
-export function HomeHumansSection() {
+export async function HomeHumansSection() {
+  const t = await getTranslations('home.humans');
+
   return (
     <section className="relative overflow-hidden bg-cream">
       {/* Background texture — swaps per breakpoint */}
@@ -25,14 +28,14 @@ export function HomeHumansSection() {
       <div className="container-base relative py-16 lg:py-24">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4 lg:mb-14">
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-foreground">
-            {humansContent.heading}
+            {t('heading')}
           </h2>
           <Button
             asChild
             variant="outline"
             className="rounded-[3px] border-2 border-umber bg-transparent px-6 sm:px-8 py-3 sm:py-2 min-h-11 sm:min-h-10 font-sans font-bold uppercase tracking-wide text-umber transition-colors hover:bg-umber hover:text-cream shrink-0"
           >
-            <Link href="/humans">{humansContent.cta}</Link>
+            <Link href="/humans">{t('cta')}</Link>
           </Button>
         </div>
 
@@ -51,13 +54,13 @@ export function HomeHumansSection() {
           <div className="grid grid-cols-2 items-start gap-4 lg:grid-cols-[1.4fr_1fr] lg:gap-6">
             <img
               src={humansContent.images[0].src}
-              alt={humansContent.images[0].alt}
+              alt={t(`images.${humansContent.images[0].id}`)}
               className="w-full object-cover"
             />
 
             <img
               src={humansContent.images[1].src}
-              alt={humansContent.images[1].alt}
+              alt={t(`images.${humansContent.images[1].id}`)}
               className="w-full object-cover"
             />
           </div>
@@ -75,7 +78,7 @@ export function HomeHumansSection() {
                   href={link.href}
                   className="group flex items-center justify-between py-4 min-h-11 sm:min-h-12 font-sans text-sm sm:text-base md:text-lg lg:text-[28px] uppercase tracking-wide text-foreground lg:py-5"
                 >
-                  {link.label}
+                  {t(`linkList.${link.id}`)}
                   <IcArrowRight className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 shrink-0 text-foreground transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </li>

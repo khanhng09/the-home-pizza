@@ -1,8 +1,12 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { heroContent, trustBadges } from '../constants/home.constant';
 
-export function HomeHeroSection() {
+export async function HomeHeroSection() {
+  const t = await getTranslations('home.hero');
+  const tBadges = await getTranslations('home.trustBadges');
+
   return (
     <section className="relative">
       {/* Video background */}
@@ -33,16 +37,16 @@ export function HomeHeroSection() {
 
         {/* Content */}
         <div className="container-base relative z-10 flex h-full flex-col items-end justify-center gap-4.5 text-right">
-          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream mb-4.5">{heroContent.eyebrow}</p>
+          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream mb-4.5">{t('eyebrow')}</p>
           <h1 className="font-display text-5xl sm:text-[54px] md:text-6xl lg:text-7xl leading-[1.05] text-cream mb-3.5 max-w-100 lg:max-w-150 uppercase">
-            {heroContent.heading}
+            {t('heading')}
           </h1>
-          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream">{heroContent.subheading}</p>
+          <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream">{t('subheading')}</p>
           <Button
             asChild
             className="btn-base h-12 sm:h-11 md:h-10 px-6 py-3 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
           >
-            <Link href="#reservation">{heroContent.cta}</Link>
+            <Link href="#reservation">{t('cta')}</Link>
           </Button>
         </div>
       </div>
@@ -63,13 +67,13 @@ export function HomeHeroSection() {
             <div key={badge.id} className="flex flex-col items-center text-center">
               <img
                 src={badge.image}
-                alt={`${badge.label} ${badge.year}`}
+                alt={`${tBadges(`${badge.id}.label`)} ${tBadges(`${badge.id}.year`)}`}
                 width={172}
                 height={82}
                 className="h-20.5 w-auto"
               />
-              <p className="text-sm text-cream">{badge.label}</p>
-              <p className="text-sm text-cream">{badge.year}</p>
+              <p className="text-sm text-cream">{tBadges(`${badge.id}.label`)}</p>
+              <p className="text-sm text-cream">{tBadges(`${badge.id}.year`)}</p>
             </div>
           ))}
         </div>

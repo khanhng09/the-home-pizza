@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import {
   IlustDongHoBanhDa,
   IlustDongHoPizzaDough,
@@ -5,7 +6,10 @@ import {
 } from '@/shared/components/illustrations';
 import { humansChefStoryContent } from '../constants/humans.constant';
 
-export function HumansChefStorySection() {
+export async function HumansChefStorySection() {
+  const t = await getTranslations('humansPage.chefStory');
+  const paragraphs = t.raw('paragraphs') as string[];
+
   return (
     <section className="relative overflow-hidden bg-deep">
       {/* Background texture — swaps per breakpoint */}
@@ -26,11 +30,11 @@ export function HumansChefStorySection() {
           <IlustDongHoBanhDa className="pointer-events-none absolute right-6 top-6 h-16 w-16 text-gold/70 sm:right-10 sm:top-10 sm:h-20 sm:w-20 lg:h-28 lg:w-28" />
 
           <h2 className="max-w-70 font-display text-4xl leading-[1.2] text-cream sm:max-w-none lg:max-w-124 lg:text-[80px]">
-            {humansChefStoryContent.heading}
+            {t('heading')}
           </h2>
 
           <div className="scrollbar-story-gold flex max-h-125 max-w-147 flex-col gap-4 overflow-y-auto pl-6 font-sans text-sm leading-[1.4] text-cream lg:pl-8 lg:text-xl">
-            {humansChefStoryContent.paragraphs.map((paragraph) => (
+            {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -45,7 +49,7 @@ export function HumansChefStorySection() {
             src={humansChefStoryContent.image.src}
             srcSet={`${humansChefStoryContent.image.mobileSrc} 860w, ${humansChefStoryContent.image.src} 1400w`}
             sizes="(max-width: 1024px) 288px, 472px"
-            alt={humansChefStoryContent.image.alt}
+            alt={t('imageAlt')}
             loading="lazy"
             decoding="async"
             className="aspect-[430/561] w-full max-w-72 object-cover lg:max-w-118"

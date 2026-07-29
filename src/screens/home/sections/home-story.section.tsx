@@ -1,8 +1,12 @@
+import { getTranslations } from 'next-intl/server';
 import { storyContent } from '../constants/home.constant';
 import { HomeStoryTabs } from '../components/home-story-tabs';
 import { IlustDongHoHen, IlustDongHoTom } from '@/shared/components';
 
-export function HomeStorySection() {
+export async function HomeStorySection() {
+  const t = await getTranslations('home.story');
+  const paragraphs = t.raw('paragraphs') as string[];
+
   return (
     <section className="relative overflow-hidden bg-cream">
       <div className="relative">
@@ -23,11 +27,11 @@ export function HomeStorySection() {
 
         <div className="container-base relative grid grid-cols-1 gap-10 pt-20 pb-16 lg:grid-cols-2 lg:gap-16 lg:pt-32.5 lg:pb-25">
           <h2 className="max-w-60 font-display text-4xl sm:max-w-none sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] leading-[120%] text-foreground">
-            {storyContent.heading}
+            {t('heading')}
           </h2>
 
           <div className="flex flex-col gap-5 pl-24 font-sans text-sm sm:pl-28 lg:pl-0 sm:text-base md:text-lg lg:text-xl text-foreground">
-            {storyContent.paragraphs.map((paragraph) => (
+            {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>

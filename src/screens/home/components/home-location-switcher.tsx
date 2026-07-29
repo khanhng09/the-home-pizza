@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
@@ -10,6 +11,7 @@ import { IlustDongHoBanhDa, IlustDongHoHungQue, IlustDongHoNgheu } from '@/share
 export function HomeLocationSwitcher() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeLocation = locationStates[activeIndex];
+  const t = useTranslations('home.location');
 
   return (
     <div className="grid min-h-[1040px] bg-deep lg:min-h-[914px] lg:grid-cols-2">
@@ -27,7 +29,7 @@ export function HomeLocationSwitcher() {
 
         <div className="relative flex w-full flex-col">
           <p className="max-w-[460px] font-sans text-2xl leading-[1.35] text-cream lg:max-w-[600px] lg:text-xl xl:text-[22px]">
-            {locationContent.paragraph}
+            {t('paragraph')}
           </p>
 
           <IlustDongHoHungQue
@@ -56,13 +58,13 @@ export function HomeLocationSwitcher() {
                   className="group flex h-auto flex-col items-start justify-start gap-2 rounded-none bg-transparent px-0 pb-2 text-left font-sans text-xl uppercase leading-[1.2] text-cream hover:bg-transparent focus-ring lg:w-full lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:border-b lg:border-cream lg:py-8 lg:font-display lg:text-[clamp(2.5rem,5.3vw,4.65rem)] lg:leading-none"
                 >
                   <span className="lg:hidden">
-                    {location.mobileLabel.map((line) => (
+                    {(t.raw(`states.${location.id}.mobileLabel`) as string[]).map((line) => (
                       <span key={line} className="block">
                         {line}
                       </span>
                     ))}
                   </span>
-                  <span className="hidden lg:block">{location.label}</span>
+                  <span className="hidden lg:block">{t(`states.${location.id}.label`)}</span>
                   <span
                     aria-hidden="true"
                     className={cn('h-1 w-full lg:hidden', isActive ? 'bg-gold' : 'bg-gold/0')}
@@ -79,7 +81,7 @@ export function HomeLocationSwitcher() {
         <img
           key={activeLocation.id}
           src={activeLocation.image}
-          alt={activeLocation.alt}
+          alt={t(`states.${activeLocation.id}.alt`)}
           width={1400}
           height={1828}
           sizes="(max-width: 1023px) 100vw, 50vw"
@@ -91,7 +93,7 @@ export function HomeLocationSwitcher() {
           id="home-location-heading"
           className="absolute bottom-7 left-1/2 w-full max-w-full -translate-x-1/2 px-4 text-center font-display text-[clamp(2.5rem,15vw,4.5rem)] leading-none text-cream uppercase lg:top-[103px] lg:bottom-auto lg:px-8 lg:text-[clamp(4rem,8.5vw,9.5rem)]"
         >
-          {locationContent.heading}
+          {t('heading')}
         </h2>
       </div>
     </div>

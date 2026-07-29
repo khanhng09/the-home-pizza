@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "root": {
+      "title": "The Home Pizza | Pizza Thủ Công Đặc Sản Việt",
+      "description": "Tại Nhà, mỗi chiếc pizza là một câu chuyện vùng miền. Từ nguyên liệu bản địa đến hương vị đặc trưng, Bản Đồ Pizza Đặc Sản Việt là hành trình đưa tinh hoa ẩm thực Việt lên đế bánh pizza chuẩn Ý."
+    },
+    "menu": {
+      "title": "Thực đơn",
+      "description": "Bản đồ đặc sản Việt trên đế bánh pizza chuẩn Ý — khám phá thực đơn The Home Pizza theo từng vùng miền."
+    },
+    "humans": {
+      "title": "Người nhà",
+      "description": "Câu chuyện của những con người đứng sau The Home Pizza — từ Chef Owner đến từng Người Nhà đồng hành cùng hành trình Pizza Đặc Sản Việt."
+    }
+  },
+  "common": {
+    "siteName": "The Home Pizza",
+    "bookTable": "Đặt bàn",
+    "language": {
+      "vi": "Tiếng Việt",
+      "en": "English"
+    }
+  },
+  "header": {
+    "nav": {
+      "story": "Story of The Home",
+      "menu": "Menu",
+      "humans": "Humans of The Home"
+    },
+    "menuLabel": "Menu",
+    "openMenu": "Mở menu điều hướng",
+    "closeMenu": "Đóng menu điều hướng"
+  },
+  "footer": {
+    "mail": "Mail:",
+    "tel": "Tel:",
+    "address": "Address:",
+    "followUs": "Follow Nhà",
+    "nav": {
+      "humans": "Humans of The Home",
+      "careerPath": "Career Path",
+      "nhaTimNguoi": "Nhà Tìm Người"
+    },
+    "social": {
+      "facebook": "Theo dõi Nhà trên Facebook",
+      "instagram": "Theo dõi Nhà trên Instagram"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Mời các bạn khám phá",
+      "heading": "Đặc sản Việt",
+      "subheading": "trên Đế Bánh Pizza Ý",
+      "cta": "Đặt bàn"
+    },
+    "trustBadges": {
+      "tripadvisor-2023": {
+        "label": "Chứng nhận Dịch vụ Xuất sắc",
+        "year": "Năm 2023"
+      },
+      "tripadvisor-2024": {
+        "label": "Chứng nhận Dịch vụ Xuất sắc",
+        "year": "Năm 2024"
+      },
+      "tripadvisor-2025": {
+        "label": "Chứng nhận Dịch vụ Xuất sắc",
+        "year": "Năm 2025"
+      },
+      "restaurant-guru-2025": {
+        "label": "Chứng nhận \"Recommended\"",
+        "year": "từ Restaurant Guru năm 2025"
+      }
+    },
+    "story": {
+      "heading": "Chuyện Nhà kể",
+      "paragraphs": [
+        "Tại Nhà, mỗi chiếc pizza là một câu chuyện vùng miền.",
+        "Từ nguyên liệu bản địa đến hương vị đặc trưng, Bản Đồ Pizza Đặc Sản Việt là hành trình đưa tinh hoa ẩm thực Việt lên đế bánh pizza chuẩn Ý."
+      ],
+      "states": {
+        "dsv": "Đặc sản Việt",
+        "ht": "Hành trình",
+        "tt": "Tinh thần “Home”"
+      }
+    },
+    "menu": {
+      "heading": "Menu",
+      "paragraph": "Mời bạn đến với hành trình khám phá bản đồ đặc sản Việt cùng Nhà trên đế bánh pizza chuẩn Ý...",
+      "cta": "Xem thực đơn",
+      "categories": {
+        "dac-san-viet": "Đặc sản Việt",
+        "pizza-classic": "Pizza Classic",
+        "salad-appertiza": "Salad & Appertiza",
+        "pasta": "Pasta"
+      }
+    },
+    "humans": {
+      "heading": "Người Nhà",
+      "cta": "Đọc tiếp",
+      "images": {
+        "human-1": "Nhân viên Nhà mang khay đồ ăn",
+        "human-2": "Không gian nhà hàng The Home Pizza"
+      },
+      "linkList": {
+        "humans-of-the-home": "Humans of The Home",
+        "career-path": "Career Path",
+        "nha-tim-nguoi": "Nhà Tìm Người"
+      }
+    },
+    "location": {
+      "heading": "Location",
+      "paragraph": "Lấy cảm hứng từ bản địa làm cốt lõi, mỗi Nhà sẽ mang một nhịp điệu riêng — để ở bất kỳ đâu, hành trình của Nhà vẫn luôn được kể bằng hương vị và tinh thần của chính vùng đất ấy.",
+      "states": {
+        "phu-quoc": {
+          "label": "Phú Quốc",
+          "mobileLabel": [
+            "Phú",
+            "Quốc"
+          ],
+          "alt": "Không gian nhà hàng The Home Pizza Phú Quốc"
+        },
+        "nha-trang": {
+          "label": "Nha Trang",
+          "mobileLabel": [
+            "Nha",
+            "Trang"
+          ],
+          "alt": "Không gian nhà hàng The Home Pizza Nha Trang"
+        }
+      }
+    }
+  },
+  "menuPage": {
+    "hero": {
+      "greeting": "Nhà chào bạn,",
+      "paragraphs": [
+        "Mời bạn đến với hành trình khám phá bản đồ đặc sản Việt cùng Nhà trên đế bánh pizza chuẩn Ý, với mỗi miếng pizza mang dấu ấn của hương vị vùng miền Việt Nam nơi địa lý, khí hậu, thổ nhưỡng và văn hóa giao hòa, tạo nên sự đa dạng nguyên liệu và hương vị đặc trưng. Chính từ niềm tin rằng ẩm thực Việt đủ phong phú để bước ra thế giới, Nhà kiên định cùng sứ mệnh vẽ nên Bản Đồ Pizza Đặc Sản Việt.",
+        "Đến Nhà, bạn cứ tự nhiên như ở nhà nhé!"
+      ],
+      "mapAlt": "Bản đồ đặc sản Việt trên đế bánh pizza"
+    },
+    "regions": {
+      "bac-bo": "Bắc Bộ",
+      "trung-bo": "Trung Bộ",
+      "nam-bo": "Nam Bộ",
+      "phu-quoc": "Phú Quốc"
+    },
+    "catalog": {
+      "dac-san-viet": {
+        "label": "Đặc sản Việt",
+        "spreads": [
+          "Thực đơn Đặc sản Việt — Pizza Gỏi Tôm Rạch Vệm",
+          "Thực đơn Đặc sản Việt — Pizza Sầu Riêng Phú Quốc"
+        ]
+      },
+      "pizza-classic": {
+        "label": "Pizza Classic",
+        "spreads": [
+          "Thực đơn Pizza Classic — trang 1",
+          "Thực đơn Pizza Classic — trang 2"
+        ]
+      },
+      "salad": {
+        "label": "Salad",
+        "spreads": []
+      },
+      "mon-chinh": {
+        "label": "Món Chính",
+        "spreads": [
+          "Thực đơn Món Chính — Sườn Nướng BBQ",
+          "Thực đơn Món Chính — trang 2"
+        ]
+      },
+      "pasta": {
+        "label": "Pasta",
+        "spreads": [
+          "Thực đơn Pasta — trang 1",
+          "Thực đơn Pasta — trang 2"
+        ]
+      },
+      "trang-mieng": {
+        "label": "Tráng Miệng",
+        "spreads": [
+          "Thực đơn Tráng Miệng — trang 1",
+          "Thực đơn Tráng Miệng — trang 2"
+        ]
+      }
+    },
+    "catalogHeading": "Thực đơn theo danh mục",
+    "comingSoon": "Thực đơn đang được cập nhật."
+  },
+  "humansPage": {
+    "hero": {
+      "heading": "Người nhà",
+      "linkList": {
+        "humans-of-the-home": "Humans of the Home",
+        "career-path": "Career Path",
+        "nha-tim-nguoi": "Nhà Tìm Người"
+      }
+    },
+    "intro": {
+      "paragraph": "Mỗi chiếc pizza mang hương vị và dấu ấn của đội ngũ người Nhà nhiệt huyết, như chiếc cầu nối đưa bạn đến gần hơn với hành trình pizza đặc sản Việt. Nhà rất vui khi có bạn ghé qua, cùng thưởng thức pizza, chia sẻ câu chuyện của mình, biết đâu câu chuyện của bạn sẽ truyền cảm hứng để các đầu bếp Nhà sáng tạo nên những hương vị mới, ghi dấu thêm cột mốc trên Bản Đồ Pizza Đặc Sản Việt.",
+      "quoteLines": [
+        "Nếu bạn yêu mến các giá trị của Nhà,",
+        "hãy cùng nhau làm \"người một Nhà\" nhé!"
+      ]
+    },
+    "chefStory": {
+      "heading": "Câu chuyện Chef Nhà",
+      "imageAlt": "Chef Owner của Nhà nhào bột bánh pizza",
+      "paragraphs": [
+        "Với nhiều năm gắn bó trong thế giới ẩm thực Ý và Âu, Chef Owner của Nhà đã dành nhiều năm trải nghiệm hàng trăm hương vị pizza trên khắp thế giới. Mỗi quốc gia mang đến một cách kể riêng cho chiếc bánh quen thuộc ấy. Nhưng giữa hành trình đó, anh luôn trăn trở: Vì sao Việt Nam dù sở hữu kho tàng ẩm thực phong phú từ Bắc vào Nam, nhưng lại chưa có một chiếc pizza mang đậm hồn Việt.",
+        "Từ câu hỏi ấy, giấc mơ về Pizza Đặc Sản Việt bắt đầu. Một chiếc pizza kết hợp tinh hoa phương Tây với nguyên liệu quê hương: từ thịt vịt H'mông đậm đà, tôm Rạch Vẹm ngọt thanh, đến những loại rau thơm đặc trưng của mảnh đất hình chữ S. Giấc mơ ấy được nuôi dưỡng trong căn bếp của Nhà, nơi Chef Owner và những người đầu bếp đồng hành cùng nhau, chia sẻ tình yêu với hương vị Việt và sự trân trọng dành cho từng nguyên liệu.",
+        "Tại Nhà, mỗi chiếc pizza ra lò không chỉ là một món ăn, mà là cách Nhà kể câu chuyện hương vị Việt theo một ngôn ngữ mới."
+      ]
+    },
+    "peopleStory": {
+      "heading": "Câu chuyện Người Nhà",
+      "imageAlt": "Người Nhà phục vụ khách tại nhà hàng",
+      "paragraphs": [
+        "Nhà tin rằng sự kết nối chân thành bắt đầu từ những điều nhỏ bé: từ một lời chào, một sự để ý tinh tế, hay cảm giác được chăm sóc tận tâm. Người Nhà mang theo sự tử tế vào từng khoảnh khắc nhỏ, để mỗi lần ghé Nhà, bạn không chỉ tìm một bữa ăn, mà là trở về một chốn thân thuộc.",
+        "Tinh thần sáng tạo của Nhà không chỉ nằm trong căn bếp, mà còn hiện diện trong cách phục vụ. Từ cảm hứng ẩm thực Việt trải dài khắp Bắc - Trung - Nam - Phú Quốc, Người Nhà luôn sẵn sàng kể cho bạn nghe câu chuyện đằng sau từng món ăn, từng nguyên liệu để bạn cảm thấy gần gũi hơn với hương vị Việt trên đế bánh pizza Ý truyền thống.",
+        "Ở Nhà, mọi thứ được chăm chút vừa đủ để bạn có thể thoải mái ngồi xuống, thưởng thức bữa ăn, và trò chuyện tự nhiên như ở nhà."
+      ]
+    },
+    "values": {
+      "ket-noi": {
+        "label": "Kết nối",
+        "paragraph": "Dựa trên giá trị tinh hoa ẩm thực Việt trải dài từ Bắc vào Nam và cảm hứng từ nghệ thuật làm pizza Ý truyền thống, Nhà không ngừng tìm tòi và đổi mới trong từng công thức để mỗi chiếc pizza là sự hòa quyện tinh tế giữa đặc sản Việt Nam và nền tảng pizza cổ điển, mang đến một trải nghiệm vị giác độc đáo, đậm đà bản sắc và đầy tự hào."
+      },
+      "sang-tao": {
+        "label": "Sáng tạo",
+        "paragraph": "Nhà mong muốn xây dựng sự kết nối chân thành giữa The Home Pizza và khách hàng, dựa trên giá trị tử tế của chính những người Nhà - những cộng sự đồng hành. Từ đó lan toả tinh thần/giá trị Home đến từng nhân sự, để mỗi khách hàng đều có thể cảm nhận được."
+      },
+      "tan-tam": {
+        "label": "Tận tâm",
+        "paragraph": "Đặt khách hàng ở vị trí trung tâm, chúng tôi không ngừng nỗ lực mang đến những trải nghiệm “Nhà” trọn vẹn nhất - từ món ăn đến dịch vụ."
+      }
+    },
+    "cta": {
+      "heading": "Cùng trở thành \"người một Nhà\" nhé!",
+      "cta": "Nhà tìm người Nhà",
+      "imageAlt": "Không gian và đội ngũ The Home Pizza"
+    }
+  }
+}

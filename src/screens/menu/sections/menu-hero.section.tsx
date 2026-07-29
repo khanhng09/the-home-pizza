@@ -1,7 +1,11 @@
+import { getTranslations } from 'next-intl/server';
 import { menuHeroContent } from '../constants/menu.constant';
 import { MenuRegionList } from '../components/menu-region-list';
 
-export function MenuHeroSection() {
+export async function MenuHeroSection() {
+  const t = await getTranslations('menuPage.hero');
+  const paragraphs = t.raw('paragraphs') as string[];
+
   return (
     <section className="relative overflow-hidden bg-cream">
       {/* Background texture */}
@@ -18,11 +22,11 @@ export function MenuHeroSection() {
         {/* Text column — first on mobile, top-right on desktop */}
         <div className="order-1 flex flex-col items-start gap-6 lg:order-none lg:col-start-2 lg:row-start-1">
           <p className="font-sans text-lg tracking-wide text-ink lg:text-2xl">
-            {menuHeroContent.greeting}
+            {t('greeting')}
           </p>
 
           <div className="flex flex-col gap-5 font-sans text-sm text-ink lg:max-w-131 lg:text-xl">
-            {menuHeroContent.paragraphs.map((paragraph) => (
+            {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -42,7 +46,7 @@ export function MenuHeroSection() {
           >
             <img
               src={menuHeroContent.mapImage}
-              alt="Bản đồ đặc sản Việt trên đế bánh pizza"
+              alt={t('mapAlt')}
               width={1600}
               height={979}
               className="absolute inset-0 size-full object-contain"

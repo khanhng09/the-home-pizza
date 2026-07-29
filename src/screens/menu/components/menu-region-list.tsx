@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
@@ -21,6 +22,7 @@ interface MenuRegionListProps {
  */
 export function MenuRegionList({ onRegionChange }: MenuRegionListProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const t = useTranslations('menuPage.regions');
 
   const selectRegion = (index: number) => {
     setActiveIndex(index);
@@ -41,7 +43,7 @@ export function MenuRegionList({ onRegionChange }: MenuRegionListProps) {
               onClick={() => selectRegion(index)}
               className="h-auto flex-col items-start gap-2 rounded-none bg-transparent px-0 pb-2 font-sans text-lg uppercase text-ink shrink-0 hover:bg-transparent"
             >
-              {region.label}
+              {t(region.id)}
               <span className={cn('h-0.5 w-full', isActive ? 'bg-gold' : 'bg-gold/0')} />
             </Button>
           );
@@ -60,7 +62,7 @@ export function MenuRegionList({ onRegionChange }: MenuRegionListProps) {
                 onClick={() => selectRegion(index)}
                 className="group h-auto min-h-11 w-full items-center justify-between gap-4 rounded-none bg-transparent px-0 py-2.5 font-sans text-[27.5px] uppercase tracking-wide text-ink transition-colors hover:bg-transparent hover:text-umber"
               >
-                {region.label}
+                {t(region.id)}
                 <IcArrowRight className="size-8 shrink-0 text-ink transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </li>

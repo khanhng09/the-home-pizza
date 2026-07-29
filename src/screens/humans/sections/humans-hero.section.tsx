@@ -1,7 +1,10 @@
+import { getTranslations } from 'next-intl/server';
 import { IcArrowRight } from '@/shared/components/icons';
 import { humansHeroContent, humansHeroLinkList } from '../constants/humans.constant';
 
-export function HumansHeroSection() {
+export async function HumansHeroSection() {
+  const t = await getTranslations('humansPage.hero');
+
   return (
     <section className="relative overflow-hidden bg-ink">
       {/* Video background */}
@@ -23,7 +26,7 @@ export function HumansHeroSection() {
 
         <div className="container-base relative pt-28 lg:pt-[338px]">
           <h1 className="max-w-91 font-display text-5xl leading-[1.2] text-cream lg:max-w-147 lg:text-[100px]">
-            {humansHeroContent.heading}
+            {t('heading')}
           </h1>
 
           <ul className="mt-11 flex flex-col lg:mt-16">
@@ -33,7 +36,7 @@ export function HumansHeroSection() {
                   href={link.href}
                   className="group flex min-h-11 items-center justify-between gap-4 py-2 font-sans text-lg uppercase tracking-wide text-cream sm:min-h-12 lg:py-4 lg:text-[27.51px]"
                 >
-                  {link.label}
+                  {t(`linkList.${link.id}`)}
                   <IcArrowRight className="h-4 w-4 shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-1 lg:h-8 lg:w-8" />
                 </a>
               </li>
