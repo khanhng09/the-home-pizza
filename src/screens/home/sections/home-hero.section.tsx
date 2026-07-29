@@ -42,12 +42,14 @@ export async function HomeHeroSection() {
             {t('heading')}
           </h1>
           <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream">{t('subheading')}</p>
-          <Button
-            asChild
-            className="btn-base h-12 sm:h-11 md:h-10 px-6 py-3 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
-          >
-            <Link href="#reservation">{t('cta')}</Link>
-          </Button>
+          <div className="hidden lg:block">
+            <Button
+              asChild
+              className="btn-base h-12 sm:h-11 md:h-10 px-6 py-3 max-w-47 w-full font-bold text-sm mt-3.5 bg-cream text-ink hover:bg-linen uppercase"
+            >
+              <Link href="#reservation">{t('cta')}</Link>
+            </Button>
+          </div>
         </div>
       </div>
 
