@@ -7,7 +7,9 @@ export const SITE_NAME = "The Home Pizza";
 export const SITE_DOMAIN = "thehomepizza.com";
 export const SITE_URL = `https://${SITE_DOMAIN}`;
 
-// Business Information
+// Business Information. `tagline`/`description` stay Vietnamese-only — they're
+// used solely by the (currently unused) JSON-LD schema helpers in
+// `shared/lib/metadata.ts`, not rendered in the localized UI.
 export const businessInfo = {
   name: "The Home Pizza",
   tagline: "Đặc sản Việt trên đế bánh Pizza Ý",
@@ -29,34 +31,32 @@ export const businessInfo = {
   ],
 };
 
-// Navigation
+// Navigation. Labels are translated (see `header.nav` / `footer.nav` in
+// messages/*.json) and looked up by `id` — this only holds hrefs + ids.
 export const navigation = {
   main: [
-    { label: "Story of The Home", href: "#story" },
-    { label: "Menu", href: "/menu" },
-    { label: "Humans of The Home", href: "/humans" },
+    { id: "story", href: "#story" },
+    { id: "menu", href: "/menu" },
+    { id: "humans", href: "/humans" },
   ],
   footer: [
-    { label: "Humans of The Home", href: "/humans" },
-    { label: "Career Path", href: "/humans#career-path" },
-    { label: "Nhà Tìm Người", href: "/humans#nha-tim-nguoi" },
+    { id: "humans", href: "/humans" },
+    { id: "careerPath", href: "/humans#career-path" },
+    { id: "nhaTimNguoi", href: "/humans#nha-tim-nguoi" },
   ],
-  locales: [{ label: "EN", href: "/en" }],
 };
 
-// Social Media
+// Social Media. `ariaLabel` is translated — see `footer.social` in messages/*.json.
 export const socialLinks = [
   {
-    name: "Facebook",
+    id: "facebook",
     href: "https://facebook.com/thehomepizza",
     icon: "IcFacebook",
-    ariaLabel: "Follow us on Facebook",
   },
   {
-    name: "Instagram",
+    id: "instagram",
     href: "https://instagram.com/thehomepizza",
     icon: "IcInstagram",
-    ariaLabel: "Follow us on Instagram",
   },
 ];
 
@@ -113,10 +113,9 @@ export const testimonials = [
   },
 ];
 
-// SEO & Open Graph
+// SEO & Open Graph. `title`/`description` are translated per-locale — see
+// `metadata.root` in messages/*.json; this only holds locale-independent values.
 export const seoDefaults = {
-  title: "The Home Pizza | Handmade Artisan Pizzas",
-  description: businessInfo.description,
   keywords: [
     "pizza",
     "handmade pizza",
