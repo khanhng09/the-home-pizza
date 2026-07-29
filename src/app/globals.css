@@ -322,6 +322,51 @@ h3 {
   .transition-smooth-fast {
     @apply transition-all duration-100;
   }
+
+  /* Scoped internal scrollbar for the story text panels (Humans page) —
+     flips the scrollbar to the left via `direction: rtl` to match the
+     design's left-side accent bar, then flips text back to `ltr` so
+     Vietnamese copy reads normally. Only affects elements with this
+     class; the page's main scrollbar stays the browser default. */
+  .scrollbar-story-gold,
+  .scrollbar-story-umber {
+    direction: rtl;
+  }
+
+  .scrollbar-story-gold > *,
+  .scrollbar-story-umber > * {
+    direction: ltr;
+  }
+
+  .scrollbar-story-gold {
+    scrollbar-width: thin;
+    scrollbar-color: var(--palette-gold) transparent;
+  }
+
+  .scrollbar-story-umber {
+    scrollbar-width: thin;
+    scrollbar-color: var(--palette-umber) transparent;
+  }
+
+  .scrollbar-story-gold::-webkit-scrollbar,
+  .scrollbar-story-umber::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .scrollbar-story-gold::-webkit-scrollbar-track,
+  .scrollbar-story-umber::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-story-gold::-webkit-scrollbar-thumb {
+    background-color: var(--palette-gold);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-story-umber::-webkit-scrollbar-thumb {
+    background-color: var(--palette-umber);
+    border-radius: 9999px;
+  }
 }
 
 /* Reduced motion support */

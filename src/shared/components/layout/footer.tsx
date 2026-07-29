@@ -14,7 +14,7 @@ export function Footer() {
         {/* Logo */}
         <div>
           <Link href="/" className="inline-block">
-            <TheHomeLogo aria-label={businessInfo.name} className="h-8 w-auto text-cream" />
+            <TheHomeLogo aria-label={businessInfo.name} className="h-5 w-auto text-cream lg:h-8" />
           </Link>
         </div>
 

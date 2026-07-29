@@ -20,7 +20,7 @@ export function Header() {
         <Link href="/" className="shrink-0">
           <TheHomeLogo
             aria-label={businessInfo.name}
-            className={cn('h-6 w-auto', isDark ? 'text-ink' : 'text-cream')}
+            className={cn('h-4 w-auto lg:h-6', isDark ? 'text-ink' : 'text-cream')}
           />
         </Link>
 
@@ -56,7 +56,7 @@ export function Header() {
           asChild
           variant="outline"
           className={cn(
-            'max-w-35 w-full h-5.5 rounded-full border bg-transparent uppercase font-bold text-sm transition-colors',
+            'max-w-24 sm:max-w-35 w-full h-5.5 rounded-full border bg-transparent uppercase font-bold text-xs sm:text-sm transition-colors',
             isDark
               ? 'border-ink text-ink hover:bg-ink hover:text-cream'
               : 'border-cream text-cream hover:bg-cream hover:text-ink'

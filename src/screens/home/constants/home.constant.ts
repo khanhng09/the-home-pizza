@@ -102,9 +102,9 @@ export const humansContent = {
 };
 
 export const humansLinkList = [
-  { id: "humans-of-the-home", label: "Humans of The Home", href: "#humans-of-the-home" },
-  { id: "career-path", label: "Career Path", href: "#career-path" },
-  { id: "nha-tim-nguoi", label: "Nhà Tìm Người", href: "#nha-tim-nguoi" },
+  { id: "humans-of-the-home", label: "Humans of The Home", href: "/humans" },
+  { id: "career-path", label: "Career Path", href: "/humans#career-path" },
+  { id: "nha-tim-nguoi", label: "Nhà Tìm Người", href: "/humans#nha-tim-nguoi" },
 ] as const;
 
 // Location section

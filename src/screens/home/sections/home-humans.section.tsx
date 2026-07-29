@@ -32,7 +32,7 @@ export function HomeHumansSection() {
             variant="outline"
             className="rounded-[3px] border-2 border-umber bg-transparent px-6 sm:px-8 py-3 sm:py-2 min-h-11 sm:min-h-10 font-sans font-bold uppercase tracking-wide text-umber transition-colors hover:bg-umber hover:text-cream shrink-0"
           >
-            <Link href="#humans">{humansContent.cta}</Link>
+            <Link href="/humans">{humansContent.cta}</Link>
           </Button>
         </div>
 

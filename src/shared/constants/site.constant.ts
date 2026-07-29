@@ -34,12 +34,12 @@ export const navigation = {
   main: [
     { label: "Story of The Home", href: "#story" },
     { label: "Menu", href: "/menu" },
-    { label: "Humans of The Home", href: "#humans" },
+    { label: "Humans of The Home", href: "/humans" },
   ],
   footer: [
-    { label: "Humans of The Home", href: "#humans" },
-    { label: "Career Path", href: "#career" },
-    { label: "Nhà Tìm Người", href: "#careers" },
+    { label: "Humans of The Home", href: "/humans" },
+    { label: "Career Path", href: "/humans#career-path" },
+    { label: "Nhà Tìm Người", href: "/humans#nha-tim-nguoi" },
   ],
   locales: [{ label: "EN", href: "/en" }],
 };
