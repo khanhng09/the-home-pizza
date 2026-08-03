@@ -14,7 +14,7 @@ export function HomeStoryTabs() {
     <div className="relative">
       {/* Tabs */}
       <div className="absolute z-10 top-0 translate-y-[-50%] w-full">
-        <div className="container-base flex gap-3.5 overflow-x-auto lg:gap-5">
+        <div className="container-base flex md:grid md:grid-cols-3 gap-3.5 md:gap-10 lg:gap-20 items-center w-full justify-between overflow-x-auto">
           {storyStates.map((state, index) => {
             const isActive = index === activeIndex;
             return (
@@ -24,8 +24,10 @@ export function HomeStoryTabs() {
                 onClick={() => setActiveIndex(index)}
                 aria-pressed={isActive}
                 className={cn(
-                  'h-10 shrink-0 whitespace-nowrap rounded-full px-5 font-display text-xs transition-all duration-300 sm:h-11 sm:px-6 sm:text-sm lg:h-15 lg:px-9 lg:text-4xl',
-                  isActive ? 'bg-gold text-ink hover:bg-gold' : 'bg-ink text-cream hover:brightness-110 hover:bg-ink'
+                  'h-10 shrink-0 whitespace-nowrap rounded-full px-5 font-display text-[20px] sm:text-xl md:text-2xl lg:text-[clamp(1.75rem,1.25vw,2.25rem)] transition-all duration-300 sm:h-11 sm:px-6  lg:h-15 lg:px-9 ',
+                  isActive
+                    ? 'bg-gold text-ink hover:bg-gold animate-[pill-pop_420ms_cubic-bezier(0.16,1,0.3,1)]'
+                    : 'bg-ink text-cream hover:brightness-110 hover:bg-ink'
                 )}
               >
                 {t(state.id)}
@@ -36,7 +38,7 @@ export function HomeStoryTabs() {
       </div>
 
       {/* Crossfading state images */}
-      <div className="relative aspect-1402/512 max-h-128 w-full overflow-hidden">
+      <div className="relative aspect-1402/512 min-h-109.5 max-h-128 w-full overflow-hidden">
         {storyStates.map((state, index) => (
           <img
             key={state.id}

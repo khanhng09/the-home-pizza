@@ -4,9 +4,12 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
+import { Reveal } from '@/shared/components/ui/reveal';
 import { cn } from '@/shared/lib/utils';
 import { locationContent, locationStates } from '../constants/home.constant';
-import { IlustDongHoBanhDa, IlustDongHoHungQue, IlustDongHoNgheu } from '@/shared/components';
+import { IlustDongHoBanhDa } from '@/shared/components/illustrations/illus-dong-ho-banh-da';
+import { IlustDongHoHungQue } from '@/shared/components/illustrations/illus-dong-ho-hung-que';
+import { IlustDongHoNgheu } from '@/shared/components/illustrations/illus-dong-ho-ngheu';
 
 export function HomeLocationSwitcher() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -28,9 +31,11 @@ export function HomeLocationSwitcher() {
         />
 
         <div className="relative flex w-full flex-col">
-          <p className="max-w-[460px] font-sans text-2xl leading-[1.35] text-cream lg:max-w-[600px] lg:text-xl xl:text-[22px]">
-            {t('paragraph')}
-          </p>
+          <Reveal variant="slide-right">
+            <p className="max-w-[460px] font-sans text-2xl leading-[1.35] text-cream lg:max-w-[600px] lg:text-xl xl:text-[22px]">
+              {t('paragraph')}
+            </p>
+          </Reveal>
 
           <IlustDongHoHungQue
             className="pointer-events-none absolute left-10 top-[182px] h-24 w-24 text-gold sm:top-[190px] lg:left-8 lg:top-[118px] lg:h-28 lg:w-28 xl:left-10 xl:h-32 xl:w-32"
@@ -45,32 +50,47 @@ export function HomeLocationSwitcher() {
             aria-hidden="true"
           />
 
+          {/* Each location sweeps in from the left in turn, so the list
+              builds up rather than appearing as one block. */}
           <div className="mt-auto flex gap-4.5 lg:block">
             {locationStates.map((location, index) => {
               const isActive = index === activeIndex;
 
               return (
-                <Button
+                <Reveal
                   key={location.id}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-pressed={isActive}
-                  className="group flex h-auto flex-col items-start justify-start gap-2 rounded-none bg-transparent px-0 pb-2 text-left font-sans text-xl uppercase leading-[1.2] text-cream hover:bg-transparent focus-ring lg:w-full lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:border-b lg:border-cream lg:py-8 lg:font-display lg:text-[clamp(2.5rem,5.3vw,4.65rem)] lg:leading-none"
+                  variant="slide-right"
+                  delayMs={250 + index * 160}
+                  className="lg:w-full"
                 >
-                  <span className="lg:hidden">
-                    {(t.raw(`states.${location.id}.mobileLabel`) as string[]).map((line) => (
-                      <span key={line} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </span>
-                  <span className="hidden lg:block">{t(`states.${location.id}.label`)}</span>
-                  <span
-                    aria-hidden="true"
-                    className={cn('h-1 w-full lg:hidden', isActive ? 'bg-gold' : 'bg-gold/0')}
-                  />
-                  <IcArrowRight className="hidden size-[62px] shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-2 lg:block" />
-                </Button>
+                  <Button
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    aria-pressed={isActive}
+                    className="group relative flex h-auto flex-col items-start justify-start gap-2 rounded-none bg-transparent px-0 pb-2 text-left font-sans text-xl uppercase leading-[1.2] text-cream hover:bg-transparent lg:w-full lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:py-8 lg:font-display lg:text-[clamp(2.5rem,5.3vw,4.65rem)] lg:leading-none"
+                  >
+                    <span className="lg:hidden">
+                      {(t.raw(`states.${location.id}.mobileLabel`) as string[]).map((line) => (
+                        <span key={line} className="block font-sans font-normal">
+                          {line}
+                        </span>
+                      ))}
+                    </span>
+                    <span className="hidden lg:block font-sans font-normal">{t(`states.${location.id}.label`)}</span>
+                    <span
+                      aria-hidden="true"
+                      className={cn('h-1 w-full lg:hidden', isActive ? 'bg-gold' : 'bg-gold/0')}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'absolute inset-x-0 bottom-0 hidden h-[2px] origin-left scale-x-0 bg-gold transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] lg:block',
+                        isActive && 'scale-x-100'
+                      )}
+                    />
+                    <IcArrowRight className="hidden size-[62px] shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-2 lg:block" />
+                  </Button>
+                </Reveal>
               );
             })}
           </div>
@@ -89,12 +109,19 @@ export function HomeLocationSwitcher() {
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover object-center animate-fade-in"
         />
-        <h2
-          id="home-location-heading"
-          className="absolute bottom-7 left-1/2 w-full max-w-full -translate-x-1/2 px-4 text-center font-display text-[clamp(2.5rem,15vw,4.5rem)] leading-none text-cream uppercase lg:top-[103px] lg:bottom-auto lg:px-8 lg:text-[clamp(4rem,8.5vw,9.5rem)]"
-        >
-          {t('heading')}
-        </h2>
+        {/* Centering stays on this wrapper — Framer Motion writes its own
+            inline `transform`, which would otherwise clobber the
+            `-translate-x-1/2` that centers the title. */}
+        <div className="absolute bottom-7 left-1/2 w-full max-w-full -translate-x-1/2 px-4 text-center lg:top-[103px] lg:bottom-auto lg:px-8">
+          <Reveal variant="zoom-in" delayMs={450} durationMs={950}>
+            <h2
+              id="home-location-heading"
+              className="font-display text-[clamp(2.5rem,15vw,4.5rem)] leading-none text-cream uppercase lg:text-[clamp(4rem,8.5vw,9.5rem)]"
+            >
+              {t('heading')}
+            </h2>
+          </Reveal>
+        </div>
       </div>
     </div>
   );

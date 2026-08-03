@@ -153,13 +153,63 @@ h3 {
   }
 }
 
+@keyframes pill-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Landing-page entrance motion — a slower, more deliberate rise than the
+   general-purpose slide-up/fade-in utilities above, used to pace the story
+   sections and hero on a single shared easing curve. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero copy is right-aligned, so it drifts in from the right toward its
+   anchor rather than rising — the headline adds a slight scale for weight. */
+@keyframes hero-drift-left {
+  from {
+    opacity: 0;
+    transform: translateX(64px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hero-pop {
+  from {
+    opacity: 0;
+    transform: translateX(64px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
 @layer utilities {
   .animate-fade-in {
     animation: fade-in 0.3s ease-out;
   }
 
   .animate-slide-up {
-    animation: slide-up 0.4s ease-out;
+    animation: slide-up 0.4s ease-out both;
   }
 
   .animate-slide-down {
@@ -305,11 +355,6 @@ h3 {
     @apply hidden md:block lg:hidden;
   }
 
-  /* Focus ring utilities */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
-  }
-
   /* Smooth transitions */
   .transition-smooth {
     @apply transition-all duration-200;
@@ -375,7 +420,9 @@ h3 {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0.01ms !important;
   }
 }

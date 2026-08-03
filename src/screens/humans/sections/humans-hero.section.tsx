@@ -34,7 +34,7 @@ export async function HumansHeroSection() {
               <li key={link.id} className="max-w-73 border-b border-cream/90 lg:max-w-104">
                 <a
                   href={link.href}
-                  className="group flex min-h-11 items-center justify-between gap-4 py-2 font-sans text-lg uppercase tracking-wide text-cream sm:min-h-12 lg:py-4 lg:text-[27.51px]"
+                  className="group flex min-h-11 cursor-pointer items-center justify-between gap-4 py-2 font-sans text-lg uppercase tracking-wide text-cream sm:min-h-12 lg:py-4 lg:text-[27.51px]"
                 >
                   {t(`linkList.${link.id}`)}
                   <IcArrowRight className="h-4 w-4 shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-1 lg:h-8 lg:w-8" />

@@ -4,6 +4,11 @@ import { useState } from "react";
 import type { ComponentType } from "react";
 import { cn } from "@/shared/lib/utils";
 import type { IconProps } from "@/shared/components/icons/icon.type";
+// This gallery's whole purpose is to render every illustration, so the
+// barrel costs nothing here — it would pull all 27 either way. The lint
+// rule exists to stop *partial* consumers (a section wanting 2 or 3) from
+// dragging in the full ~2.1MB set; that does not apply to this file.
+// eslint-disable-next-line no-restricted-imports
 import {
   IlustDongHoBanhDa,
   IlustDongHoBo,
@@ -123,7 +128,7 @@ export function IllustrationsGallery() {
                 aria-pressed={i === bgIndex}
                 title={preset.label}
                 className={cn(
-                  "flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition-smooth focus-ring",
+                  "flex cursor-pointer items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition-smooth",
                   i === bgIndex
                     ? "border-accent-deep"
                     : "border-transparent hover:border-linen"

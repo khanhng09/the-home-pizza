@@ -14,7 +14,7 @@
     },
     "space": {
       "title": "The Home Space",
-      "description": "Explore The Home Pizza Signature spaces in Phú Quốc and Nha Trang — where the spirit of coming home is told through design, garden, and a warm open kitchen."
+      "description": "Explore The Home Pizza Signature spaces in Phu Quoc and Nha Trang — where the spirit of coming home is told through design, garden, and a warm open kitchen."
     }
   },
   "common": {
@@ -40,6 +40,10 @@
     "tel": "Tel:",
     "address": "Address:",
     "followUs": "Follow The Home",
+    "locations": {
+      "phu-quoc": "129 Tran Hung Dao, Duong Dong, Phu Quoc, Vietnam",
+      "nha-trang": "12 - 14 Tran Phu, Tan Thanh, Nha Trang, Vietnam"
+    },
     "nav": {
       "humans": "Humans of The Home",
       "careerPath": "Career Path",
@@ -91,6 +95,8 @@
       "heading": "Menu",
       "paragraph": "Join us on a journey to discover the map of Vietnamese specialties, together with The Home, on an authentic Italian pizza base...",
       "cta": "View Menu",
+      "imageAlt": "{category} at The Home Pizza",
+      "viewCategory": "View the {category} menu",
       "categories": {
         "dac-san-viet": "Vietnamese Specialties",
         "pizza-classic": "Pizza Classic",
@@ -116,12 +122,12 @@
       "paragraph": "Inspired by the local spirit at its core, each Home carries its own rhythm — so that wherever you are, The Home's journey is always told through the flavor and spirit of that very land.",
       "states": {
         "phu-quoc": {
-          "label": "Phú Quốc",
+          "label": "Phu Quoc",
           "mobileLabel": [
-            "Phú",
-            "Quốc"
+            "Phu",
+            "Quoc"
           ],
-          "alt": "The Home Pizza restaurant space in Phú Quốc"
+          "alt": "The Home Pizza restaurant space in Phu Quoc"
         },
         "nha-trang": {
           "label": "Nha Trang",
@@ -147,14 +153,14 @@
       "bac-bo": "Northern Vietnam",
       "trung-bo": "Central Vietnam",
       "nam-bo": "Southern Vietnam",
-      "phu-quoc": "Phú Quốc"
+      "phu-quoc": "Phu Quoc"
     },
     "catalog": {
       "dac-san-viet": {
         "label": "Vietnamese Specialties",
         "spreads": [
           "Vietnamese Specialties Menu — Rạch Vẹm Shrimp Salad Pizza",
-          "Vietnamese Specialties Menu — Phú Quốc Durian Pizza"
+          "Vietnamese Specialties Menu — Phu Quoc Durian Pizza"
         ]
       },
       "pizza-classic": {
@@ -223,7 +229,7 @@
       "imageAlt": "A member of The Home serving guests at the restaurant",
       "paragraphs": [
         "The Home believes that genuine connection begins with the smallest things: a warm greeting, a thoughtful gesture, or the feeling of being truly cared for. The people of The Home carry kindness into every small moment, so that each time you visit, you're not just looking for a meal — you're coming home to somewhere familiar.",
-        "The Home's creative spirit doesn't just live in the kitchen — it shows up in how guests are served, too. Drawing inspiration from Vietnamese cuisine spanning the North, Central, South, and Phú Quốc, the people of The Home are always ready to tell you the story behind every dish and every ingredient, so you feel closer to Vietnamese flavor on a traditional Italian pizza base.",
+        "The Home's creative spirit doesn't just live in the kitchen — it shows up in how guests are served, too. Drawing inspiration from Vietnamese cuisine spanning the North, Central, South, and Phu Quoc, the people of The Home are always ready to tell you the story behind every dish and every ingredient, so you feel closer to Vietnamese flavor on a traditional Italian pizza base.",
         "At The Home, everything is cared for just enough so you can sit back, enjoy your meal, and talk freely — just like you would at home."
       ]
     },
@@ -250,9 +256,9 @@
   "spacePage": {
     "locations": {
       "phuQuoc": {
-        "heading": "The Home Pizza Signature Phú Quốc",
+        "heading": "The Home Pizza Signature Phu Quoc",
         "paragraphs": [
-          "In 2019, the first The Home Pizza restaurant was born in Phú Quốc, carrying a vision to share Western culinary culture through the spirit of Vietnamese specialty cuisine. Five years later, that journey continues in a new form. Inspired by the idea of \"coming home\", The Home Pizza Signature was created in 2024 with the goal of recreating a dining space beneath the roof of a traditional three-room Vietnamese house, expressed through a modern design language and the feeling of being \"as natural as home\".",
+          "In 2019, the first The Home Pizza restaurant was born in Phu Quoc, carrying a vision to share Western culinary culture through the spirit of Vietnamese specialty cuisine. Five years later, that journey continues in a new form. Inspired by the idea of \"coming home\", The Home Pizza Signature was created in 2024 with the goal of recreating a dining space beneath the roof of a traditional three-room Vietnamese house, expressed through a modern design language and the feeling of being \"as natural as home\".",
           "From that spirit, a rustic red brick wall highlights the open kitchen in the front room, welcoming guests with smiles from The Home's chefs as soon as they step inside. In the front yard is a cooling garden, where areca palms rise toward the sun, bamboo rustles in the breeze, and starfruit trees bring a familiar countryside sweetness. Vietnamese families have long planted areca palms at the front of the house as a hospitable greeting, kept starfruit trees for the gentle sweetness of the home garden, and let bamboo whisper by the veranda as a symbol of shelter and resilience. The Home brings those familiar forms into its garden so guests can touch that sense of belonging completely.",
           "Alongside them are herbs cared for by The Home's own people, letting a gentle fragrance drift through the space and creating an easy, unhurried place to enjoy Vietnamese Specialty Pizza with loved ones.",
           "A shared space has always been central to Vietnamese community life. That is why The Home gives the whole front yard to gatherings, making family meals feel fuller and warmer.",
@@ -261,8 +267,8 @@
           "In the lively center of the island, The Home Pizza Signature welcomes you \"home\" into a familiar and cozy space. Make yourself at home!"
         ],
         "galleryAlts": [
-          "Garden courtyard and entrance at The Home Pizza Signature Phú Quốc",
-          "Open kitchen space at The Home Pizza Signature Phú Quốc"
+          "Garden courtyard and entrance at The Home Pizza Signature Phu Quoc",
+          "Open kitchen space at The Home Pizza Signature Phu Quoc"
         ]
       },
       "nhaTrang": {

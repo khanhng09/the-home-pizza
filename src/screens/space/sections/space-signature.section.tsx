@@ -245,7 +245,7 @@ function SpaceFooter({
   return (
     <footer className="space-footer bg-ink text-cream">
       <div className="relative mx-auto h-[371px] max-w-[1400px] md:h-[360px]">
-        <Link href="/" className="absolute left-4 top-[59px] inline-block md:left-[53px] md:top-[108px]">
+        <Link href="/" className="absolute left-4 top-[59px] inline-block cursor-pointer md:left-[53px] md:top-[108px]">
           <img
             src="/images/logo.png"
             alt={businessInfo.name}
@@ -263,7 +263,7 @@ function SpaceFooter({
             <div>
               <dt className="inline">{mailLabel} </dt>
               <dd className="inline">
-                <a href={`mailto:${businessInfo.email}`} className="transition-colors hover:text-gold">
+                <a href={`mailto:${businessInfo.email}`} className="cursor-pointer transition-colors hover:text-gold">
                   {businessInfo.email}
                 </a>
               </dd>
@@ -273,7 +273,7 @@ function SpaceFooter({
               <dd className="inline">
                 <a
                   href={`tel:${businessInfo.phone.replace(/\s/g, "")}`}
-                  className="transition-colors hover:text-gold"
+                  className="cursor-pointer transition-colors hover:text-gold"
                 >
                   {businessInfo.phone}
                 </a>
@@ -300,7 +300,7 @@ function SpaceFooter({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={socialLabels[social.id] ?? social.id}
-                  className="flex size-[34px] items-center justify-center text-cream transition-colors hover:text-gold"
+                  className="flex size-[34px] cursor-pointer items-center justify-center text-cream transition-colors hover:text-gold"
                 >
                   <Icon className="size-[34px]" />
                 </a>

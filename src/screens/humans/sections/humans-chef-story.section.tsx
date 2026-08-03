@@ -1,9 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import {
-  IlustDongHoBanhDa,
-  IlustDongHoPizzaDough,
-  IlustDongHoSauRieng,
-} from '@/shared/components/illustrations';
+import { IlustDongHoBanhDa } from '@/shared/components/illustrations/illus-dong-ho-banh-da';
+import { IlustDongHoPizzaDough } from '@/shared/components/illustrations/illus-dong-ho-pizza-dough';
+import { IlustDongHoSauRieng } from '@/shared/components/illustrations/illus-dong-ho-sau-rieng';
 import { humansChefStoryContent } from '../constants/humans.constant';
 
 export async function HumansChefStorySection() {

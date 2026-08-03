@@ -10,6 +10,9 @@ export const SITE_URL = `https://${SITE_DOMAIN}`;
 // Business Information. `tagline`/`description` stay Vietnamese-only — they're
 // used solely by the (currently unused) JSON-LD schema helpers in
 // `shared/lib/metadata.ts`, not rendered in the localized UI.
+// `locations[].address` is the same: metadata.ts parses it for JSON-LD, while
+// the footer renders the translated copy from `footer.locations.<id>` in
+// messages/*.json. Keep the two in sync when an address changes.
 export const businessInfo = {
   name: "The Home Pizza",
   tagline: "Đặc sản Việt trên đế bánh Pizza Ý",

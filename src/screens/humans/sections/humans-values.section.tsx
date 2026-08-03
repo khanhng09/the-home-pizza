@@ -1,5 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import { IlustDongHoCaTrich, IlustDongHoDoi, IlustDongHoPizzaBase } from '@/shared/components/illustrations';
+import { IlustDongHoCaTrich } from '@/shared/components/illustrations/illus-dong-ho-ca-trich';
+import { IlustDongHoDoi } from '@/shared/components/illustrations/illus-dong-ho-doi';
+import { IlustDongHoPizzaBase } from '@/shared/components/illustrations/illus-dong-ho-pizza-base';
 import { humansValuesContent, humansValuesList } from '../constants/humans.constant';
 
 // One illustration per column, in the same order as humansValuesList

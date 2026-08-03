@@ -148,7 +148,6 @@ Accessibility is scored as its own Lighthouse category — these rules exist to 
 - Use **semantic landmarks**: `<header>`, `<nav>` (with `aria-label` if there's more than one nav), `<main>`, `<footer>`, and `<section>` with a visible heading or `aria-labelledby` — don't build layout out of `<div>`/`<span>` where a semantic element fits.
 - Exactly one `<h1>` per page; never skip heading levels (don't jump `h2` → `h4`) for styling reasons — control size with CSS.
 - Interactive elements must use the right role: `<button>` for actions, `<a href>` for navigation. Never `<div onClick>` / `<span onClick>` — they're not keyboard-focusable or announceable.
-- All focusable elements (links, buttons, inputs) need a **visible focus ring**. The project's `.focus-ring` utility exists for this; don't remove outlines without a replacement.
 - **Touch targets ≥ 44×44px** (Lighthouse flags anything tighter). On mobile aim for 48×48px. Pad/icon-only buttons accordingly.
 - Icon-only or ambiguous controls (e.g. a hamburger, social link) must have an `aria-label` describing the action/destination.
 - **Color contrast** ≥ 4.5:1 for normal text, ≥ 3:1 for large text and UI component boundaries. Check the cream/clay/ink palette combos — light text on `gold/25` overlays is the usual failure.

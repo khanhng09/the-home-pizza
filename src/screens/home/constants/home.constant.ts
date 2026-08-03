@@ -35,15 +35,21 @@ export const storyStates = [
 // Menu section
 export const menuContent = {
   image: "/images/home/menu/menu.webp",
+  imageWidth: 2100,
+  imageHeight: 2742,
   backgroundImage: "/images/home/menu/background.webp",
   backgroundImageMobile: "/images/home/menu/background-mb.webp",
 };
 
+// Selecting a category turns the right-hand panel like a page in a book.
+// Only one photo has shipped for this section so far, so every entry points
+// at the same asset until category-specific art lands — same holding pattern
+// as `menuRegionList` on the /menu screen.
 export const menuCategoryList = [
-  { id: "dac-san-viet", href: "/menu#dac-san-viet" },
-  { id: "pizza-classic", href: "/menu#pizza-classic" },
-  { id: "salad-appertiza", href: "/menu#salad" },
-  { id: "pasta", href: "/menu#pasta" },
+  { id: "dac-san-viet", href: "/menu#dac-san-viet", image: menuContent.image },
+  { id: "pizza-classic", href: "/menu#pizza-classic", image: menuContent.image },
+  { id: "salad-appertiza", href: "/menu#salad", image: menuContent.image },
+  { id: "pasta", href: "/menu#pasta", image: menuContent.image },
 ] as const;
 
 // Humans section ("Người Nhà")

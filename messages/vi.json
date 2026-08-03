@@ -27,22 +27,26 @@
   },
   "header": {
     "nav": {
-      "story": "Story of The Home",
-      "menu": "Menu",
-      "humans": "Humans of The Home"
+      "story": "Chuyện Nhà kể",
+      "menu": "Thực đơn",
+      "humans": "Người Nhà"
     },
     "menuLabel": "Menu",
     "openMenu": "Mở menu điều hướng",
     "closeMenu": "Đóng menu điều hướng"
   },
   "footer": {
-    "mail": "Mail:",
-    "tel": "Tel:",
-    "address": "Address:",
+    "mail": "Email:",
+    "tel": "Điện thoại:",
+    "address": "Địa chỉ:",
     "followUs": "Follow Nhà",
+    "locations": {
+      "phu-quoc": "129 Trần Hưng Đạo, Dương Đông, Phú Quốc",
+      "nha-trang": "12 - 14 Trần Phú, Tân Thành, Nha Trang"
+    },
     "nav": {
-      "humans": "Humans of The Home",
-      "careerPath": "Career Path",
+      "humans": "Người Nhà",
+      "careerPath": "Lộ trình nghề nghiệp",
       "nhaTimNguoi": "Nhà Tìm Người"
     },
     "social": {
@@ -91,6 +95,8 @@
       "heading": "Menu",
       "paragraph": "Mời bạn đến với hành trình khám phá bản đồ đặc sản Việt cùng Nhà trên đế bánh pizza chuẩn Ý...",
       "cta": "Xem thực đơn",
+      "imageAlt": "Món {category} tại The Home Pizza",
+      "viewCategory": "Xem thực đơn {category}",
       "categories": {
         "dac-san-viet": "Đặc sản Việt",
         "pizza-classic": "Pizza Classic",

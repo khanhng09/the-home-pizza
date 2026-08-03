@@ -42,15 +42,15 @@ export function Header() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md">
         <div className="container-base flex items-center justify-between h-[46px]">
           {/* Logo */}
-          <Link href="/" className="shrink-0">
+          <Link href="/" className="shrink-0 cursor-pointer">
             <TheHomeLogo
               aria-label={businessInfo.name}
-              className={cn('h-4 w-auto lg:h-6', isDark ? 'text-ink' : 'text-cream')}
+              className={cn('h-4 w-auto lg:h-3.5', isDark ? 'text-ink' : 'text-cream')}
             />
           </Link>
 
           {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center gap-10">
+          <nav className="hidden lg:flex items-center gap-7.5 h-full">
             {navigation.main.map((item) => {
               const active = isNavItemActive(pathname, item.href);
               return (
@@ -59,7 +59,7 @@ export function Header() {
                   href={item.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'text-base font-sans transition-colors border-b pb-0.5',
+                    'cursor-pointer text-base font-sans transition-colors border-b h-full flex items-center justify-center',
                     active ? 'font-semibold' : 'border-transparent',
                     isDark
                       ? active
@@ -79,8 +79,10 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger
                 className={cn(
-                  'flex items-center gap-1.5 text-base font-sans outline-none transition-colors focus-ring',
-                  isDark ? 'text-ink hover:text-umber' : 'text-cream hover:text-white'
+                  'flex h-full cursor-pointer items-center gap-1 border-b border-transparent px-1 font-sans text-base outline-none transition-colors data-[state=open]:border-current',
+                  isDark
+                    ? 'text-ink hover:text-umber data-[state=open]:text-umber'
+                    : 'text-cream hover:text-white data-[state=open]:text-white'
                 )}
               >
                 {locale.toUpperCase()}
@@ -88,15 +90,21 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="min-w-36 rounded-lg border border-ink/15 bg-cream p-1 text-ink shadow-xl"
+                sideOffset={0}
+                className={cn(
+                  'w-35 min-w-35 rounded-t-none rounded-b-[3px] border p-0 shadow-none backdrop-blur-md',
+                  isDark
+                    ? 'border-ink/15 bg-gold/25 text-ink'
+                    : 'border-cream/25 bg-gold/25 text-cream'
+                )}
               >
                 {routing.locales.map((loc) => (
                   <DropdownMenuItem
                     key={loc}
                     onSelect={() => switchLocale(loc)}
                     className={cn(
-                      'cursor-pointer rounded-md px-3 py-2 font-sans text-sm focus:bg-ink focus:text-cream',
-                      loc === locale && 'font-semibold text-umber'
+                      'h-10 cursor-pointer rounded-none border-b border-current/15 px-3 font-sans text-sm transition-colors last:border-b-0 focus:bg-current/10 focus:text-current',
+                      loc === locale ? 'font-semibold opacity-100' : 'opacity-75 hover:opacity-100'
                     )}
                   >
                     {tCommon(`language.${loc}`)}
@@ -128,7 +136,7 @@ export function Header() {
             aria-controls="mobile-nav-panel"
             aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
             className={cn(
-              'flex size-11 shrink-0 items-center justify-center lg:hidden focus-ring',
+              'flex size-11 shrink-0 cursor-pointer items-center justify-center lg:hidden',
               isDark ? 'text-ink' : 'text-cream'
             )}
           >
@@ -146,7 +154,7 @@ export function Header() {
         <div
           aria-hidden="true"
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-x-0 bottom-0 top-[46px] z-30 bg-ink/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-x-0 bottom-0 top-[46px] z-30 cursor-pointer bg-ink/60 backdrop-blur-sm lg:hidden"
         />
       )}
 
@@ -166,7 +174,7 @@ export function Header() {
                   onClick={() => setMobileOpen(false)}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'min-h-12 border-b border-cream/15 py-3 font-sans text-lg text-cream transition-colors',
+                    'min-h-12 cursor-pointer border-b border-cream/15 py-3 font-sans text-lg text-cream transition-colors',
                     active && 'font-semibold text-gold'
                   )}
                 >
@@ -185,7 +193,7 @@ export function Header() {
                     setMobileOpen(false);
                   }}
                   className={cn(
-                    'font-sans text-sm uppercase tracking-wide text-cream/70 transition-colors',
+                    'cursor-pointer font-sans text-sm uppercase tracking-wide text-cream/70 transition-colors',
                     loc === locale && 'font-semibold text-gold underline underline-offset-4'
                   )}
                 >

@@ -1,9 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import {
-  IlustDongHoChaGioPhanThiet,
-  IlustDongHoLapXuong,
-  IlustDongHoNomThinhTaiHeo,
-} from '@/shared/components/illustrations';
+import { IlustDongHoChaGioPhanThiet } from '@/shared/components/illustrations/illus-dong-ho-cha-gio-phan-thiet';
+import { IlustDongHoLapXuong } from '@/shared/components/illustrations/illus-dong-ho-lap-xuong';
+import { IlustDongHoNomThinhTaiHeo } from '@/shared/components/illustrations/illus-dong-ho-nom-thinh-tai-heo';
 import { humansIntroContent } from '../constants/humans.constant';
 
 export async function HumansIntroSection() {

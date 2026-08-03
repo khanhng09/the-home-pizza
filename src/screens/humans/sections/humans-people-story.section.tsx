@@ -1,9 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import {
-  IlustDongHoCaTrich,
-  IlustDongHoGhe,
-  IlustDongHoHungQue,
-} from '@/shared/components/illustrations';
+import { IlustDongHoCaTrich } from '@/shared/components/illustrations/illus-dong-ho-ca-trich';
+import { IlustDongHoGhe } from '@/shared/components/illustrations/illus-dong-ho-ghe';
+import { IlustDongHoHungQue } from '@/shared/components/illustrations/illus-dong-ho-hung-que';
 import { humansPeopleStoryContent } from '../constants/humans.constant';
 
 export async function HumansPeopleStorySection() {
