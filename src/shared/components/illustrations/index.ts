@@ -4,11 +4,6 @@
  * ~25 food and ingredient illustrations in line-art style
  */
 
-export { IlustCrab } from './illus-crab';
-
-// Other
-export { IlustBuffalo } from './illus-buffalo';
-
 // Dong Ho style illustrations from Figma
 export { IlustDongHoBanhDa } from './illus-dong-ho-banh-da';
 export { IlustDongHoBo } from './illus-dong-ho-bo';
