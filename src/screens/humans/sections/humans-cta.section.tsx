@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/shared/components/ui/button';
 import { humansCtaContent } from '../constants/humans.constant';
+import { Reveal } from '@/shared/components/ui/reveal';
+import { optimizedImage } from '@/shared/lib/image';
 
 export async function HumansCtaSection() {
   const t = await getTranslations('humansPage.cta');
@@ -9,9 +11,9 @@ export async function HumansCtaSection() {
     <section id="nha-tim-nguoi" className="relative overflow-hidden bg-ink">
       <div className="relative aspect-[430/561] w-full lg:aspect-[1402/512]">
         <picture>
-          <source media="(min-width: 1024px)" srcSet={humansCtaContent.image.src} />
+          <source media="(min-width: 1024px)" srcSet={optimizedImage(humansCtaContent.image.src)} />
           <img
-            src={humansCtaContent.image.mobileSrc}
+            src={optimizedImage(humansCtaContent.image.mobileSrc)}
             alt={t('imageAlt')}
             loading="lazy"
             decoding="async"
@@ -21,15 +23,19 @@ export async function HumansCtaSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-ink/40" />
 
         <div className="container-base absolute inset-x-0 bottom-10 flex flex-col items-start gap-8 lg:bottom-16 lg:gap-10">
-          <h2 className="max-w-88 font-display text-4xl leading-[1.2] text-cream lg:max-w-98 lg:text-[64px]">
-            {t('heading')}
-          </h2>
-          <Button
-            asChild
-            className="btn-base h-12 max-w-55 w-full rounded-full border border-cream bg-cream px-6 py-3 font-sans text-sm font-bold uppercase tracking-wide text-ink hover:bg-linen sm:h-11"
-          >
-            <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
-          </Button>
+          <Reveal variant="slide-up">
+            <h2 className="max-w-88 font-display text-4xl leading-[1.2] text-cream lg:max-w-98 lg:text-[64px]">
+              {t('heading')}
+            </h2>
+          </Reveal>
+          <Reveal variant="slide-up" delayMs={200}>
+            <Button
+              asChild
+              className="btn-base h-12 max-w-55 w-full rounded-full border border-cream bg-cream px-6 py-3 font-sans text-sm font-bold uppercase tracking-wide text-ink hover:bg-linen sm:h-11"
+            >
+              <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
+            </Button>
+          </Reveal>
         </div>
       </div>
     </section>
