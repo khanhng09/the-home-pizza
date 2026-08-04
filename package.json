@@ -7,7 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "illustrations:extract": "node scripts/extract-illustrations.mjs",
+    "videos:optimize": "node scripts/optimize-videos.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -29,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "shadcn": "^4.16.0",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
