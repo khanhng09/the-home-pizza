@@ -1,7 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/shared/components/ui/button';
+import { optimizedImage, responsiveImage } from '@/shared/lib/image';
 import { heroContent, trustBadges } from '../constants/home.constant';
+import { BackgroundVideo } from '@/shared/components/ui/background-video';
 
 export async function HomeHeroSection() {
   const t = await getTranslations('home.hero');
@@ -11,29 +13,26 @@ export async function HomeHeroSection() {
     <section className="relative">
       {/* Video background */}
       <div className="relative flex items-center min-h-262.5 lg:min-h-screen overflow-hidden bg-ink">
-        <video
+        <BackgroundVideo
+          sources={heroContent.videoSources}
+          poster={heroContent.videoPoster}
           className="absolute inset-0 h-full w-full object-cover object-center md:object-[50%_75%]"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        >
-          <source src={heroContent.videoSrc} type="video/mp4" />
-        </video>
+        />
 
         {/* Dark gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-ink/50" />
 
-        {/* Vietnam map decoration */}
-        <div className="pointer-events-none absolute left-0 top-0 h-full max-h-[90vh] aspect-square hidden lg:block">
-          <img
-            src={heroContent.mapImage}
-            alt=""
-            className="h-full w-full"
-          />
-        </div>
+        {/* Vietnam map decoration — a CSS background rather than an
+            `<img>` on purpose. It carries no meaning (it was already
+            `alt=""`) and it is desktop-only, and a background on a
+            `display: none` element is never fetched, whereas an `<img>`
+            inside one still is. As an `<img>` every phone downloaded it
+            to draw nothing. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 hidden aspect-square h-full max-h-[90vh] bg-contain bg-left bg-no-repeat lg:block"
+          style={{ backgroundImage: `url(${optimizedImage(heroContent.mapImage)})` }}
+        />
 
         {/* Content — a slow, deliberate reveal sequence (~1.9s end to end)
             rather than a snap-in, so the hero reads as a guided entrance
@@ -74,10 +73,11 @@ export async function HomeHeroSection() {
               style={{ animationDelay: `${1100 + index * 130}ms` }}
             >
               <img
-                src={badge.image}
+                {...responsiveImage(badge.image)}
                 alt={`${tBadges(`${badge.id}.label`)} ${tBadges(`${badge.id}.year`)}`}
                 width={172}
                 height={82}
+                decoding="async"
                 className="h-auto w-full sm:h-20.5 sm:w-auto aspect-172/82 shrink-0"
               />
               <p className="text-sm text-cream">{tBadges(`${badge.id}.label`)}</p>

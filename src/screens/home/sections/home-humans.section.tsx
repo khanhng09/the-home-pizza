@@ -1,13 +1,11 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { IlustBuffalo } from '@/shared/components/illustrations/illus-buffalo';
-import { IlustCrab } from '@/shared/components/illustrations/illus-crab';
-import { IlustDongHoHungQue } from '@/shared/components/illustrations/illus-dong-ho-hung-que';
-import { IlustDongHoTieu } from '@/shared/components/illustrations/illus-dong-ho-tieu';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
+import { optimizedImage, responsiveImage } from '@/shared/lib/image';
 import { humansContent, humansLinkList } from '../constants/home.constant';
+import { Illustration } from '@/shared/components/illustrations/illustration';
 
 export async function HomeHumansSection() {
   const t = await getTranslations('home.humans');
@@ -17,12 +15,12 @@ export async function HomeHumansSection() {
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 aspect-[430/600] lg:aspect-auto bg-cover bg-center lg:hidden"
-        style={{ backgroundImage: `url(${humansContent.backgroundImageMobile})` }}
+        style={{ backgroundImage: `url(${optimizedImage(humansContent.backgroundImageMobile)})` }}
         aria-hidden="true"
       />
       <div
         className="absolute inset-0 hidden bg-cover bg-center lg:block"
-        style={{ backgroundImage: `url(${humansContent.backgroundImage})` }}
+        style={{ backgroundImage: `url(${optimizedImage(humansContent.backgroundImage)})` }}
         aria-hidden="true"
       />
 
@@ -38,9 +36,9 @@ export async function HomeHumansSection() {
           {/* Sits above the seam between the two photos, riding up into
               the section's top padding. Anchored to the grid rather than
               the section so it tracks the container, not the viewport. */}
-          <IlustDongHoHungQue
+          <Illustration name="dong-ho-hung-que"
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 left-[52%] hidden h-32 w-32 text-gold lg:block"
+            className="pointer-events-none absolute -top-10 left-[52%] h-16 w-16 text-gold lg:-top-20 lg:h-32 lg:w-32"
           />
 
           {/* Left gutter — heading, plus the two illustrations that flank
@@ -57,11 +55,11 @@ export async function HomeHumansSection() {
               </h2>
             </Reveal>
 
-            <IlustCrab
+            <Illustration name="dong-ho-cua"
               aria-hidden="true"
               className="pointer-events-none absolute left-0 top-[30%] hidden h-32 w-32 text-gold lg:block xl:h-36 xl:w-36"
             />
-            <IlustBuffalo
+            <Illustration name="dong-ho-bo"
               aria-hidden="true"
               className="pointer-events-none absolute bottom-0 left-[8%] hidden h-24 w-24 text-gold lg:block xl:h-28 xl:w-28"
             />
@@ -84,16 +82,18 @@ export async function HomeHumansSection() {
           </Reveal>
 
           {/* Portrait — the tall one; it sets the height of the photo row,
-              which is what the link list bottom-aligns against. */}
+              which is what the link list bottom-aligns against. Also the
+              anchor for the crab/buffalo on mobile, where there's no
+              stretched heading gutter for them to sit in. */}
           <Reveal
             variant="zoom-in"
             delayMs={300}
             durationMs={950}
-            className="lg:col-start-2 lg:row-start-2"
+            className="relative lg:col-start-2 lg:row-start-2"
           >
             <div className="overflow-hidden">
               <img
-                src={humansContent.images[0].src}
+                {...responsiveImage(humansContent.images[0].src)}
                 alt={t(`images.${humansContent.images[0].id}`)}
                 width={1057}
                 height={1400}
@@ -103,6 +103,15 @@ export async function HomeHumansSection() {
                 className="w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
               />
             </div>
+
+            <Illustration name="dong-ho-cua"
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-[30%] h-16 w-16 text-gold lg:hidden"
+            />
+            <Illustration name="dong-ho-bo"
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-0 left-[8%] h-14 w-14 text-gold lg:hidden"
+            />
           </Reveal>
 
           {/* Right column. `contents` on mobile dissolves this wrapper so
@@ -124,7 +133,7 @@ export async function HomeHumansSection() {
             >
               <div className="overflow-hidden">
                 <img
-                  src={humansContent.images[1].src}
+                  {...responsiveImage(humansContent.images[1].src)}
                   alt={t(`images.${humansContent.images[1].id}`)}
                   width={1056}
                   height={703}
@@ -135,7 +144,7 @@ export async function HomeHumansSection() {
                 />
               </div>
 
-              <IlustDongHoTieu
+              <Illustration name="dong-ho-tieu"
                 aria-hidden="true"
                 className="pointer-events-none absolute right-0 top-full mt-4 h-24 w-28 text-gold lg:mt-6 lg:h-32 lg:w-36"
               />
@@ -144,20 +153,8 @@ export async function HomeHumansSection() {
             <Reveal
               variant="slide-left"
               delayMs={550}
-              // The left inset is the crab's slot — it shrinks as the
-              // viewport grows so the gutter stays roughly the crab's own
-              // width instead of opening into dead space.
-              className="relative col-span-2 pl-[28%] sm:pl-[20%] lg:col-span-1 lg:pl-0"
+              className="col-span-2 lg:col-span-1"
             >
-              {/* Second instance of the crab: on mobile the left gutter
-                  doesn't exist, and the Figma moves it down here beside
-                  the list. Cheaper than trying to reposition one node
-                  across two different grid columns. */}
-              <IlustCrab
-                aria-hidden="true"
-                className="pointer-events-none absolute left-0 top-1/2 h-24 w-24 -translate-y-1/2 text-gold lg:hidden"
-              />
-
               <ul>
                 {humansLinkList.map((link) => (
                   <li key={link.id} className="border-b border-foreground">

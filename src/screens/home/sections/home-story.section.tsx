@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { storyContent } from '../constants/home.constant';
 import { HomeStoryTabs } from '../components/home-story-tabs';
-import { IlustDongHoHen } from '@/shared/components/illustrations/illus-dong-ho-hen';
-import { IlustDongHoTom } from '@/shared/components/illustrations/illus-dong-ho-tom';
 import { Reveal } from '@/shared/components/ui/reveal';
+import { optimizedImage } from '@/shared/lib/image';
+import { Illustration } from '@/shared/components/illustrations/illustration';
 
 export async function HomeStorySection() {
   const t = await getTranslations('home.story');
@@ -15,17 +15,18 @@ export async function HomeStorySection() {
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
-          style={{ backgroundImage: `url(${storyContent.backgroundImageMobile})` }}
+          style={{ backgroundImage: `url(${optimizedImage(storyContent.backgroundImageMobile)})` }}
           aria-hidden="true"
         />
         <div
           className="absolute inset-0 hidden bg-cover bg-center lg:block"
-          style={{ backgroundImage: `url(${storyContent.backgroundImage})` }}
+          style={{ backgroundImage: `url(${optimizedImage(storyContent.backgroundImage)})` }}
           aria-hidden="true"
         />
 
-        <IlustDongHoTom className="pointer-events-none absolute left-4 top-28 h-14 w-14 text-gold lg:bottom-8 lg:left-8 lg:top-auto lg:h-32 lg:w-32" />
-        <IlustDongHoHen className="pointer-events-none absolute right-6 top-64 h-20 w-24 text-gold lg:-right-4 lg:top-4 lg:h-24 lg:w-28" />
+        <Illustration name="dong-ho-hung-que" className="pointer-events-none absolute left-1/2 -top-6 h-20 w-20 -translate-x-1/2 text-gold lg:-top-10 lg:left-[42%] lg:h-36 lg:w-36" />
+        <Illustration name="dong-ho-tom" className="pointer-events-none absolute left-4 top-28 h-16 w-16 text-gold lg:bottom-0 lg:left-0 lg:top-auto lg:h-52 lg:w-52" />
+        <Illustration name="dong-ho-hen" className="pointer-events-none absolute right-4 top-56 h-20 w-24 text-gold lg:right-0 lg:top-20 lg:h-36 lg:w-44" />
 
         <div className="container-base relative grid grid-cols-1 gap-6 pt-20 pb-16 lg:grid-cols-2 lg:gap-16 lg:pt-32.5 lg:pb-25">
           {/* The two columns answer each other — heading drifts in from the

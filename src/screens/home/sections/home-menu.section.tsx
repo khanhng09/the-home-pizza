@@ -2,10 +2,10 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
+import { optimizedImage } from '@/shared/lib/image';
 import { menuContent, menuCategoryList } from '../constants/home.constant';
-import { IlustDongHoTieu } from '@/shared/components/illustrations/illus-dong-ho-tieu';
-import { IlustDongHoTre } from '@/shared/components/illustrations/illus-dong-ho-tre';
 import { HomeMenuShowcase } from '../components/home-menu-showcase';
+import { Illustration } from '@/shared/components/illustrations/illustration';
 
 export async function HomeMenuSection() {
   const t = await getTranslations('home.menu');
@@ -23,25 +23,22 @@ export async function HomeMenuSection() {
 
   return (
     <section className="bg-ink min-h-105 lg:min-h-175 h-full">
-      <HomeMenuShowcase
-        categories={categories}
-        imageWidth={menuContent.imageWidth}
-        imageHeight={menuContent.imageHeight}
-      >
+      <HomeMenuShowcase categories={categories}>
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 aspect-[430/500] lg:aspect-auto bg-cover bg-center lg:hidden"
-          style={{ backgroundImage: `url(${menuContent.backgroundImageMobile})` }}
+          style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImageMobile)})` }}
           aria-hidden="true"
         />
         <div
           className="absolute inset-0 hidden bg-cover bg-center lg:block"
-          style={{ backgroundImage: `url(${menuContent.backgroundImage})` }}
+          style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImage)})` }}
           aria-hidden="true"
         />
 
-        <IlustDongHoTre className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
-        <IlustDongHoTieu className="pointer-events-none absolute left-8 top-[42%] hidden h-16 w-20 text-accent/60 lg:left-16 lg:block lg:h-20 lg:w-28" />
+        <Illustration name="dong-ho-tre" className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
+        <Illustration name="dong-ho-tieu" className="pointer-events-none absolute left-8 top-[42%] h-16 w-20 text-accent/60 lg:left-16 lg:h-20 lg:w-28" />
+        <Illustration name="dong-ho-nhum" className="pointer-events-none absolute bottom-8 right-8 h-16 w-16 text-accent/60 lg:bottom-16 lg:right-16 lg:h-28 lg:w-28" />
 
         <Reveal variant="slide-right" className="relative">
           <h2 className="font-display text-5xl md:text-6xl lg:text-[80px] text-cream">

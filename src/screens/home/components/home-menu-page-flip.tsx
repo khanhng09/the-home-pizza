@@ -2,13 +2,13 @@
 
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
 import { useMediaQuery } from '@/shared/hooks/use-media-query.hook';
+import { responsiveImage } from '@/shared/lib/image';
 import { cn } from '@/shared/lib/utils';
 
-interface MenuPage {
-  id: string;
-  image: string;
-  alt: string;
-}
+/** Exported so the showcase's preloader can hand the browser the same
+ * `sizes` the real `<img>` uses — pick a different candidate there and
+ * the warm-up fetches a file the panel will never ask for. */
+export const MENU_PANEL_SIZES = '(max-width: 1023px) 100vw, 50vw';
 
 const FLIP_DURATION = 0.78;
 const FADE_DURATION = 0.45;
@@ -112,19 +112,24 @@ const reducedPageVariants: Variants = {
 };
 
 interface HomeMenuPageFlipProps {
-  pages: readonly MenuPage[];
-  activeIndex: number;
-  direction: number;
+  /** Identity of the sheet on top. Changing it turns the page, so it has
+   * to be unique per spread, not per category. */
+  pageKey: string;
+  src: string;
+  alt: string;
   width: number;
   height: number;
+  /** ≥ 0 hinges on the left (turning forward), < 0 on the right. */
+  direction: number;
 }
 
 export function HomeMenuPageFlip({
-  pages,
-  activeIndex,
-  direction,
+  pageKey,
+  src,
+  alt,
   width,
   height,
+  direction,
 }: HomeMenuPageFlipProps) {
   const prefersReducedMotion = useReducedMotion();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
@@ -136,8 +141,8 @@ export function HomeMenuPageFlip({
       ? flipPageVariants
       : fadePageVariants;
 
-  const activePage = pages[activeIndex];
   const hingeLeft = direction >= 0;
+  const image = responsiveImage(src);
 
   return (
     <div
@@ -155,7 +160,7 @@ export function HomeMenuPageFlip({
     >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
-          key={activePage.id}
+          key={pageKey}
           custom={direction}
           variants={pageVariants}
           initial="enter"
@@ -167,12 +172,13 @@ export function HomeMenuPageFlip({
           )}
         >
           <img
-            src={activePage.image}
-            alt={activePage.alt}
+            src={image.src}
+            srcSet={image.srcSet}
+            alt={alt}
             width={width}
             height={height}
-            sizes="(max-width: 1023px) 100vw, 50vw"
-            loading={activeIndex === 0 ? 'eager' : 'lazy'}
+            sizes={MENU_PANEL_SIZES}
+            loading="lazy"
             decoding="async"
             className={cn(
               'absolute inset-0 h-full w-full object-cover',

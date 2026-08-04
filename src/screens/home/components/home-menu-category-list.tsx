@@ -1,10 +1,12 @@
 'use client';
 
+import { useCallback, useEffect, useRef } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { Link } from '@/i18n/navigation';
 import { IcArrowRight } from '@/shared/components/icons';
 import { useMediaQuery } from '@/shared/hooks/use-media-query.hook';
 import { cn } from '@/shared/lib/utils';
+import { MENU_HOVER_DEBOUNCE_MS } from '../constants/home.constant';
 
 interface MenuCategory {
   id: string;
@@ -48,6 +50,9 @@ interface HomeMenuCategoryListProps {
   categories: MenuCategory[];
   activeIndex: number;
   onSelect: (index: number) => void;
+  /** Fired the instant a pointer lands on a row, ahead of the debounce,
+   * so the panel can start fetching what that row is about to show. */
+  onIntent?: (index: number) => void;
 }
 
 /**
@@ -55,14 +60,49 @@ interface HomeMenuCategoryListProps {
  * list), the trailing arrow is a separate link into that category on the
  * /menu screen — two jobs, so two controls rather than one element trying
  * to both select and navigate.
+ *
+ * A row activates on hover as well as on click, but hover has to hold for
+ * `MENU_HOVER_DEBOUNCE_MS` first — see the constant for why. Clicking
+ * cancels any pending hover and takes effect immediately.
  */
 export function HomeMenuCategoryList({
   categories,
   activeIndex,
   onSelect,
+  onIntent,
 }: HomeMenuCategoryListProps) {
   const prefersReducedMotion = useReducedMotion();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  const hoverTimer = useRef<number | null>(null);
+
+  const cancelHover = useCallback(() => {
+    if (hoverTimer.current !== null) {
+      window.clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
+  }, []);
+
+  // A row unmounting mid-hover would otherwise leave the timer to fire
+  // into a dead component.
+  useEffect(() => cancelHover, [cancelHover]);
+
+  const handleEnter = useCallback(
+    (index: number) => {
+      onIntent?.(index);
+      cancelHover();
+      hoverTimer.current = window.setTimeout(() => onSelect(index), MENU_HOVER_DEBOUNCE_MS);
+    },
+    [cancelHover, onIntent, onSelect]
+  );
+
+  const handleClick = useCallback(
+    (index: number) => {
+      cancelHover();
+      onSelect(index);
+    },
+    [cancelHover, onSelect]
+  );
 
   const listVariants = prefersReducedMotion ? undefined : isDesktop ? desktopList : mobileList;
   const itemVariants = prefersReducedMotion ? instantItem : isDesktop ? desktopItem : mobileItem;
@@ -77,7 +117,7 @@ export function HomeMenuCategoryList({
       whileInView="shown"
       viewport={{ once: true, margin: '0px 0px -10% 0px', amount: 0.2 }}
       variants={listVariants}
-      className="relative mt-14 overflow-x-auto grid grid-cols-4 md:flex gap-4 lg:mt-24 lg:flex-col lg:gap-0 lg:overflow-x-visible"
+      className="relative mt-14 overflow-x-auto grid grid-cols-4 md:flex gap-4.5 md:gap-10 lg:mt-24 lg:flex-col lg:gap-0 lg:overflow-x-visible"
     >
       {categories.map((category, index) => {
         const isActive = index === activeIndex;
@@ -86,6 +126,10 @@ export function HomeMenuCategoryList({
           <motion.li
             key={category.id}
             variants={itemVariants}
+            // On the row, not the button, so the trailing arrow counts as
+            // hovering the category too.
+            onPointerEnter={() => handleEnter(index)}
+            onPointerLeave={cancelHover}
             className={cn(
               'relative shrink-0 lg:shrink border-b-2 lg:border-b lg:border-cream',
               isActive ? 'border-gold' : 'border-transparent hover:border-cream/50'
@@ -94,10 +138,10 @@ export function HomeMenuCategoryList({
             <div className="flex items-center justify-between gap-4.5 lg:gap-7.5">
               <button
                 type="button"
-                onClick={() => onSelect(index)}
+                onClick={() => handleClick(index)}
                 aria-pressed={isActive}
                 className={cn(
-                  'flex-1 cursor-pointer text-left font-sans text-[20px] lg:text-[32px] uppercase tracking-wide py-3 lg:py-[11.5px] transition-colors duration-300',
+                  'flex-1 cursor-pointer text-left font-sans text-[14px] sm:text-[20px] lg:text-[32px] uppercase tracking-wide py-3 lg:py-[11.5px] transition-colors duration-300',
                   isActive ? 'text-gold' : 'text-cream hover:text-gold'
                 )}
               >
