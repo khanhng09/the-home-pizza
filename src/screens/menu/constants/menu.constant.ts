@@ -42,7 +42,10 @@ export const menuCatalog = [
   },
   {
     id: 'salad',
-    spreads: [],
+    spreads: [
+      { src: '/images/menu/salad-1.webp', width: 777, height: 1100 },
+      { src: '/images/menu/salad-2.webp', width: 777, height: 1100 },
+    ],
   },
   {
     id: 'mon-chinh',
