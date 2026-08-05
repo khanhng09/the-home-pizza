@@ -1,22 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useInView } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { optimizedImage, responsiveImage } from '@/shared/lib/image';
+import { optimizedImage } from '@/shared/lib/image';
 import { cn } from '@/shared/lib/utils';
-import { locationContent, locationStates } from '../constants/home.constant';
+import { LOCATION_HOVER_DEBOUNCE_MS, locationContent, locationStates } from '../constants/home.constant';
+import { HomeLocationGallery } from './home-location-gallery';
 import { Illustration } from '@/shared/components/illustrations/illustration';
 
 export function HomeLocationSwitcher() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeLocation = locationStates[activeIndex];
   const t = useTranslations('home.location');
+  const rootRef = useRef<HTMLDivElement>(null);
+  // Auto-advance only runs while the panel is on screen — see the same
+  // guard on the menu showcase for why it's scoped to the whole switcher
+  // rather than just the image panel (below `lg` the grid stacks, so a
+  // visitor reading the list without the panel in view would otherwise
+  // still be running the timer).
+  const isOnScreen = useInView(rootRef, { amount: 0.2 });
+
+  const hoverTimer = useRef<number | null>(null);
+
+  const cancelHover = useCallback(() => {
+    if (hoverTimer.current !== null) {
+      window.clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
+  }, []);
+
+  // A row unmounting mid-hover would otherwise leave the timer to fire
+  // into a dead component.
+  useEffect(() => cancelHover, [cancelHover]);
+
+  const handleEnter = useCallback(
+    (index: number) => {
+      cancelHover();
+      hoverTimer.current = window.setTimeout(() => setActiveIndex(index), LOCATION_HOVER_DEBOUNCE_MS);
+    },
+    [cancelHover]
+  );
+
+  const handleClick = useCallback(
+    (index: number) => {
+      cancelHover();
+      setActiveIndex(index);
+    },
+    [cancelHover]
+  );
 
   return (
-    <div className="grid min-h-[1040px] bg-deep lg:min-h-[914px] lg:grid-cols-2">
+    <div ref={rootRef} className="grid min-h-[1040px] bg-deep lg:min-h-[914px] lg:grid-cols-2">
       <div className="relative flex min-h-[598px] overflow-hidden px-7 pt-19 pb-0 sm:px-10 lg:min-h-[914px] lg:px-14 lg:pt-32 lg:pb-14 xl:px-16">
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -64,7 +102,9 @@ export function HomeLocationSwitcher() {
                 >
                   <Button
                     type="button"
-                    onClick={() => setActiveIndex(index)}
+                    onClick={() => handleClick(index)}
+                    onPointerEnter={() => handleEnter(index)}
+                    onPointerLeave={cancelHover}
                     aria-pressed={isActive}
                     className="group relative flex h-auto flex-col items-start justify-start gap-2 rounded-none bg-transparent px-0 pb-2 text-left font-sans text-xl uppercase leading-[1.2] text-cream hover:bg-transparent lg:w-full lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:py-8 lg:font-display lg:text-[clamp(2.5rem,5.3vw,4.65rem)] lg:leading-none"
                   >
@@ -97,16 +137,11 @@ export function HomeLocationSwitcher() {
       </div>
 
       <div className="relative min-h-[442px] overflow-hidden lg:min-h-[914px]">
-        <img
-          key={activeLocation.id}
-          {...responsiveImage(activeLocation.image)}
+        <HomeLocationGallery
+          locationId={activeLocation.id}
+          spreads={activeLocation.spreads}
           alt={t(`states.${activeLocation.id}.alt`)}
-          width={1400}
-          height={1828}
-          sizes="(max-width: 1023px) 100vw, 50vw"
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center animate-fade-in"
+          isOnScreen={isOnScreen}
         />
         {/* Centering stays on this wrapper — Framer Motion writes its own
             inline `transform`, which would otherwise clobber the

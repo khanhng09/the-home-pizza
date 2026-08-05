@@ -160,7 +160,45 @@ export const locationContent = {
   backgroundImageMobile: "/images/home/location/background-mb.webp",
 };
 
+/** How long each photo holds before the panel crossfades to the next one
+ * within the same location. Slower than the menu panel's turn rate — this
+ * is ambiance, not something the visitor is meant to read line by line. */
+export const LOCATION_SPREAD_INTERVAL_MS = 3200;
+
+/** Hover has to settle before it switches the active location — same idea
+ * as the menu list's hover debounce: without the delay, a pointer just
+ * passing through on its way elsewhere would trigger every item it
+ * crosses. Clicking bypasses it — an explicit choice shouldn't wait. */
+export const LOCATION_HOVER_DEBOUNCE_MS = 500;
+
+// Selecting a location crossfades the right-hand panel to its first photo,
+// then the panel keeps advancing through the rest of that location's
+// folder on a timer. Order follows each folder's own file numbering.
 export const locationStates = [
-  { id: "phu-quoc", image: "/images/home/location/space.webp" },
-  { id: "nha-trang", image: "/images/home/location/space.webp" },
+  {
+    id: "phu-quoc",
+    spreads: [
+      { src: "/images/home/location/phu-quoc/SHIN8696.jpg", width: 1977, height: 1318 },
+      { src: "/images/home/location/phu-quoc/SHIN8715.jpg", width: 2032, height: 1355 },
+      { src: "/images/home/location/phu-quoc/SHIN8752.jpg", width: 2059, height: 1373 },
+      { src: "/images/home/location/phu-quoc/SHIN8756.jpg", width: 1981, height: 1321 },
+      { src: "/images/home/location/phu-quoc/SHIN8770.jpg", width: 2186, height: 3280 },
+      { src: "/images/home/location/phu-quoc/SHIN8774.jpg", width: 6000, height: 4000 },
+      { src: "/images/home/location/phu-quoc/SHIN8777.jpg", width: 4000, height: 6000 },
+      { src: "/images/home/location/phu-quoc/SHIN8785.jpg", width: 6000, height: 4000 },
+      { src: "/images/home/location/phu-quoc/SHIN8797.jpg", width: 6000, height: 4000 },
+      { src: "/images/home/location/phu-quoc/SHIN8801.jpg", width: 6000, height: 4000 },
+    ],
+  },
+  {
+    id: "nha-trang",
+    spreads: [
+      { src: "/images/home/location/nha-trang/DSC03188.webp", width: 2000, height: 1334 },
+      { src: "/images/home/location/nha-trang/DSC03364.webp", width: 2545, height: 1697 },
+      { src: "/images/home/location/nha-trang/HUG02484.webp", width: 1319, height: 1978 },
+      { src: "/images/home/location/nha-trang/HUG02507.webp", width: 1885, height: 1222 },
+      { src: "/images/home/location/nha-trang/HUG02944.webp", width: 1271, height: 1861 },
+      { src: "/images/home/location/nha-trang/TRG08978.webp", width: 1495, height: 2243 },
+    ],
+  },
 ] as const;

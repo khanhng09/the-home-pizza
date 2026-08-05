@@ -71,9 +71,10 @@ const GROUPS = [
     widths: [768, 1440, 2160],
   },
   {
-    // Location panel — same geometry as the menu panel.
-    name: 'location photo',
-    files: ['images/home/location/space.webp'],
+    // Location panel gallery — per-city ambiance photos, same geometry as
+    // the menu panel (half the container on desktop, full-bleed on mobile).
+    name: 'location gallery',
+    dirs: ['images/home/location/nha-trang', 'images/home/location/phu-quoc'],
     widths: [860, 1400],
   },
   {
