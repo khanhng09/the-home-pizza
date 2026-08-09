@@ -9,7 +9,7 @@ export async function HumansHeroSection() {
   return (
     <section className="relative overflow-hidden bg-ink">
       {/* Video background */}
-      <div className="relative min-h-[600px] lg:min-h-[934px]">
+      <div className="relative min-h-[600px] lg:min-h-[934px] flex items-end md:items-center">
         <BackgroundVideo
           sources={humansHeroContent.videoSources}
           poster={humansHeroContent.videoPoster}
@@ -21,12 +21,12 @@ export async function HumansHeroSection() {
 
         {/* Content — same slow, staggered entrance as the home hero: the
             heading pops in first, then each link cascades in behind it. */}
-        <div className="container-base relative pt-28 lg:pt-[338px]">
+        <div className="container-base relative pb-6 lg:pb-10">
           <h1 className="max-w-91 font-display text-5xl leading-[1.2] text-cream lg:max-w-147 lg:text-[100px] animate-[hero-pop_1000ms_cubic-bezier(0.16,1,0.3,1)_both] [animation-delay:250ms]">
             {t('heading')}
           </h1>
 
-          <ul className="mt-11 flex flex-col lg:mt-16">
+          <ul className="mt-5 flex flex-col lg:mt-7">
             {humansHeroLinkList.map((link, index) => (
               <li
                 key={link.id}
@@ -35,7 +35,7 @@ export async function HumansHeroSection() {
               >
                 <a
                   href={link.href}
-                  className="group flex min-h-11 cursor-pointer items-center justify-between gap-4 py-2 font-sans text-lg uppercase tracking-wide text-cream sm:min-h-12 lg:py-4 lg:text-[27.51px]"
+                  className="group flex min-h-11 cursor-pointer items-center justify-between gap-4 py-1 font-sans text-[20px] uppercase tracking-wide text-cream sm:min-h-12 lg:py-2.5 lg:text-[30px]"
                 >
                   {t(`linkList.${link.id}`)}
                   <IcArrowRight className="h-4 w-4 shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-1 lg:h-8 lg:w-8" />

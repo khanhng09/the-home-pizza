@@ -22,16 +22,16 @@ export async function HumansCtaSection() {
         </picture>
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-ink/40" />
 
-        <div className="container-base absolute inset-x-0 bottom-10 flex flex-col items-start gap-8 lg:bottom-16 lg:gap-10">
+        <div className="container-base absolute inset-x-0 bottom-10 flex flex-col items-start lg:bottom-16 gap-4">
           <Reveal variant="slide-up">
-            <h2 className="max-w-88 font-display text-4xl leading-[1.2] text-cream lg:max-w-98 lg:text-[64px]">
+            <h2 className="max-w-88 font-display text-5xl leading-[1.2] text-cream lg:max-w-98 lg:text-[64px]">
               {t('heading')}
             </h2>
           </Reveal>
           <Reveal variant="slide-up" delayMs={200}>
             <Button
               asChild
-              className="btn-base h-12 max-w-55 w-full rounded-full border border-cream bg-cream px-6 py-3 font-sans text-sm font-bold uppercase tracking-wide text-ink hover:bg-linen sm:h-11"
+              className="btn-base h-8 max-w-55 w-full rounded-full border border-cream bg-cream px-6 font-sans text-[15px] font-bold uppercase tracking-wide text-ink hover:bg-linen"
             >
               <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
             </Button>

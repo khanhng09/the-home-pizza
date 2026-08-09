@@ -32,20 +32,20 @@ export async function HumansValuesSection() {
         aria-hidden="true"
       />
 
-      <div className="container-base relative grid grid-cols-1 gap-10 py-16 lg:grid-cols-3 lg:gap-8 lg:py-24">
+      <div className="container-base relative grid grid-cols-1 gap-10 py-16 lg:grid-cols-3 lg:gap-30 lg:py-24">
         {humansValuesList.map((value, index) => {
           return (
             <Reveal key={value.id} variant="slide-up" delayMs={index * 150}>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col items-center">
                 <Illustration
                   name={valueIllustrations[index]}
-                  className="h-20 w-20 self-center text-umber/70 lg:h-24 lg:w-24"
+                  className="self-center text-ink h-30 aspect-square"
                 />
-                <div className="flex flex-col gap-6 border-t border-foreground pt-6 lg:pt-8">
-                  <h3 className="font-sans text-2xl uppercase tracking-wide text-foreground lg:text-[32px]">
+                <div className="flex flex-col md:items-center lg:items-start border-t border-ink max-w-[400px]">
+                  <h3 className="font-sans uppercase tracking-wide text-ink text-[32px] py-6.5">
                     {t(`${value.id}.label`)}
                   </h3>
-                  <p className="max-w-77 font-sans text-lg leading-[1.4] text-foreground">
+                  <p className="font-sans text-xl leading-[1.4] text-ink">
                     {t(`${value.id}.paragraph`)}
                   </p>
                 </div>
