@@ -412,6 +412,41 @@ h3 {
     background-color: var(--palette-umber);
     border-radius: 9999px;
   }
+
+  /* Same idea for the /space copy panels, but that design keeps the bar on
+     the trailing edge of the copy rather than the leading one (so no
+     `direction` flip) and draws it 6px wide on desktop against the humans
+     page's 3.
+
+     The comp paints track and thumb in the same gold/40, which leaves no
+     visible scroll affordance at all — the thumb is lifted to solid gold
+     so the control reads as draggable while the resting state still looks
+     like the design's single gold hairline. */
+  .scrollbar-space {
+    scrollbar-width: thin;
+    scrollbar-color: var(--palette-gold)
+      color-mix(in oklab, var(--palette-gold) 40%, transparent);
+  }
+
+  .scrollbar-space::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  @media (width >= 64rem) {
+    .scrollbar-space::-webkit-scrollbar {
+      width: 6px;
+    }
+  }
+
+  .scrollbar-space::-webkit-scrollbar-track {
+    background-color: color-mix(in oklab, var(--palette-gold) 40%, transparent);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-space::-webkit-scrollbar-thumb {
+    background-color: var(--palette-gold);
+    border-radius: 9999px;
+  }
 }
 
 /* Reduced motion support */

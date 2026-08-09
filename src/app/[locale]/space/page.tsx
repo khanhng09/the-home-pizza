@@ -12,7 +12,9 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata.space" });
   return generatePageMetadata(locale, t("title"), t("description"), {
     canonical: "/space",
-    image: "/images/space/hero.png",
+    // The optimized variant, not the 6.5MB master — link unfurlers fetch
+    // this eagerly and several cap the payload they will accept.
+    image: "/images/space/hero.w1400.webp",
   });
 }
 

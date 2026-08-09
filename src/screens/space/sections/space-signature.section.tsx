@@ -1,344 +1,194 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { IcFacebook, IcInstagram } from "@/shared/components/icons";
-import { businessInfo, socialLinks } from "@/shared/constants/site.constant";
+import { SpaceGallerySlider } from "../components/space-gallery-slider";
+import { spaceBackdrop, spaceLocations, type SpaceLocation } from "../constants/space.constant";
+import { Reveal } from "@/shared/components/ui/reveal";
+import { optimizedImage, responsiveImage } from "@/shared/lib/image";
 import { cn } from "@/shared/lib/utils";
-import { spaceLocations } from "../constants/space.constant";
 
-type SpaceLocation = (typeof spaceLocations)[number];
+/**
+ * Geometry notes below quote the Figma frames 1:1 — desktop from the
+ * 1400-wide frame, mobile from the 430-wide one. The desktop band is
+ * 122 + 411 + 122 = 655px tall and the mobile one 40 + 356 + 35 + 227 + 40
+ * = 698, which is where every fixed number in here comes from.
+ */
 
-const socialIcons = {
-  IcFacebook,
-  IcInstagram,
-};
-
-function AccentScroll({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn("relative w-[3px] rounded-full bg-gold/40 md:w-1.5", className)}
-    >
-      <div className="absolute left-1/2 top-0 h-[77px] w-[2px] -translate-x-1/2 rounded-full bg-gold/45 md:h-[100px] md:w-1" />
-    </div>
-  );
+interface LocationCopy {
+  heading: string;
+  heroAlt: string;
+  paragraphs: string[];
+  galleryAlts: string[];
 }
 
-function GalleryControls({ className }: { className?: string }) {
-  return (
-    <div aria-hidden="true" className={cn("pointer-events-none absolute inset-x-0 top-1/2 z-10", className)}>
-      <span className="absolute left-0 flex size-[37px] -translate-y-1/2 items-center justify-center rounded-r-md bg-gold/40 text-cream">
-        <span className="block size-3 rotate-45 border-b border-l border-current" />
-      </span>
-      <span className="absolute right-0 flex size-[37px] -translate-y-1/2 items-center justify-center rounded-l-md bg-gold/40 text-cream">
-        <span className="block size-3 rotate-45 border-r border-t border-current" />
-      </span>
-    </div>
-  );
-}
-
-function HeroImage({
+function LocationHero({
   location,
-  heading,
+  copy,
   isFirst,
 }: {
   location: SpaceLocation;
-  heading: string;
+  copy: LocationCopy;
   isFirst: boolean;
 }) {
   const headingID = `space-${location.id}-heading`;
   const Heading = isFirst ? "h1" : "h2";
+  const hero = responsiveImage(location.hero.src);
+  const heroMobile = location.heroMobile ? responsiveImage(location.heroMobile.src) : null;
 
   return (
-    <section aria-labelledby={headingID} className="relative h-[287px] overflow-hidden bg-ink md:h-[934px]">
+    // The comp draws the hero at the full height of the viewport it was
+    // laid out on (934 of ~934), with the translucent fixed header sitting
+    // over the top of the photo — hence `svh` rather than a fixed 934px,
+    // which overflowed every laptop screen. Below `lg` it keeps the mobile
+    // frame's own 287/430 ratio instead.
+    //
+    // `id` makes `/space#phu-quoc` a shareable link to this house. It sits
+    // on the hero so arriving lands on the title card, with the header
+    // over the photo as drawn — nothing for a scroll offset to compensate
+    // for.
+    <section
+      id={location.slug}
+      aria-labelledby={headingID}
+      className="relative h-[66.75vw] max-h-[430px] overflow-hidden bg-ink lg:h-svh lg:max-h-none"
+    >
       <picture>
-        {location.mobileHeroImage ? (
-          <source
-            media="(max-width: 767px)"
-            srcSet={location.mobileHeroImage}
-            width={location.mobileHeroWidth}
-            height={location.mobileHeroHeight}
-          />
+        {heroMobile && location.heroMobile ? (
+          <source media="(max-width: 1023px)" srcSet={heroMobile.srcSet ?? heroMobile.src} sizes="100vw" />
         ) : null}
         <img
-          src={location.heroImage}
-          alt=""
-          width={location.heroWidth}
-          height={location.heroHeight}
+          src={hero.src}
+          srcSet={hero.srcSet}
+          alt={copy.heroAlt}
+          width={location.hero.width}
+          height={location.hero.height}
           sizes="100vw"
           loading={isFirst ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={isFirst ? "high" : undefined}
-          aria-hidden="true"
           className="absolute inset-0 size-full object-cover"
         />
       </picture>
 
-      <Heading
-        id={headingID}
-        className="absolute bottom-3 left-4 w-[calc(100%-32px)] max-w-[401px] font-display text-4xl leading-[1.2] text-cream md:bottom-[55px] md:left-[52px] md:max-w-[966px] md:text-[100px]"
-      >
-        {heading}
-      </Heading>
+      <div className="absolute inset-x-0 bottom-[10px] lg:bottom-[55px]">
+        <div className="mx-auto max-w-[1400px] px-4 lg:px-[52px]">
+          <Reveal variant="slide-up">
+            <Heading
+              id={headingID}
+              className="font-display leading-[1.2] text-cream text-[clamp(1.75rem,8.37vw,2.25rem)] lg:max-w-[966px] lg:text-[clamp(3.5rem,7.14vw,6.25rem)]"
+            >
+              {copy.heading}
+            </Heading>
+          </Reveal>
+        </div>
+      </div>
     </section>
   );
 }
 
-function MobileLocationStory({
-  location,
-  paragraphs,
-  galleryAlts,
-}: {
-  location: SpaceLocation;
-  paragraphs: string[];
-  galleryAlts: string[];
-}) {
+/**
+ * The scrolling copy panel. The design's gold hairline beside the text is
+ * the panel's own scrollbar, not decoration — see `.scrollbar-space` in
+ * `globals.css`, and the same treatment on /humans and /story.
+ *
+ * Widths are set so the *content* lands on the design's measure once the
+ * scrollbar and the gap the comp leaves in front of it are subtracted:
+ * 416 − 17 − 6 = 393 on desktop, 294 − 18 − 3 = 273 on mobile.
+ */
+function LocationCopyPanel({ paragraphs, isDark }: { paragraphs: string[]; isDark: boolean }) {
+  return (
+    <div
+      className={cn(
+        "scrollbar-space flex h-[356px] w-full flex-col gap-5 overflow-y-scroll pr-[18px] font-sans text-sm leading-[1.4] lg:h-[411px] lg:gap-7 lg:pr-[17px] lg:text-xl",
+        isDark ? "text-cream" : "text-ink"
+      )}
+    >
+      {paragraphs.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+    </div>
+  );
+}
+
+function LocationStory({ location, copy }: { location: SpaceLocation; copy: LocationCopy }) {
   const isDark = location.theme === "dark";
 
   return (
-    <div className="relative mx-auto h-[699px] max-w-[430px] overflow-hidden md:hidden">
-      <div className="grid grid-cols-[minmax(0,286px)_3px] gap-3 px-6 pt-10 min-[390px]:pl-[68px] min-[390px]:pr-[70px]">
-        <div
+    <section className={cn("relative overflow-hidden", isDark ? "bg-deep" : "bg-cream")}>
+      {!isDark ? (
+        <>
+          {/* Cream paper grain, painted at its natural width and tiled down
+              rather than `cover`, so the grain stays the size the comp
+              draws it. Same treatment as StoryBackdrop. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-top bg-[length:100%_auto] bg-repeat-y lg:hidden"
+            style={{ backgroundImage: `url(${optimizedImage(spaceBackdrop.textureMobile)})` }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 hidden bg-top bg-[length:100%_auto] bg-repeat-y lg:block"
+            style={{ backgroundImage: `url(${optimizedImage(spaceBackdrop.texture)})` }}
+          />
+        </>
+      ) : null}
+
+      {/* One flex row per band, mirrored by theme: the light one runs copy
+          left / photos bleeding off the right edge, the dark one the other
+          way round. Below `lg` both stack, and the strip goes full-bleed.
+          The copy column carries the band's 52px outer inset in its own
+          width (416 + 52 = 468) so the strip can still reach the edge. */}
+      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-[35px] py-10 lg:h-[655px] lg:flex-row lg:items-center lg:gap-6 lg:py-0">
+        <Reveal
+          variant={isDark ? "slide-left" : "slide-right"}
           className={cn(
-            "h-[356px] overflow-hidden font-sans text-sm leading-[1.4]",
-            isDark ? "text-cream" : "text-ink"
+            "mx-auto w-[68.4%] max-w-[294px] shrink-0 lg:mx-0 lg:w-[468px] lg:max-w-none",
+            isDark ? "lg:order-2 lg:pr-[52px]" : "lg:order-1 lg:pl-[52px]"
           )}
         >
-          {paragraphs.map((paragraph) => (
-            <p key={paragraph} className="mb-5 last:mb-0">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-        <AccentScroll className="h-[356px]" />
-      </div>
+          <LocationCopyPanel paragraphs={copy.paragraphs} isDark={isDark} />
+        </Reveal>
 
-      <div className="absolute left-0 top-[432px] flex h-[227px] w-[calc(100%+62px)] gap-2">
-        {location.gallery.map((image, index) => (
-          <div
-            key={image.image}
-            className={cn(
-              "relative h-full shrink-0 overflow-hidden",
-              index === 0 ? "w-[69.3%]" : "w-[30.7%]"
-            )}
-          >
-            <img
-              src={image.image}
-              alt={galleryAlts[index] ?? ""}
-              width={image.width}
-              height={image.height}
-              sizes={index === 0 ? "(max-width: 767px) 85vw, 617px" : "(max-width: 767px) 38vw, 273px"}
-              loading="lazy"
-              decoding="async"
-              className="size-full object-cover"
-            />
-          </div>
-        ))}
-        <GalleryControls />
-      </div>
-    </div>
-  );
-}
-
-function DesktopLocationStory({
-  location,
-  paragraphs,
-  galleryAlts,
-}: {
-  location: SpaceLocation;
-  paragraphs: string[];
-  galleryAlts: string[];
-}) {
-  const isDark = location.theme === "dark";
-
-  return (
-    <div className="relative mx-auto hidden h-[655px] max-w-[1400px] md:block">
-      <div
-        className={cn(
-          "absolute top-[122px] h-[411px] w-[393px] overflow-hidden font-sans text-xl leading-[1.4]",
-          isDark ? "left-[calc(66.666%-1px)] text-cream" : "left-[52px] text-ink"
-        )}
-      >
-        {paragraphs.map((paragraph) => (
-          <p key={paragraph} className="mb-7 last:mb-0">
-            {paragraph}
-          </p>
-        ))}
-      </div>
-
-      <AccentScroll
-        className={cn(
-          "absolute top-[122px] h-[411px]",
-          isDark ? "left-[calc(91.666%+59px)]" : "left-[calc(25%+112px)]"
-        )}
-      />
-
-      <div
-        className={cn(
-          "absolute top-[122px] flex h-[411px] gap-2.5 overflow-hidden",
-          isDark ? "left-0 w-[653px]" : "left-[calc(33.333%+25px)] w-[890px]"
-        )}
-      >
-        {location.gallery.map((image, index) => (
-          <div
-            key={image.image}
-            className={cn(
-              "relative h-full shrink-0 overflow-hidden",
-              isDark
-                ? index === 0
-                  ? "w-[617px]"
-                  : "w-[739px]"
-                : index === 0
-                  ? "w-[617px]"
-                  : "w-[273px]"
-            )}
-          >
-            <img
-              src={image.image}
-              alt={galleryAlts[index] ?? ""}
-              width={image.width}
-              height={image.height}
-              sizes={index === 0 ? "(max-width: 767px) 85vw, 617px" : "(max-width: 767px) 38vw, 739px"}
-              loading="lazy"
-              decoding="async"
-              className="size-full object-cover"
-            />
-          </div>
-        ))}
-        <GalleryControls />
-      </div>
-    </div>
-  );
-}
-
-function LocationStory({
-  location,
-  paragraphs,
-  galleryAlts,
-}: {
-  location: SpaceLocation;
-  paragraphs: string[];
-  galleryAlts: string[];
-}) {
-  const isDark = location.theme === "dark";
-
-  return (
-    <section className={cn("overflow-hidden", isDark ? "bg-ink" : "bg-cream")}>
-      <MobileLocationStory location={location} paragraphs={paragraphs} galleryAlts={galleryAlts} />
-      <DesktopLocationStory location={location} paragraphs={paragraphs} galleryAlts={galleryAlts} />
-    </section>
-  );
-}
-
-function SpaceFooter({
-  mailLabel,
-  telLabel,
-  addressLabel,
-  followLabel,
-  socialLabels,
-}: {
-  mailLabel: string;
-  telLabel: string;
-  addressLabel: string;
-  followLabel: string;
-  socialLabels: Record<string, string>;
-}) {
-  return (
-    <footer className="space-footer bg-ink text-cream">
-      <div className="relative mx-auto h-[371px] max-w-[1400px] md:h-[360px]">
-        <Link href="/" className="absolute left-4 top-[59px] inline-block cursor-pointer md:left-[53px] md:top-[108px]">
-          <img
-            src="/images/logo.png"
-            alt={businessInfo.name}
-            width={683}
-            height={110}
-            sizes="(max-width: 767px) 306px, 306px"
-            loading="lazy"
-            decoding="async"
-            className="h-auto w-[306px]"
+        <Reveal
+          variant={isDark ? "slide-right" : "slide-left"}
+          delayMs={180}
+          className={cn("min-w-0 lg:flex-1", isDark ? "lg:order-1" : "lg:order-2")}
+        >
+          <SpaceGallerySlider
+            photos={location.gallery}
+            alts={copy.galleryAlts}
+            className="h-[min(52.8vw,227px)] lg:h-[411px]"
           />
-        </Link>
-
-        <address className="absolute left-4 top-[115px] not-italic md:left-[calc(50%+13px)] md:top-[108px]">
-          <dl className="space-y-0 font-sans text-base leading-[1.4] text-white md:text-lg md:leading-6">
-            <div>
-              <dt className="inline">{mailLabel} </dt>
-              <dd className="inline">
-                <a href={`mailto:${businessInfo.email}`} className="cursor-pointer transition-colors hover:text-gold">
-                  {businessInfo.email}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="inline">{telLabel} </dt>
-              <dd className="inline">
-                <a
-                  href={`tel:${businessInfo.phone.replace(/\s/g, "")}`}
-                  className="cursor-pointer transition-colors hover:text-gold"
-                >
-                  {businessInfo.phone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt>{addressLabel}</dt>
-              {businessInfo.locations.map((location) => (
-                <dd key={location.id}>{location.address}</dd>
-              ))}
-            </div>
-          </dl>
-        </address>
-
-        <div className="absolute left-4 top-[268px] md:left-[calc(87.5%-59px)] md:top-[107px]">
-          <p className="font-sans text-[19px] leading-6 text-cream">[&nbsp; {followLabel} &nbsp;]</p>
-          <div className="mt-[13px] flex items-center gap-4 md:justify-center">
-            {socialLinks.map((social) => {
-              const Icon = socialIcons[social.icon as keyof typeof socialIcons];
-              return (
-                <a
-                  key={social.id}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={socialLabels[social.id] ?? social.id}
-                  className="flex size-[34px] cursor-pointer items-center justify-center text-cream transition-colors hover:text-gold"
-                >
-                  <Icon className="size-[34px]" />
-                </a>
-              );
-            })}
-          </div>
-        </div>
+        </Reveal>
       </div>
-    </footer>
+    </section>
   );
 }
 
 export async function SpaceSignatureSection() {
   const t = await getTranslations("spacePage");
-  const tFooter = await getTranslations("footer");
 
   return (
-    <article className="space-page bg-cream">
-      <style>{`body:has(.space-page) > footer:not(.space-footer){display:none;}`}</style>
+    <article>
+      {spaceLocations.map((location, index) => {
+        const city = t(`locations.${location.id}.city`);
+        const copy: LocationCopy = {
+          heading: t(`locations.${location.id}.heading`),
+          heroAlt: t(`locations.${location.id}.heroAlt`),
+          paragraphs: t.raw(`locations.${location.id}.paragraphs`) as string[],
+          // One alt per photo, numbered. The folder is a run of ambiance
+          // shots with no individually describable subject, so numbering
+          // them is what actually distinguishes one from the next for a
+          // screen reader — repeating a single caption ten times would not.
+          galleryAlts: location.gallery.map((_, position) =>
+            t('galleryPhotoAlt', { city, index: position + 1, total: location.gallery.length })
+          ),
+        };
 
-      {spaceLocations.map((location, index) => (
-        <div key={location.id}>
-          <HeroImage location={location} heading={t(`locations.${location.id}.heading`)} isFirst={index === 0} />
-          <LocationStory
-            location={location}
-            paragraphs={t.raw(`locations.${location.id}.paragraphs`) as string[]}
-            galleryAlts={t.raw(`locations.${location.id}.galleryAlts`) as string[]}
-          />
-        </div>
-      ))}
-
-      <SpaceFooter
-        mailLabel={tFooter("mail")}
-        telLabel={tFooter("tel")}
-        addressLabel={tFooter("address")}
-        followLabel={tFooter("followUs")}
-        socialLabels={tFooter.raw("social") as Record<string, string>}
-      />
+        return (
+          <div key={location.id}>
+            <LocationHero location={location} copy={copy} isFirst={index === 0} />
+            <LocationStory location={location} copy={copy} />
+          </div>
+        );
+      })}
     </article>
   );
 }
