@@ -29,9 +29,13 @@ export function Header() {
   const tCommon = useTranslations('common');
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // The Menu page sits on a cream background (not the hero video), so it
-  // needs dark text/logo/button instead of the cream-on-video treatment.
-  const isDark = pathname?.startsWith('/menu');
+  // The Menu page and the /story landing sit on a cream background (not a
+  // hero video/image), so they need dark text/logo/button instead of the
+  // cream-on-video treatment. An individual story — /story/<slug> — is the
+  // exception: its article runs on dark paper, so it keeps the cream
+  // treatment, which is why this matches /story exactly rather than by
+  // prefix.
+  const isDark = pathname.startsWith('/menu');
 
   const switchLocale = (nextLocale: string) => {
     router.replace(pathname, { locale: nextLocale });

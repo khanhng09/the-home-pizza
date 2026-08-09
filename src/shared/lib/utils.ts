@@ -48,6 +48,51 @@ export const formatDate = (date: Date | string, locale: string = 'en-US'): strin
 };
 
 /**
+ * The restaurant's own timezone, pinned so a published date reads the same
+ * whether a page was prerendered on a CI box in UTC or rendered locally.
+ * Without it, an evening post in Vietnam prints as the previous day.
+ */
+const SITE_TIME_ZONE = 'Asia/Ho_Chi_Minh';
+
+/**
+ * `dd/MM/yyyy HH:mm` — the timestamp under a story card, as the design
+ * writes it. Fixed rather than locale-dependent because the format is part
+ * of the layout: `en-US` would flip it to `3/6/2023, 10:59 AM` and reflow
+ * the card.
+ */
+export const formatStoryTimestamp = (date: Date | string): string => {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: SITE_TIME_ZONE,
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(d);
+
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? '';
+
+  return `${get('day')}/${get('month')}/${get('year')} ${get('hour')}:${get('minute')}`;
+};
+
+/**
+ * Short published date for an article byline — "23 thg 2" in Vietnamese,
+ * "23 Feb" in English. Locale-dependent on purpose here, unlike the card
+ * timestamp above: it sits inline in a sentence rather than in a fixed slot.
+ */
+export const formatStoryByline = (date: Date | string, locale: string): string => {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'vi-VN', {
+    timeZone: SITE_TIME_ZONE,
+    day: 'numeric',
+    month: 'short',
+  }).format(d);
+};
+
+/**
  * Capitalize first letter of string
  */
 export const capitalize = (str: string): string => {

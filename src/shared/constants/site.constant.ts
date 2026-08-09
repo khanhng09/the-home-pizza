@@ -38,7 +38,7 @@ export const businessInfo = {
 // messages/*.json) and looked up by `id` — this only holds hrefs + ids.
 export const navigation = {
   main: [
-    { id: "story", href: "" },
+    { id: "story", href: "/story" },
     { id: "menu", href: "/menu" },
     { id: "humans", href: "/humans" },
   ],
