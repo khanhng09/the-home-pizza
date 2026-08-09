@@ -15,6 +15,10 @@
     "space": {
       "title": "The Home Space",
       "description": "Explore The Home Pizza Signature spaces in Phu Quoc and Nha Trang — where the spirit of coming home is told through design, garden, and a warm open kitchen."
+    },
+    "story": {
+      "title": "The Home's Story",
+      "description": "The story behind The Home Pizza's journey to create the Vietnamese Specialty Pizza Map — from a small kitchen in Sapa to every slice that carries a taste of home."
     }
   },
   "common": {
@@ -137,7 +141,8 @@
           ],
           "alt": "The Home Pizza restaurant space in Nha Trang"
         }
-      }
+      },
+      "cta": "Explore"
     }
   },
   "menuPage": {
@@ -253,10 +258,57 @@
       "imageAlt": "The Home Pizza's space and team"
     }
   },
+  "storyPage": {
+    "intro": {
+      "heading": "The Home's Story",
+      "paragraphs": [
+        "Hello from The Home,",
+        "Welcome to a journey exploring Vietnam's specialty map with The Home, on an authentic Italian pizza base — every slice carries the mark of a Vietnamese region, where geography, climate, soil, and culture meet to shape its own distinct ingredients and flavors. From the belief that Vietnamese cuisine is rich enough to step onto the world stage, The Home holds firmly to its mission: drawing the Vietnamese Specialty Pizza Map.",
+        "For The Home, that journey began with something wonderfully simple: in a small kitchen on a hilltop in Sapa one winter afternoon in 2016, our Owner and Head Chef was struck by an unexpected harmony — salty, sour, the fragrant herbs of the Northwest, and the distinctly sweet, earthy taste of H'Mong duck. In the cool mountain air, that flavor sparked a new inspiration, and in that moment, The Home found its own path. The idea for H'Mong Duck Pizza was born — the starting milestone of The Home Pizza's journey to create Vietnamese specialty pizzas. On that journey of bringing regional specialties onto a pizza base, you and The Home keep writing together the dream of spreading Vietnamese culture through familiar flavors.",
+        "When you're at The Home, just make yourself at home!"
+      ],
+      "photoAlts": {
+        "chef-oven": "The Home's Chef Owner working at the pizza oven",
+        "exterior": "The Home Pizza's restaurant entrance and outdoor tables",
+        "kitchen-staff": "The Home's team preparing pizza in the open kitchen",
+        "plate-detail": "A table setting at The Home Pizza",
+        "dish-detail": "A Vietnamese specialty dish served at The Home",
+        "dining-room": "The Home Pizza's dining room in the evening"
+      }
+    },
+    "slider": {
+      "previous": "Previous photo",
+      "next": "Next photo"
+    },
+    "list": {
+      "heading": "The Home's everyday moments"
+    }
+  },
+  "storyDetail": {
+    "readingTime": "{minutes} min read",
+    "back": "Back",
+    "actions": {
+      "like": "Like this article",
+      "unlike": "Unlike this article",
+      "share": "Share this article",
+      "copied": "Link copied"
+    },
+    "comments": {
+      "heading": "Comments",
+      "label": "Write a comment",
+      "placeholder": "Write a comment..."
+    },
+    "related": {
+      "heading": "Recent posts",
+      "viewAll": "View all"
+    }
+  },
   "spacePage": {
     "locations": {
       "phuQuoc": {
         "heading": "The Home Pizza Signature Phu Quoc",
+        "city": "Phu Quoc",
+        "heroAlt": "Dining room and bar at The Home Pizza Signature Phu Quoc",
         "paragraphs": [
           "In 2019, the first The Home Pizza restaurant was born in Phu Quoc, carrying a vision to share Western culinary culture through the spirit of Vietnamese specialty cuisine. Five years later, that journey continues in a new form. Inspired by the idea of \"coming home\", The Home Pizza Signature was created in 2024 with the goal of recreating a dining space beneath the roof of a traditional three-room Vietnamese house, expressed through a modern design language and the feeling of being \"as natural as home\".",
           "From that spirit, a rustic red brick wall highlights the open kitchen in the front room, welcoming guests with smiles from The Home's chefs as soon as they step inside. In the front yard is a cooling garden, where areca palms rise toward the sun, bamboo rustles in the breeze, and starfruit trees bring a familiar countryside sweetness. Vietnamese families have long planted areca palms at the front of the house as a hospitable greeting, kept starfruit trees for the gentle sweetness of the home garden, and let bamboo whisper by the veranda as a symbol of shelter and resilience. The Home brings those familiar forms into its garden so guests can touch that sense of belonging completely.",
@@ -265,14 +317,12 @@
           "Stepping into the main house, guests find a cozy dining space and a modern bar opening under a warm, just-right glow. The main room is accented with woven rattan details, familiar enough and modern enough for guests to feel the Vietnamese specialty spirit more completely.",
           "Under the shade of trees, or inside the warm dining room, there is a fresh hot Vietnamese Specialty Pizza, a glowing kitchen, and The Home's people welcoming you with a familiar smile. Everything is prepared neatly and thoughtfully so you can sit down naturally and feel at home.",
           "In the lively center of the island, The Home Pizza Signature welcomes you \"home\" into a familiar and cozy space. Make yourself at home!"
-        ],
-        "galleryAlts": [
-          "Garden courtyard and entrance at The Home Pizza Signature Phu Quoc",
-          "Open kitchen space at The Home Pizza Signature Phu Quoc"
         ]
       },
       "nhaTrang": {
         "heading": "The Home Pizza Signature Nha Trang",
+        "city": "Nha Trang",
+        "heroAlt": "Dining hall and wood-fired oven at The Home Pizza Signature Nha Trang",
         "paragraphs": [
           "The new home in Nha Trang is expected to open in early 2026.",
           "From that spirit, a rustic red brick wall highlights the open kitchen in the front room, welcoming guests with smiles from The Home's chefs as soon as they step inside. In the front yard is a cooling garden, where areca palms rise toward the sun, bamboo rustles in the breeze, and starfruit trees bring a familiar countryside sweetness. Vietnamese families have long planted areca palms at the front of the house as a hospitable greeting, kept starfruit trees for the gentle sweetness of the home garden, and let bamboo whisper by the veranda as a symbol of shelter and resilience. The Home brings those familiar forms into its garden so guests can touch that sense of belonging completely.",
@@ -281,12 +331,13 @@
           "Stepping into the main house, guests find a cozy dining space and a modern bar opening under a warm, just-right glow. The main room is accented with woven rattan details, familiar enough and modern enough for guests to feel the Vietnamese specialty spirit more completely.",
           "Under the shade of trees, or inside the warm dining room, there is a fresh hot Vietnamese Specialty Pizza, a glowing kitchen, and The Home's people welcoming you with a familiar smile. Everything is prepared neatly and thoughtfully so you can sit down naturally and feel at home.",
           "In the lively center of the island, The Home Pizza Signature welcomes you \"home\" into a familiar and cozy space. Make yourself at home!"
-        ],
-        "galleryAlts": [
-          "Dining space at The Home Pizza Signature Nha Trang",
-          "Table and bar corner at The Home Pizza Signature Nha Trang"
         ]
       }
-    }
+    },
+    "slider": {
+      "previous": "Previous photo",
+      "next": "Next photo"
+    },
+    "galleryPhotoAlt": "Inside The Home Pizza Signature {city} — photo {index} of {total}"
   }
 }
