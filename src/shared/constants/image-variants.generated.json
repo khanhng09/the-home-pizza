@@ -305,15 +305,21 @@
     2160
   ],
   "/images/story/story-1.webp": [
+    320,
     480,
+    640,
     795
   ],
   "/images/story/story-2.webp": [
+    320,
     480,
+    640,
     780
   ],
   "/images/story/story-3.webp": [
+    320,
     480,
+    640,
     786
   ],
   "/images/story/story-4.webp": [
@@ -323,7 +329,9 @@
     378
   ],
   "/images/story/story-6.webp": [
+    320,
     480,
+    640,
     780
   ]
 }

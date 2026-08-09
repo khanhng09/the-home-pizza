@@ -115,8 +115,13 @@ const GROUPS = [
   },
   {
     // /story screen collage + mobile slider photos. Rendered anywhere from
-    // ~230 CSS px (desktop collage column) up to full-bleed on mobile
-    // (~400 CSS px) — 480/800 covers both up to 2x pixel density.
+    // ~240 CSS px (desktop collage column) up to ~300 CSS px in the mobile
+    // filmstrip, so the useful range is narrow and the steps are close
+    // together: 320 for a 1x desktop, 480 for the narrow filmstrip slots at
+    // 2x, 640 for the two landscape photos at 2x — without that step a
+    // DPR-2 phone jumps straight to the ~780 variant and pays ~50% more
+    // bytes for pixels it can't show. 800 is the 2x ceiling (the sources
+    // top out just under it, so it lands as 780/786/795).
     name: 'story screen',
     files: [
       'images/story/story-1.webp',
@@ -124,7 +129,7 @@ const GROUPS = [
       'images/story/story-3.webp',
       'images/story/story-6.webp',
     ],
-    widths: [480, 800],
+    widths: [320, 480, 640, 800],
   },
   {
     // /story screen small square detail shots — already small, one

@@ -42,6 +42,10 @@ export async function StoryListSection() {
                 height={story.image.height}
                 sizes="(min-width: 1024px) 230px, (min-width: 640px) 180px, 40vw"
                 loading="lazy"
+                // Card thumbnails, always below the fold — same reasoning as
+                // the intro photos: nothing here should be competing with
+                // the LCP paint for the connection.
+                fetchPriority="low"
                 decoding="async"
                 className="aspect-square shrink-0 object-cover w-[190px] lg:w-76.25"
               />

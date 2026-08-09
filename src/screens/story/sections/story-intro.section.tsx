@@ -1,6 +1,11 @@
 import { getTranslations } from 'next-intl/server';
 import { StoryImageSlider } from '../components/story-image-slider';
-import { storyHeroBand, storyPhotoById } from '../constants/story.constant';
+import {
+  STORY_COLLAGE_CANVAS,
+  storyHeroBand,
+  storyPhotoById,
+  storyPhotoSizes,
+} from '../constants/story.constant';
 import { Illustration } from '@/shared/components/illustrations/illustration';
 import { Reveal } from '@/shared/components/ui/reveal';
 import { responsiveImage } from '@/shared/lib/image';
@@ -16,7 +21,7 @@ import { responsiveImage } from '@/shared/lib/image';
  * height), where 870 is the collage's height on that canvas — measured
  * from the bottom of the roofline band down to the last photo.
  */
-const DESKTOP_CANVAS = { width: 1400, height: 870 };
+const DESKTOP_CANVAS = STORY_COLLAGE_CANVAS;
 const px = (value: number, axis: 'x' | 'y') =>
   `${((value / (axis === 'x' ? DESKTOP_CANVAS.width : DESKTOP_CANVAS.height)) * 100).toFixed(3)}%`;
 
@@ -42,17 +47,22 @@ export async function StoryIntroSection() {
 
   /** The collage photos, in the four corner slots + two small squares the
    * design places them in. Kept as data so the markup below stays a flat
-   * list of positioned boxes rather than six near-identical blocks. */
+   * list of positioned boxes rather than six near-identical blocks.
+   *
+   * Slot widths come from each photo's own `collageWidth` rather than being
+   * repeated here — `storyPhotoSizes()` reads the same field to build the
+   * `sizes` attribute, and the two have to describe the same box or the
+   * browser downloads a variant that doesn't match what it paints. */
   const collage = [
     // Left column — tall chef portrait above the kitchen shot.
-    { photo: chefOven, style: { left: 0, top: px(77, 'y'), width: px(266, 'x'), height: px(354, 'y') }, reveal: 'slide-right' as const, delay: 0 },
-    { photo: kitchenStaff, style: { left: px(3, 'x'), top: px(574, 'y'), width: px(262, 'x'), height: px(197, 'y') }, reveal: 'slide-right' as const, delay: 220 },
+    { photo: chefOven, style: { left: 0, top: px(77, 'y'), width: px(chefOven.collageWidth, 'x'), height: px(354, 'y') }, reveal: 'slide-right' as const, delay: 0 },
+    { photo: kitchenStaff, style: { left: px(3, 'x'), top: px(574, 'y'), width: px(kitchenStaff.collageWidth, 'x'), height: px(197, 'y') }, reveal: 'slide-right' as const, delay: 220 },
     // Right column — exterior above the dining room.
-    { photo: exterior, style: { right: 0, top: px(67, 'y'), width: px(260, 'x'), height: px(196, 'y') }, reveal: 'slide-left' as const, delay: 0 },
-    { photo: diningRoom, style: { right: 0, top: px(500, 'y'), width: px(260, 'x'), height: px(346, 'y') }, reveal: 'slide-left' as const, delay: 220 },
+    { photo: exterior, style: { right: 0, top: px(67, 'y'), width: px(exterior.collageWidth, 'x'), height: px(196, 'y') }, reveal: 'slide-left' as const, delay: 0 },
+    { photo: diningRoom, style: { right: 0, top: px(500, 'y'), width: px(diningRoom.collageWidth, 'x'), height: px(346, 'y') }, reveal: 'slide-left' as const, delay: 220 },
     // The two small squares that sit inboard of each column.
-    { photo: plateDetail, style: { left: px(276, 'x'), top: px(645, 'y'), width: px(126, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
-    { photo: dishDetail, style: { left: px(1004, 'x'), top: px(645, 'y'), width: px(126, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
+    { photo: plateDetail, style: { left: px(276, 'x'), top: px(645, 'y'), width: px(plateDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
+    { photo: dishDetail, style: { left: px(1004, 'x'), top: px(645, 'y'), width: px(dishDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
   ];
 
   return (
@@ -102,8 +112,16 @@ export async function StoryIntroSection() {
                     alt={t(`photoAlts.${photo.id}`)}
                     width={photo.width}
                     height={photo.height}
-                    sizes="20vw"
+                    sizes={storyPhotoSizes(photo)}
                     loading="lazy"
+                    // `loading="lazy"` does nothing for this subtree below
+                    // `lg`, where it is `display: none`: with no layout box
+                    // there is nothing for the browser to defer against, so
+                    // all six photos are fetched at once — on mobile, while
+                    // the roofline band above is still trying to become the
+                    // LCP. They can't be dropped (the filmstrip renders the
+                    // same URLs), but they can be told to wait their turn.
+                    fetchPriority="low"
                     decoding="async"
                     className="h-full w-full object-cover"
                   />

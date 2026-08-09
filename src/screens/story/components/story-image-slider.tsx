@@ -5,7 +5,7 @@ import { useInView, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { IcChevronLeft, IcChevronRight } from '@/shared/components/icons';
 import { responsiveImage } from '@/shared/lib/image';
-import { STORY_SLIDER_INTERVAL_MS, storyPhotos } from '../constants/story.constant';
+import { STORY_SLIDER_INTERVAL_MS, storyPhotoSizes, storyPhotos } from '../constants/story.constant';
 
 /**
  * Mobile-only photo strip. The design runs the photos edge to edge at a
@@ -99,8 +99,16 @@ export function StoryImageSlider() {
                 alt={t(`intro.photoAlts.${photo.id}`)}
                 width={photo.width}
                 height={photo.height}
-                sizes="70vw"
+                // Shared with the desktop collage on purpose — see
+                // `storyPhotoSizes()`. Both layouts sit in the DOM at every
+                // width, so agreeing on one `sizes` is what stops each photo
+                // from being downloaded once per layout.
+                sizes={storyPhotoSizes(photo)}
                 loading="lazy"
+                // Below the fold on every viewport this renders at, so it
+                // never has a claim on the connection ahead of the roofline
+                // band that is the LCP.
+                fetchPriority="low"
                 decoding="async"
                 className="h-full w-auto max-w-none object-cover"
               />
