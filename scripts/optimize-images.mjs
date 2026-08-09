@@ -73,8 +73,10 @@ const GROUPS = [
   {
     // Location panel gallery — per-city ambiance photos, same geometry as
     // the menu panel (half the container on desktop, full-bleed on mobile).
+    // Phú Quốc is absent here on purpose: its originals were never
+    // committed, so it is rebuilt from its variants — see VARIANT_ONLY_DIRS.
     name: 'location gallery',
-    dirs: ['images/home/location/nha-trang', 'images/home/location/phu-quoc'],
+    dirs: ['images/home/location/nha-trang'],
     widths: [860, 1400],
   },
   {
@@ -112,6 +114,47 @@ const GROUPS = [
     widths: [640, 1400],
   },
   {
+    // /story screen collage + mobile slider photos. Rendered anywhere from
+    // ~230 CSS px (desktop collage column) up to full-bleed on mobile
+    // (~400 CSS px) — 480/800 covers both up to 2x pixel density.
+    name: 'story screen',
+    files: [
+      'images/story/story-1.webp',
+      'images/story/story-2.webp',
+      'images/story/story-3.webp',
+      'images/story/story-6.webp',
+    ],
+    widths: [480, 800],
+  },
+  {
+    // /story screen small square detail shots — already small, one
+    // variant is enough.
+    name: 'story screen detail',
+    files: ['images/story/story-4.webp', 'images/story/story-5.webp'],
+    widths: [378],
+  },
+  {
+    // /story screen top decorative roofline band, full-bleed behind the
+    // header — same treatment as the other section background textures.
+    name: 'story screen hero band',
+    files: ['images/story/hero.webp'],
+    widths: [768, 1400, 2160],
+  },
+  {
+    // /space full-bleed location heroes. They fill the viewport width at
+    // any size, so the ladder matches the other full-bleed banners.
+    name: 'space heroes',
+    files: ['images/space/hero.png', 'images/space/hero-nt.png'],
+    widths: [768, 1400, 2160],
+  },
+  {
+    // The Phú Quốc hero's own mobile crop — only ever painted below `lg`,
+    // where the viewport tops out around 430 CSS px.
+    name: 'space hero mobile',
+    files: ['images/space/hero-mb.png'],
+    widths: [480, 860],
+  },
+  {
     // Section background textures. These are CSS `background-image`, which
     // has no srcset — each breakpoint already points at its own file, so
     // one variant each at the size it is actually painted.
@@ -142,13 +185,61 @@ async function collect(group) {
   const found = [];
   for (const dir of group.dirs) {
     const entries = await readdir(join(PUBLIC_DIR, dir));
-    for (const entry of entries) {
-      if (/\.(webp|png|jpe?g)$/i.test(entry) && !VARIANT_PATTERN.test(entry)) {
-        found.push(join(dir, entry));
-      }
+    const sources = entries.filter(
+      (entry) => /\.(webp|png|jpe?g)$/i.test(entry) && !VARIANT_PATTERN.test(entry)
+    );
+
+    // A configured directory holding only variants means its originals
+    // went missing. Silently emitting nothing would drop those images
+    // from the manifest and 404 them in the app, so fail loudly instead.
+    if (!sources.length) {
+      throw new Error(
+        `${dir} contains no source images — only generated variants.\n` +
+          'Restore the originals, or move the directory to VARIANT_ONLY_DIRS ' +
+          'if the variants are all that is ever committed for it.'
+      );
     }
+
+    for (const source of sources) found.push(join(dir, source));
   }
   return found.sort();
+}
+
+/**
+ * Rebuilds manifest entries by reading already-generated variants back off
+ * disk, for directories whose original images are not in the repo.
+ *
+ * `images/home/location/phu-quoc` is the case this exists for: only its
+ * `.w<width>.webp` variants were ever committed, never the originals they
+ * came from. A source scan therefore finds nothing there, and a
+ * from-scratch rebuild would drop all ten entries — leaving
+ * `responsiveImage()` to fall back to a bare path that 404s, because the
+ * unsuffixed file does not exist either.
+ *
+ * `ext` is the extension the app's constants reference for these images;
+ * the manifest is keyed by the path the code asks for, and the variants
+ * on disk carry no record of what their original was.
+ */
+const VARIANT_ONLY_DIRS = [
+  { name: 'phu-quoc (variants only)', dir: 'images/home/location/phu-quoc', ext: 'webp' },
+];
+
+async function collectExistingVariants({ dir, ext }, manifest) {
+  const widthsBySource = new Map();
+
+  for (const file of await readdir(join(PUBLIC_DIR, dir))) {
+    const match = file.match(/^(.+)\.w(\d+)\.webp$/);
+    if (!match) continue;
+
+    const source = `/${dir}/${match[1]}.${ext}`;
+    if (!widthsBySource.has(source)) widthsBySource.set(source, []);
+    widthsBySource.get(source).push(Number(match[2]));
+  }
+
+  for (const [source, widths] of widthsBySource) {
+    manifest[source] = widths.sort((a, b) => a - b);
+  }
+  return widthsBySource.size;
 }
 
 async function run() {
@@ -194,6 +285,11 @@ async function run() {
     console.log(
       `${group.name.padEnd(16)} ${files.length} source ${kb(groupSource).padStart(9)} → ${kb(groupOutput).padStart(9)}`
     );
+  }
+
+  for (const entry of VARIANT_ONLY_DIRS) {
+    const count = await collectExistingVariants(entry, manifest);
+    console.log(`${entry.name.padEnd(16)} ${count} source (indexed, not re-encoded)`);
   }
 
   const ordered = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)));

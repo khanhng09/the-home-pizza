@@ -50,6 +50,8 @@ const NAMES = [
   'dong-ho-pizza-base',
   'dong-ho-sau-rieng',
   'dong-ho-pizza-dough',
+  // story
+  'dong-ho-hoi-que',
 ];
 
 const TITLE_EXPRESSION = '{title && <title>{title}</title>}';

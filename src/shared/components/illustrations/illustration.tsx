@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 /** Masks produced by `yarn illustrations:extract`. Adding a name here
@@ -21,13 +22,19 @@ export type IllustrationName =
   | 'dong-ho-doi'
   | 'dong-ho-pizza-base'
   | 'dong-ho-sau-rieng'
-  | 'dong-ho-pizza-dough';
+  | 'dong-ho-pizza-dough'
+  | 'dong-ho-hoi-que';
 
 interface IllustrationProps {
   name: IllustrationName;
   /** Must carry its own width and height — there is no intrinsic size to
    * fall back on, unlike the inline SVG components this replaces. */
   className?: string;
+  /** For call sites whose geometry is computed rather than a static class
+   * — e.g. the story collage, which derives every offset from the design
+   * canvas at render time, so Tailwind has no literal class to compile.
+   * Merged ahead of the mask properties, which stay non-overridable. */
+  style?: CSSProperties;
 }
 
 /**
@@ -44,7 +51,7 @@ interface IllustrationProps {
  * call site colours these with `text-gold` or `text-accent/60`, and a
  * raster `<img>` would have needed one baked file per colour.
  */
-export function Illustration({ name, className }: IllustrationProps) {
+export function Illustration({ name, className, style }: IllustrationProps) {
   const mask = `url(/illustrations/${name}.webp)`;
 
   return (
@@ -52,6 +59,7 @@ export function Illustration({ name, className }: IllustrationProps) {
       aria-hidden="true"
       className={cn('pointer-events-none block bg-current', className)}
       style={{
+        ...style,
         maskImage: mask,
         WebkitMaskImage: mask,
         maskSize: 'contain',

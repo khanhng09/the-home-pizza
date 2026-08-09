@@ -46,43 +46,43 @@
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8696.jpg": [
+  "/images/home/location/phu-quoc/SHIN8696.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8715.jpg": [
+  "/images/home/location/phu-quoc/SHIN8715.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8752.jpg": [
+  "/images/home/location/phu-quoc/SHIN8752.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8756.jpg": [
+  "/images/home/location/phu-quoc/SHIN8756.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8770.jpg": [
+  "/images/home/location/phu-quoc/SHIN8770.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8774.jpg": [
+  "/images/home/location/phu-quoc/SHIN8774.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8777.jpg": [
+  "/images/home/location/phu-quoc/SHIN8777.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8785.jpg": [
+  "/images/home/location/phu-quoc/SHIN8785.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8797.jpg": [
+  "/images/home/location/phu-quoc/SHIN8797.webp": [
     860,
     1400
   ],
-  "/images/home/location/phu-quoc/SHIN8801.jpg": [
+  "/images/home/location/phu-quoc/SHIN8801.webp": [
     860,
     1400
   ],
@@ -271,18 +271,59 @@
     1400
   ],
   "/images/humans/chef-mb.webp": [
-    640,
-    860
+    580
   ],
   "/images/humans/chef.webp": [
     640,
-    1400
+    942
   ],
   "/images/humans/homer-mb.webp": [
-    580
+    640,
+    860
   ],
   "/images/humans/homer.webp": [
     640,
-    942
+    1400
+  ],
+  "/images/space/hero-mb.png": [
+    480,
+    860
+  ],
+  "/images/space/hero-nt.png": [
+    768,
+    1400,
+    2160
+  ],
+  "/images/space/hero.png": [
+    768,
+    1400,
+    2160
+  ],
+  "/images/story/hero.webp": [
+    768,
+    1400,
+    2160
+  ],
+  "/images/story/story-1.webp": [
+    480,
+    795
+  ],
+  "/images/story/story-2.webp": [
+    480,
+    780
+  ],
+  "/images/story/story-3.webp": [
+    480,
+    786
+  ],
+  "/images/story/story-4.webp": [
+    378
+  ],
+  "/images/story/story-5.webp": [
+    378
+  ],
+  "/images/story/story-6.webp": [
+    480,
+    780
   ]
 }

@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "images:optimize": "node scripts/optimize-images.mjs",
+    "images:tile": "node scripts/make-seamless-tile.mjs",
     "illustrations:extract": "node scripts/extract-illustrations.mjs",
     "videos:optimize": "node scripts/optimize-videos.mjs"
   },
