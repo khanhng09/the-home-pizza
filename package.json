@@ -10,6 +10,7 @@
     "lint": "eslint",
     "images:optimize": "node scripts/optimize-images.mjs",
     "images:tile": "node scripts/make-seamless-tile.mjs",
+    "images:og": "node scripts/make-og-images.mjs",
     "illustrations:extract": "node scripts/extract-illustrations.mjs",
     "videos:optimize": "node scripts/optimize-videos.mjs"
   },

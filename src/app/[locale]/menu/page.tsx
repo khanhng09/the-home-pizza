@@ -10,7 +10,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata.menu" });
-  return generatePageMetadata(locale, t("title"), t("description"), { canonical: "/menu" });
+  return generatePageMetadata(locale, t("title"), t("description"), {
+    canonical: "/menu",
+    imageSource: "/images/menu/pizza-1.webp",
+  });
 }
 
 export default async function MenuPage({

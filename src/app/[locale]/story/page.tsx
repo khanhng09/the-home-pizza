@@ -10,7 +10,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata.story" });
-  return generatePageMetadata(locale, t("title"), t("description"), { canonical: "/story" });
+  return generatePageMetadata(locale, t("title"), t("description"), {
+    canonical: "/story",
+    imageSource: "/images/story/story-2.webp",
+  });
 }
 
 export default async function StoryPage({

@@ -127,7 +127,17 @@ export const seoDefaults = {
     "authentic pizza",
     "restaurant",
   ],
-  image: "/images/og-image.jpg",
+  /**
+   * The link-preview card every page falls back to, written by
+   * `yarn images:og` — see `scripts/make-og-images.mjs` for the source it
+   * is cut from and `ogImage()` in `shared/lib/metadata.ts` for how a page
+   * asks for its own.
+   *
+   * This pointed at `/images/og-image.jpg` for a while, which was never
+   * committed: every page's `og:image` and `twitter:image` resolved to a
+   * 404, so shares rendered as a bare text link everywhere.
+   */
+  image: "/images/og/default.jpg",
   twitterHandle: "@thehomepizza",
 };
 

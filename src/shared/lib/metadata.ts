@@ -1,11 +1,33 @@
 import type { Metadata } from 'next';
 import { businessInfo, seoDefaults, SITE_URL } from '@/shared/constants/site.constant';
 import { routing } from '@/i18n/routing';
+import ogImageManifest from '@/shared/constants/og-images.generated.json';
 
 const OG_LOCALE: Record<string, string> = {
   vi: 'vi_VN',
   en: 'en_US',
 };
+
+const OG_IMAGES: Record<string, string> = ogImageManifest;
+
+/**
+ * The 1200x630 link-preview card cut from a content image.
+ *
+ * Pages and articles name the *content* photo they want to be previewed by
+ * — `/images/space/hero.png`, an article's cover — and this resolves it to
+ * the JPEG card `yarn images:og` wrote for it. Passing the content image
+ * itself to `openGraph.images` does not work: those files are WebP (patchy
+ * unfurler support) at their own aspect ratios (cropped unpredictably per
+ * platform), and the masters run to several MB, which some unfurlers
+ * refuse outright.
+ *
+ * Anything without a card falls back to the site default, matching how
+ * `responsiveImage()` degrades — a page still gets a valid preview rather
+ * than a 404 when a source is renamed without re-running the script.
+ */
+export function ogImage(source?: string): string {
+  return (source && OG_IMAGES[source]) || seoDefaults.image;
+}
 
 /** Prefixes a path with the locale segment, except for the default locale ("as-needed" mode). */
 function localizedPath(locale: string, path: string): string {
@@ -86,13 +108,20 @@ export function generatePageMetadata(
   title: string,
   description: string,
   options?: {
-    image?: string;
+    /**
+     * The *content* image this page should be previewed by — a real photo
+     * path, which `ogImage()` resolves to the page's 1200x630 card. Not the
+     * card path itself: taking the source here is what stops a caller from
+     * putting a multi-megabyte WebP master in `og:image`, which is what the
+     * /space page was doing.
+     */
+    imageSource?: string;
     canonical?: string;
     noindex?: boolean;
     ogType?: 'website' | 'article';
   }
 ): Metadata {
-  const pageImage = options?.image || seoDefaults.image;
+  const pageImage = ogImage(options?.imageSource);
   const pageUrl = options?.canonical
     ? new URL(localizedPath(locale, options.canonical), SITE_URL).toString()
     : undefined;

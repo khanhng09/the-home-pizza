@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   return generatePageMetadata(locale, article.title, article.excerpt, {
     canonical: `/story/${slug}`,
-    image: article.image.src,
+    imageSource: article.image.src,
     ogType: 'article',
   });
 }

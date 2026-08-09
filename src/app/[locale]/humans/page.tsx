@@ -17,7 +17,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata.humans" });
-  return generatePageMetadata(locale, t("title"), t("description"), { canonical: "/humans" });
+  return generatePageMetadata(locale, t("title"), t("description"), {
+    canonical: "/humans",
+    imageSource: "/images/humans/chef.webp",
+  });
 }
 
 export default async function HumansPage({
