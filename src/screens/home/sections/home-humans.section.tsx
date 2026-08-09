@@ -5,13 +5,17 @@ import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
 import { optimizedImage, responsiveImage } from '@/shared/lib/image';
 import { humansContent, humansLinkList } from '../constants/home.constant';
-import { Illustration } from '@/shared/components/illustrations/illustration';
+import { HomeIllustrationLayer } from '../components/home-illustration-layer';
 
 export async function HomeHumansSection() {
   const t = await getTranslations('home.humans');
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    // `min-h` at `lg` is the design's own section height (2761 -> 3771 on
+    // the 1400 frame); content alone gave 901px. The design leaves the same
+    // ~110px band empty below the link list, so the extra height lands where
+    // it is drawn rather than stretching anything.
+    <section className="relative overflow-hidden bg-cream lg:min-h-[1010px]">
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 aspect-[430/600] lg:aspect-auto bg-cover bg-center lg:hidden"
@@ -24,7 +28,11 @@ export async function HomeHumansSection() {
         aria-hidden="true"
       />
 
-      <div className="container-base relative py-16 lg:py-24">
+      {/* The design's own padding on the 430 frame: 27px above the heading,
+          40px below the last link row. `py-16` was costing 61px more than
+          that, which is most of why the mobile section ran 87px past the
+          design's 602. */}
+      <div className="container-base relative pt-7 pb-10 lg:py-24 z-2">
         {/* One grid drives both breakpoints.
             Mobile stacks into 2 equal columns: heading | CTA, then the two
             photos, then the link list across the full width.
@@ -33,19 +41,8 @@ export async function HomeHumansSection() {
             heading rather than under it — the heading's second line sits
             level with the top of the portrait. */}
         <div className="relative grid grid-cols-2 items-start gap-x-4 gap-y-6 lg:grid-cols-[180px_1fr_1fr] lg:gap-x-5 lg:gap-y-8 xl:grid-cols-[200px_1fr_1fr]">
-          {/* Sits above the seam between the two photos, riding up into
-              the section's top padding. Anchored to the grid rather than
-              the section so it tracks the container, not the viewport. */}
-          <Illustration name="dong-ho-hung-que"
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-10 left-[52%] h-16 w-16 text-gold lg:-top-20 lg:h-32 lg:w-32"
-          />
-
-          {/* Left gutter — heading, plus the two illustrations that flank
-              it down the left edge of the section. Spans both rows so a
-              long heading can never push the photo row down, and stretches
-              against the grid's `items-start` so the buffalo has the full
-              column height to sit at the bottom of.
+          {/* Left gutter — the heading. Spans both rows so a long heading
+              can never push the photo row down.
               `row-end-3` rather than `row-span-2`: the `grid-row` shorthand
               Tailwind emits for the span resets the start back to auto. */}
           <div className="relative lg:col-start-1 lg:row-start-1 lg:row-end-3 lg:self-stretch">
@@ -54,15 +51,6 @@ export async function HomeHumansSection() {
                 {t('heading')}
               </h2>
             </Reveal>
-
-            <Illustration name="dong-ho-cua"
-              aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-[30%] hidden h-32 w-32 text-gold lg:block xl:h-36 xl:w-36"
-            />
-            <Illustration name="dong-ho-bo"
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-0 left-[8%] hidden h-24 w-24 text-gold lg:block xl:h-28 xl:w-28"
-            />
           </div>
 
           {/* CTA — bottom of the heading block on mobile, top-right corner
@@ -103,15 +91,6 @@ export async function HomeHumansSection() {
                 className="w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
               />
             </div>
-
-            <Illustration name="dong-ho-cua"
-              aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-[30%] h-16 w-16 text-gold lg:hidden"
-            />
-            <Illustration name="dong-ho-bo"
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-0 left-[8%] h-14 w-14 text-gold lg:hidden"
-            />
           </Reveal>
 
           {/* Right column. `contents` on mobile dissolves this wrapper so
@@ -143,24 +122,29 @@ export async function HomeHumansSection() {
                   className="w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
                 />
               </div>
-
-              <Illustration name="dong-ho-tieu"
-                aria-hidden="true"
-                className="pointer-events-none absolute right-0 top-full mt-4 h-24 w-28 text-gold lg:mt-6 lg:h-32 lg:w-36"
-              />
             </Reveal>
 
+            {/* `z-10` so the peppercorns behind this column can't cover the
+                rows' trailing arrows — the illustration layer is painted
+                after this subtree, and the design has the tiêu node sitting
+                below these rows. */}
             <Reveal
               variant="slide-left"
               delayMs={550}
-              className="col-span-2 lg:col-span-1"
+              className="relative z-10 col-span-2 lg:col-span-1"
             >
               <ul>
                 {humansLinkList.map((link) => (
                   <li key={link.id} className="border-b border-foreground">
                     <Link
                       href={link.href}
-                      className="group flex min-h-11 cursor-pointer items-center justify-between gap-2 py-3 font-sans text-lg uppercase tracking-wide text-foreground lg:py-5 lg:text-[28px]"
+                      // The design draws these rows 27px tall on mobile,
+                      // which is well under the project's 44px tap-target
+                      // floor. `min-h-11` holds the floor and the vertical
+                      // padding comes off instead, so the row is exactly 44
+                      // rather than 52 — as close to the design as the
+                      // accessibility rule allows.
+                      className="group flex min-h-11 cursor-pointer items-center justify-between gap-2 font-sans text-lg uppercase tracking-wide text-foreground lg:py-5 lg:text-[28px]"
                     >
                       {t(`linkList.${link.id}`)}
                       <IcArrowRight className="h-6 w-6 shrink-0 text-foreground transition-transform duration-300 group-hover:translate-x-1 lg:h-8 lg:w-8" />
@@ -172,6 +156,10 @@ export async function HomeHumansSection() {
           </div>
         </div>
       </div>
+
+      {/* Section-level, not grid-level: the design measures these from the
+          section edge, and the grid sits inside `container-base` padding. */}
+      <HomeIllustrationLayer section="human" />
     </section>
   );
 }

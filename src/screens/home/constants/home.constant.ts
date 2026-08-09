@@ -5,6 +5,7 @@
  * Display text is translated — see the `home` namespace in messages/*.json;
  * this file only holds non-text data (image paths, ids, hrefs).
  */
+import { locationPhotos } from "@/shared/constants/location-photos.constant";
 
 // Hero section
 export const heroContent = {
@@ -173,32 +174,11 @@ export const LOCATION_HOVER_DEBOUNCE_MS = 500;
 
 // Selecting a location crossfades the right-hand panel to its first photo,
 // then the panel keeps advancing through the rest of that location's
-// folder on a timer. Order follows each folder's own file numbering.
+// folder on a timer. The photos themselves live in
+// `shared/constants/location-photos.constant.ts` — /space's filmstrip
+// shows the same folders, so neither screen owns them any more. `id` is
+// also the `/space#<id>` anchor this panel's CTA deep-links to.
 export const locationStates = [
-  {
-    id: "phu-quoc",
-    spreads: [
-      { src: "/images/home/location/phu-quoc/SHIN8696.jpg", width: 1977, height: 1318 },
-      { src: "/images/home/location/phu-quoc/SHIN8715.jpg", width: 2032, height: 1355 },
-      { src: "/images/home/location/phu-quoc/SHIN8752.jpg", width: 2059, height: 1373 },
-      { src: "/images/home/location/phu-quoc/SHIN8756.jpg", width: 1981, height: 1321 },
-      { src: "/images/home/location/phu-quoc/SHIN8770.jpg", width: 2186, height: 3280 },
-      { src: "/images/home/location/phu-quoc/SHIN8774.jpg", width: 6000, height: 4000 },
-      { src: "/images/home/location/phu-quoc/SHIN8777.jpg", width: 4000, height: 6000 },
-      { src: "/images/home/location/phu-quoc/SHIN8785.jpg", width: 6000, height: 4000 },
-      { src: "/images/home/location/phu-quoc/SHIN8797.jpg", width: 6000, height: 4000 },
-      { src: "/images/home/location/phu-quoc/SHIN8801.jpg", width: 6000, height: 4000 },
-    ],
-  },
-  {
-    id: "nha-trang",
-    spreads: [
-      { src: "/images/home/location/nha-trang/DSC03188.webp", width: 2000, height: 1334 },
-      { src: "/images/home/location/nha-trang/DSC03364.webp", width: 2545, height: 1697 },
-      { src: "/images/home/location/nha-trang/HUG02484.webp", width: 1319, height: 1978 },
-      { src: "/images/home/location/nha-trang/HUG02507.webp", width: 1885, height: 1222 },
-      { src: "/images/home/location/nha-trang/HUG02944.webp", width: 1271, height: 1861 },
-      { src: "/images/home/location/nha-trang/TRG08978.webp", width: 1495, height: 2243 },
-    ],
-  },
+  { id: "phu-quoc", spreads: locationPhotos["phu-quoc"] },
+  { id: "nha-trang", spreads: locationPhotos["nha-trang"] },
 ] as const;

@@ -63,6 +63,25 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
   // without the (much taller, further down) panel also in view.
   const isOnScreen = useInView(rootRef, { amount: 0.2 });
 
+  // "On screen" is not the same as "being painted". A backgrounded tab
+  // still reports the section as in view, so the timer kept ticking with
+  // nothing to render: every tick mounted a new page and fetched its
+  // image, while the page it replaced could never finish its exit (Motion
+  // is driven by rAF, which the tab has none of) and so was never
+  // unmounted. Left alone for a couple of minutes that stacks the whole
+  // run of spreads in the panel — measured 16 pages, and 16 downloads —
+  // which then resolve in a heap the moment the visitor comes back.
+  const [isPageVisible, setIsPageVisible] = useState(true);
+
+  useEffect(() => {
+    const sync = () => setIsPageVisible(document.visibilityState === 'visible');
+
+    sync();
+    document.addEventListener('visibilitychange', sync);
+
+    return () => document.removeEventListener('visibilitychange', sync);
+  }, []);
+
   // Direction rides along with the indices so the panel knows which edge
   // to hinge on — moving down the list turns the page forward, moving
   // back up turns it back, and the timer always turns forward.
@@ -90,7 +109,7 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
   // clock and its first spread gets a full interval rather than whatever
   // was left of the previous one's.
   useEffect(() => {
-    if (prefersReducedMotion || !isOnScreen) return;
+    if (prefersReducedMotion || !isOnScreen || !isPageVisible) return;
 
     const spreadCount = categories[active.categoryIndex].spreads.length;
     if (spreadCount < 2) return;
@@ -104,7 +123,14 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
     }, MENU_SPREAD_INTERVAL_MS);
 
     return () => window.clearTimeout(timer);
-  }, [categories, active.categoryIndex, active.spreadIndex, isOnScreen, prefersReducedMotion]);
+  }, [
+    categories,
+    active.categoryIndex,
+    active.spreadIndex,
+    isOnScreen,
+    isPageVisible,
+    prefersReducedMotion,
+  ]);
 
   // One step ahead is enough: the timer never skips, so anything further
   // out would just be speculative bandwidth.
@@ -122,9 +148,19 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
   );
 
   return (
-    <div ref={rootRef} className="grid grid-cols-1 lg:grid-cols-2 h-full">
-      {/* Content panel */}
-      <div className="relative overflow-hidden px-4 pt-16 sm:px-10 lg:px-16 lg:py-24">
+    // `flex-1`, not `h-full`: the section owns the design's height as a
+    // `min-h` and lays this out as a flex column, so this has to take the
+    // leftover height rather than resolve a percentage against a box whose
+    // computed height is `auto`.
+    <div ref={rootRef} className="grid grid-cols-1 lg:grid-cols-2 flex-1">
+      {/* Content panel. On mobile the design gives it 371px of the section's
+          932 (1981 -> 2352 on the 430 frame), with the copy starting 40px
+          down; from `lg` it is half the width and the full height instead. */}
+      {/* Same reason as the location panel: `overflow-hidden` here would
+          zero this item's min-content contribution and clip the copy below
+          430px. The background texture that needs clipping gets its own
+          clipping wrapper in the section instead. */}
+      <div className="relative min-h-[371px] px-4 pt-10 sm:px-10 lg:min-h-0 lg:px-16 lg:py-24">
         {children}
 
         <HomeMenuCategoryList
@@ -142,7 +178,7 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
           has nothing to happen in. */}
       <Reveal
         variant="zoom-in"
-        className="relative min-h-[530px] lg:min-h-0"
+        className="relative min-h-[561px] lg:min-h-0"
         durationMs={1000}
         delayMs={150}
       >

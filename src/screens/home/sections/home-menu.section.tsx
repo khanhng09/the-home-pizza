@@ -5,7 +5,7 @@ import { Reveal } from '@/shared/components/ui/reveal';
 import { optimizedImage } from '@/shared/lib/image';
 import { menuContent, menuCategoryList } from '../constants/home.constant';
 import { HomeMenuShowcase } from '../components/home-menu-showcase';
-import { Illustration } from '@/shared/components/illustrations/illustration';
+import { HomeIllustrationLayer } from '../components/home-illustration-layer';
 
 export async function HomeMenuSection() {
   const t = await getTranslations('home.menu');
@@ -22,25 +22,36 @@ export async function HomeMenuSection() {
   });
 
   return (
-    <section className="bg-ink min-h-105 lg:min-h-175 h-full">
+    // `min-h` at `lg` is the design's own section height (1847 -> 2761 on
+    // the 1400 frame). Left to content the section came out 856px, which
+    // both fell short of the design and threw off every illustration offset
+    // below, since those are a share of this box.
+    //
+    // `flex flex-col` (paired with `flex-1` on the showcase grid) is what
+    // hands that extra height *down*. A percentage `h-full` can't: the
+    // section's own computed height is `auto` — `min-height` doesn't feed
+    // percentage resolution — so the grid fell back to its content height
+    // and left the last 86px of the section as a bare ink band under the
+    // image panel and the background texture.
+    <section className="relative flex flex-col bg-ink min-h-105 lg:min-h-[914px]">
       <HomeMenuShowcase categories={categories}>
-        {/* Background texture — swaps per breakpoint */}
-        <div
-          className="absolute inset-0 aspect-[430/500] lg:aspect-auto bg-cover bg-center lg:hidden"
-          style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImageMobile)})` }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 hidden bg-cover bg-center lg:block"
-          style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImage)})` }}
-          aria-hidden="true"
-        />
+        {/* Background texture — swaps per breakpoint. The clipping lives on
+            this wrapper rather than on the panel: the mobile layer carries
+            its own aspect ratio and so runs taller than the panel, but
+            `overflow-hidden` on the panel itself would stop the panel from
+            growing with its copy on narrow viewports. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 aspect-[430/500] lg:aspect-auto bg-cover bg-center lg:hidden"
+            style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImageMobile)})` }}
+          />
+          <div
+            className="absolute inset-0 hidden bg-cover bg-center lg:block"
+            style={{ backgroundImage: `url(${optimizedImage(menuContent.backgroundImage)})` }}
+          />
+        </div>
 
-        <Illustration name="dong-ho-tre" className="pointer-events-none absolute right-8 top-8 h-20 w-20 text-accent/70 lg:right-16 lg:top-16 lg:h-32 lg:w-32" />
-        <Illustration name="dong-ho-tieu" className="pointer-events-none absolute left-8 top-[42%] h-16 w-20 text-accent/60 lg:left-16 lg:h-20 lg:w-28" />
-        <Illustration name="dong-ho-nhum" className="pointer-events-none absolute bottom-8 right-8 h-16 w-16 text-accent/60 lg:bottom-16 lg:right-16 lg:h-28 lg:w-28" />
-
-        <Reveal variant="slide-right" className="relative">
+        <Reveal variant="slide-right" className="relative z-2">
           <h2 className="font-display text-5xl md:text-6xl lg:text-[80px] text-cream">
             {t('heading')}
           </h2>
@@ -55,6 +66,11 @@ export async function HomeMenuSection() {
           </Button>
         </Reveal>
       </HomeMenuShowcase>
+
+      {/* Outside the showcase so the section — not its left content panel —
+          is what these offsets are measured against, which is how the
+          design draws them. */}
+      <HomeIllustrationLayer section="menu" />
     </section>
   );
 }

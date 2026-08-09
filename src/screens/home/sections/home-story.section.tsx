@@ -3,7 +3,7 @@ import { storyContent } from '../constants/home.constant';
 import { HomeStoryTabs } from '../components/home-story-tabs';
 import { Reveal } from '@/shared/components/ui/reveal';
 import { optimizedImage } from '@/shared/lib/image';
-import { Illustration } from '@/shared/components/illustrations/illustration';
+import { HomeIllustrationLayer } from '../components/home-illustration-layer';
 
 export async function HomeStorySection() {
   const t = await getTranslations('home.story');
@@ -11,7 +11,13 @@ export async function HomeStorySection() {
 
   return (
     <section className="relative overflow-hidden bg-cream">
-      <div className="relative">
+      {/* The design's copy block, measured to where the tabs photo starts:
+          1050 -> 1543 on the 430 frame, 934 -> 1335 on the 1400 one. The
+          photo below is a fixed aspect (438px on mobile, ~511 on desktop),
+          so pinning this block is what makes the section land on the
+          design's 931 / 913 — and keeps it from breathing as the copy
+          re-wraps, which was moving the illustrations with it. */}
+      <div className="relative min-h-[493px] lg:min-h-[401px]">
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -24,11 +30,7 @@ export async function HomeStorySection() {
           aria-hidden="true"
         />
 
-        <Illustration name="dong-ho-hung-que" className="pointer-events-none absolute left-1/2 -top-6 h-20 w-20 -translate-x-1/2 text-gold lg:-top-10 lg:left-[42%] lg:h-36 lg:w-36" />
-        <Illustration name="dong-ho-tom" className="pointer-events-none absolute left-4 top-28 h-16 w-16 text-gold lg:bottom-0 lg:left-0 lg:top-auto lg:h-52 lg:w-52" />
-        <Illustration name="dong-ho-hen" className="pointer-events-none absolute right-4 top-56 h-20 w-24 text-gold lg:right-0 lg:top-20 lg:h-36 lg:w-44" />
-
-        <div className="container-base relative grid grid-cols-1 gap-6 pt-20 pb-16 lg:grid-cols-2 lg:gap-16 lg:pt-32.5 lg:pb-25">
+        <div className="container-base relative grid grid-cols-1 gap-6 pt-20 pb-16 lg:grid-cols-2 lg:gap-16 lg:pt-32.5 lg:pb-25 z-2">
           {/* The two columns answer each other — heading drifts in from the
               left edge, copy from the right — so the pair reads as one
               gesture opening the section. */}
@@ -54,6 +56,12 @@ export async function HomeStorySection() {
       <Reveal variant="zoom-in" delayMs={550} durationMs={950}>
         <HomeStoryTabs />
       </Reveal>
+
+      {/* Last, so it sits over the section's own background texture rather
+          than under it — the textures are opaque and are painted inside the
+          block above. That also matches the design's own layer order, where
+          the hến overlaps the right edge of the paragraph column. */}
+      <HomeIllustrationLayer section="story" />
     </section>
   );
 }
