@@ -12,18 +12,25 @@
     "images:tile": "node scripts/make-seamless-tile.mjs",
     "images:og": "node scripts/make-og-images.mjs",
     "illustrations:extract": "node scripts/extract-illustrations.mjs",
-    "videos:optimize": "node scripts/optimize-videos.mjs"
+    "videos:optimize": "node scripts/optimize-videos.mjs",
+    "sanity:seed-story": "sanity exec scripts/seed-sanity-story.ts --with-user-token"
   },
   "dependencies": {
+    "@sanity/client": "^8.0.0",
+    "@sanity/vision": "^6.9.2",
+    "@sanity/webhook": "^4.0.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.27.0",
     "motion": "^12.43.0",
     "next": "16.2.9",
     "next-intl": "^4.13.4",
+    "next-sanity": "^13.3.2",
     "radix-ui": "^1.6.7",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sanity": "^6.9.2",
+    "styled-components": "^6.5.2",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

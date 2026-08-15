@@ -5,7 +5,7 @@ import type {
   StorySpan,
   StorySpanInput,
 } from '@/shared/types/story-content.type';
-import { responsiveImage } from '@/shared/lib/image';
+import { sanityResponsiveImage } from '@/shared/lib/sanity/image';
 
 /**
  * Renders one article body — the ordered list of typed blocks the content
@@ -117,7 +117,7 @@ export function StoryDetailBody({ blocks }: { blocks: StoryBlock[] }) {
 
           case 'image': {
             const isLead = block._key === leadImageKey;
-            const source = responsiveImage(block.image.src);
+            const source = sanityResponsiveImage(block.image);
 
             return (
               <figure key={block._key} className="flex flex-col gap-3">

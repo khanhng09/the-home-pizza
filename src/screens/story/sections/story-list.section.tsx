@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { IcClock } from '@/shared/components/icons';
 import { Link } from '@/i18n/navigation';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { responsiveImage } from '@/shared/lib/image';
+import { sanityResponsiveImage } from '@/shared/lib/sanity/image';
 import { getStoryFeed } from '@/shared/lib/story-content';
 import { formatStoryTimestamp } from '@/shared/lib/utils';
 
@@ -30,7 +30,7 @@ export async function StoryListSection() {
 
       <ul className="container-base grid list-none grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
         {stories.map((story, index) => {
-          const image = responsiveImage(story.image.src);
+          const image = sanityResponsiveImage(story.image);
 
           const card = (
             <figure className="flex items-start gap-2.5 md:gap-4">

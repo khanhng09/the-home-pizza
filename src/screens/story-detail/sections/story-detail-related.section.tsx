@@ -7,7 +7,8 @@ import { IcClock } from '@/shared/components/icons';
 import { Illustration } from '@/shared/components/illustrations/illustration';
 import { Link } from '@/i18n/navigation';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { optimizedImage, responsiveImage } from '@/shared/lib/image';
+import { optimizedImage } from '@/shared/lib/image';
+import { sanityResponsiveImage } from '@/shared/lib/sanity/image';
 import { formatStoryTimestamp } from '@/shared/lib/utils';
 import type { StoryTeaser } from '@/shared/types/story-content.type';
 
@@ -79,7 +80,7 @@ export async function StoryDetailRelatedSection({ stories }: { stories: StoryTea
 
         <ul className="mt-6 grid list-none grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-3 lg:gap-6">
           {stories.map((story, index) => {
-            const image = responsiveImage(story.image.src);
+            const image = sanityResponsiveImage(story.image);
 
             const card = (
               <figure className="flex items-start gap-2.5 lg:flex-col lg:gap-3.5">
