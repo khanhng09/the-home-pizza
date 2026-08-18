@@ -1,7 +1,13 @@
 import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { IcArrowRight } from '@/shared/components/icons';
 import { BackgroundVideo } from '@/shared/components/ui/background-video';
 import { humansHeroContent, humansHeroLinkList } from '../constants/humans.constant';
+
+/** Shared by both row shapes below, so an in-page jump and a link to
+ * another screen are indistinguishable to look at. */
+const HERO_LINK_CLASS =
+  'group flex min-h-11 cursor-pointer items-center justify-between gap-4 py-1 font-sans text-[20px] whitespace-nowrap uppercase tracking-wide text-cream sm:min-h-12 lg:py-2.5 lg:text-[30px]';
 
 export async function HumansHeroSection() {
   const t = await getTranslations('humansPage.hero');
@@ -9,7 +15,7 @@ export async function HumansHeroSection() {
   return (
     <section className="relative overflow-hidden bg-ink">
       {/* Video background */}
-      <div className="relative min-h-[600px] lg:min-h-[934px] flex items-end md:items-center">
+      <div className="relative flex min-h-svh items-end md:items-center lg:min-h-[934px]">
         <BackgroundVideo
           sources={humansHeroContent.videoSources}
           poster={humansHeroContent.videoPoster}
@@ -27,21 +33,35 @@ export async function HumansHeroSection() {
           </h1>
 
           <ul className="mt-5 flex flex-col lg:mt-7">
-            {humansHeroLinkList.map((link, index) => (
-              <li
-                key={link.id}
-                className="max-w-73 border-b border-cream/90 lg:max-w-104 animate-[rise-in_700ms_cubic-bezier(0.16,1,0.3,1)_both]"
-                style={{ animationDelay: `${650 + index * 130}ms` }}
-              >
-                <a
-                  href={link.href}
-                  className="group flex min-h-11 cursor-pointer items-center justify-between gap-4 py-1 font-sans text-[20px] uppercase tracking-wide text-cream sm:min-h-12 lg:py-2.5 lg:text-[30px]"
-                >
+            {humansHeroLinkList.map((link, index) => {
+              const label = (
+                <>
                   {t(`linkList.${link.id}`)}
                   <IcArrowRight className="h-4 w-4 shrink-0 text-cream transition-transform duration-300 group-hover:translate-x-1 lg:h-8 lg:w-8" />
-                </a>
-              </li>
-            ))}
+                </>
+              );
+
+              return (
+                <li
+                  key={link.id}
+                  className="max-w-80 border-b border-cream/90 lg:max-w-120 animate-[rise-in_700ms_cubic-bezier(0.16,1,0.3,1)_both]"
+                  style={{ animationDelay: `${650 + index * 130}ms` }}
+                >
+                  {/* A same-page jump stays a plain `<a>`: routing it
+                      through `next/link` would prefetch this very page and
+                      push a history entry for a scroll. */}
+                  {link.kind === 'anchor' ? (
+                    <a href={link.href} className={HERO_LINK_CLASS}>
+                      {label}
+                    </a>
+                  ) : (
+                    <Link href={link.href} className={HERO_LINK_CLASS}>
+                      {label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

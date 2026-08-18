@@ -9,7 +9,7 @@ export async function HumansIntroSection() {
   const quoteLines = t.raw('quoteLines') as string[];
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    <section className="relative h-svh lg:h-auto flex flex-col justify-center overflow-hidden bg-cream lg:block">
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 bg-cover bg-center lg:hidden"

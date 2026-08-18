@@ -8,8 +8,11 @@ export async function HumansCtaSection() {
   const t = await getTranslations('humansPage.cta');
 
   return (
-    <section id="nha-tim-nguoi" className="relative overflow-hidden bg-ink">
-      <div className="relative aspect-[430/561] w-full lg:aspect-[1402/512]">
+    <section
+      id="nha-tim-nguoi"
+      className="relative scroll-mt-[var(--header-height)] overflow-hidden bg-ink"
+    >
+      <div className="relative min-h-svh w-full lg:min-h-0 lg:aspect-[1402/512]">
         <picture>
           <source media="(min-width: 1024px)" srcSet={optimizedImage(humansCtaContent.image.src)} />
           <img
@@ -31,7 +34,7 @@ export async function HumansCtaSection() {
           <Reveal variant="slide-up" delayMs={200}>
             <Button
               asChild
-              className="btn-base h-8 max-w-55 w-full rounded-full border border-cream bg-cream px-6 font-sans text-[15px] font-bold uppercase tracking-wide text-ink hover:bg-linen"
+              className="btn-cta w-full max-w-55 border border-cream bg-cream text-ink hover:bg-linen"
             >
               <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
             </Button>

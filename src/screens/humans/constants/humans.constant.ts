@@ -27,13 +27,22 @@ export const humansHeroContent = {
   ],
 } as const;
 
-// Hero link list — anchors within this page except the first, which is the
-// page itself. "Career Path" has no dedicated section yet, so it stays a
-// placeholder anchor until that content ships.
+/**
+ * Hero link list.
+ *
+ * `anchor` entries jump to a section further down this page — the ids are
+ * on the sections themselves, which carry a `scroll-mt` equal to the fixed
+ * header so the heading is not left underneath the bar.
+ *
+ * "Career Path" is meant to open a specific blog post; that article has not
+ * been chosen yet, so it points at the /story index in the meantime rather
+ * than at a dead anchor. Swap the `href` for `/story/<slug>` when the piece
+ * is picked.
+ */
 export const humansHeroLinkList = [
-  { id: "humans-of-the-home", href: "#humans-of-the-home" },
-  { id: "career-path", href: "#career-path" },
-  { id: "nha-tim-nguoi", href: "#nha-tim-nguoi" },
+  { id: "humans-of-the-home", href: "#humans-of-the-home", kind: "anchor" },
+  { id: "career-path", href: "/story", kind: "route" },
+  { id: "nha-tim-nguoi", href: "#nha-tim-nguoi", kind: "anchor" },
 ] as const;
 
 // Intro section — quote over a monstera texture panel
@@ -44,8 +53,6 @@ export const humansIntroContent = {
 
 // Chef Nhà story — dark navy / gold split background
 export const humansChefStoryContent = {
-  backgroundImage: "/images/humans/bg-2.webp",
-  backgroundImageMobile: "/images/humans/bg-2-mb.webp",
   image: {
     src: "/images/humans/chef.webp",
     mobileSrc: "/images/humans/chef-mb.webp",

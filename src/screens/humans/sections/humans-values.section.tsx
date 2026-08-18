@@ -19,7 +19,7 @@ export async function HumansValuesSection() {
   const t = await getTranslations('humansPage.values');
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    <section className="relative flex flex-col justify-center overflow-hidden bg-cream lg:block">
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -32,20 +32,25 @@ export async function HumansValuesSection() {
         aria-hidden="true"
       />
 
-      <div className="container-base relative grid grid-cols-1 gap-10 py-16 lg:grid-cols-3 lg:gap-30 lg:py-24">
+      {/* Mobile runs three stacked blocks of real copy, so this is the one
+          section that cannot be squeezed into a single screen without
+          cutting text. Everything around the words is tightened instead —
+          smaller mark, tighter rhythm, 16px body rather than 20 — which
+          brings it close to one screen; desktop keeps the comp exactly. */}
+      <div className="container-base relative grid grid-cols-1 gap-6 py-10 lg:grid-cols-3 lg:gap-30 lg:py-24">
         {humansValuesList.map((value, index) => {
           return (
             <Reveal key={value.id} variant="slide-up" delayMs={index * 150}>
               <div className="flex flex-col items-center">
                 <Illustration
                   name={valueIllustrations[index]}
-                  className="self-center text-ink h-30 aspect-square"
+                  className="aspect-square h-20 self-center text-ink lg:h-30"
                 />
                 <div className="flex flex-col md:items-center lg:items-start border-t border-ink max-w-[400px]">
-                  <h3 className="font-sans uppercase tracking-wide text-ink text-[32px] py-6.5">
+                  <h3 className="font-sans uppercase tracking-wide text-ink text-2xl py-4 lg:text-[32px] lg:py-6.5">
                     {t(`${value.id}.label`)}
                   </h3>
-                  <p className="font-sans text-xl leading-[1.4] text-ink">
+                  <p className="text-justify font-sans text-base leading-[1.4] text-ink lg:text-xl">
                     {t(`${value.id}.paragraph`)}
                   </p>
                 </div>
