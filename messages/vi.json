@@ -27,7 +27,9 @@
     "language": {
       "vi": "Tiếng Việt",
       "en": "English"
-    }
+    },
+    "prevPage": "Trang trước",
+    "nextPage": "Trang sau"
   },
   "header": {
     "nav": {
@@ -89,6 +91,7 @@
         "Tại Nhà, mỗi chiếc pizza là một câu chuyện vùng miền.",
         "Từ nguyên liệu bản địa đến hương vị đặc trưng, Bản Đồ Pizza Đặc Sản Việt là hành trình đưa tinh hoa ẩm thực Việt lên đế bánh pizza chuẩn Ý."
       ],
+      "viewState": "Xem {state}",
       "states": {
         "dsv": "Đặc sản Việt",
         "ht": "Hành trình",
@@ -100,7 +103,6 @@
       "paragraph": "Mời bạn đến với hành trình khám phá bản đồ đặc sản Việt cùng Nhà trên đế bánh pizza chuẩn Ý...",
       "cta": "Xem thực đơn",
       "imageAlt": "Món {category} tại The Home Pizza",
-      "viewCategory": "Xem thực đơn {category}",
       "categories": {
         "dac-san-viet": "Đặc sản Việt",
         "pizza-classic": "Pizza Classic",
@@ -116,8 +118,8 @@
         "human-2": "Không gian nhà hàng The Home Pizza"
       },
       "linkList": {
-        "humans-of-the-home": "Humans of The Home",
-        "career-path": "Career Path",
+        "humans-of-the-home": "Người Nhà của The Home",
+        "career-path": "Lộ Trình Nghề Nghiệp",
         "nha-tim-nguoi": "Nhà Tìm Người"
       }
     },
@@ -160,45 +162,39 @@
       "nam-bo": "Nam Bộ",
       "phu-quoc": "Phú Quốc"
     },
+    "regionContent": {
+      "bac-bo": {
+        "paragraphs": []
+      },
+      "trung-bo": {
+        "paragraphs": []
+      },
+      "nam-bo": {
+        "paragraphs": []
+      },
+      "phu-quoc": {
+        "paragraphs": []
+      }
+    },
     "catalog": {
+      "imageAlt": "Thực đơn {category}",
       "dac-san-viet": {
-        "label": "Đặc sản Việt",
-        "spreads": [
-          "Thực đơn Đặc sản Việt — Pizza Gỏi Tôm Rạch Vệm",
-          "Thực đơn Đặc sản Việt — Pizza Sầu Riêng Phú Quốc"
-        ]
+        "label": "Đặc sản Việt"
       },
       "pizza-classic": {
-        "label": "Pizza Classic",
-        "spreads": [
-          "Thực đơn Pizza Classic — trang 1",
-          "Thực đơn Pizza Classic — trang 2"
-        ]
+        "label": "Pizza Classic"
       },
       "salad": {
-        "label": "Salad",
-        "spreads": []
+        "label": "Salad"
       },
       "mon-chinh": {
-        "label": "Món Chính",
-        "spreads": [
-          "Thực đơn Món Chính — Sườn Nướng BBQ",
-          "Thực đơn Món Chính — trang 2"
-        ]
+        "label": "Món Chính"
       },
       "pasta": {
-        "label": "Pasta",
-        "spreads": [
-          "Thực đơn Pasta — trang 1",
-          "Thực đơn Pasta — trang 2"
-        ]
+        "label": "Pasta"
       },
       "trang-mieng": {
-        "label": "Tráng Miệng",
-        "spreads": [
-          "Thực đơn Tráng Miệng — trang 1",
-          "Thực đơn Tráng Miệng — trang 2"
-        ]
+        "label": "Tráng Miệng"
       }
     },
     "catalogHeading": "Thực đơn theo danh mục",
@@ -208,8 +204,8 @@
     "hero": {
       "heading": "Người nhà",
       "linkList": {
-        "humans-of-the-home": "Humans of the Home",
-        "career-path": "Career Path",
+        "humans-of-the-home": "Người Nhà của The Home",
+        "career-path": "Lộ Trình Nghề Nghiệp",
         "nha-tim-nguoi": "Nhà Tìm Người"
       }
     },

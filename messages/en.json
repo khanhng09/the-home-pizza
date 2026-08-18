@@ -27,7 +27,9 @@
     "language": {
       "vi": "Tiếng Việt",
       "en": "English"
-    }
+    },
+    "prevPage": "Previous page",
+    "nextPage": "Next page"
   },
   "header": {
     "nav": {
@@ -89,6 +91,7 @@
         "At The Home, every pizza is a story of a region.",
         "From native ingredients to signature flavors, the Vietnamese Specialty Pizza Map is a journey that brings the essence of Vietnamese cuisine onto an authentic Italian pizza base."
       ],
+      "viewState": "Explore {state}",
       "states": {
         "dsv": "Vietnamese Specialties",
         "ht": "The Journey",
@@ -100,7 +103,6 @@
       "paragraph": "Join us on a journey to discover the map of Vietnamese specialties, together with The Home, on an authentic Italian pizza base...",
       "cta": "View Menu",
       "imageAlt": "{category} at The Home Pizza",
-      "viewCategory": "View the {category} menu",
       "categories": {
         "dac-san-viet": "Vietnamese Specialties",
         "pizza-classic": "Pizza Classic",
@@ -160,45 +162,39 @@
       "nam-bo": "Southern Vietnam",
       "phu-quoc": "Phu Quoc"
     },
+    "regionContent": {
+      "bac-bo": {
+        "paragraphs": []
+      },
+      "trung-bo": {
+        "paragraphs": []
+      },
+      "nam-bo": {
+        "paragraphs": []
+      },
+      "phu-quoc": {
+        "paragraphs": []
+      }
+    },
     "catalog": {
+      "imageAlt": "{category} menu",
       "dac-san-viet": {
-        "label": "Vietnamese Specialties",
-        "spreads": [
-          "Vietnamese Specialties Menu — Rạch Vẹm Shrimp Salad Pizza",
-          "Vietnamese Specialties Menu — Phu Quoc Durian Pizza"
-        ]
+        "label": "Vietnamese Specialties"
       },
       "pizza-classic": {
-        "label": "Pizza Classic",
-        "spreads": [
-          "Pizza Classic Menu — page 1",
-          "Pizza Classic Menu — page 2"
-        ]
+        "label": "Pizza Classic"
       },
       "salad": {
-        "label": "Salad",
-        "spreads": []
+        "label": "Salad"
       },
       "mon-chinh": {
-        "label": "Main Courses",
-        "spreads": [
-          "Main Courses Menu — BBQ Grilled Ribs",
-          "Main Courses Menu — page 2"
-        ]
+        "label": "Main Courses"
       },
       "pasta": {
-        "label": "Pasta",
-        "spreads": [
-          "Pasta Menu — page 1",
-          "Pasta Menu — page 2"
-        ]
+        "label": "Pasta"
       },
       "trang-mieng": {
-        "label": "Desserts",
-        "spreads": [
-          "Desserts Menu — page 1",
-          "Desserts Menu — page 2"
-        ]
+        "label": "Desserts"
       }
     },
     "catalogHeading": "Menu by Category",
