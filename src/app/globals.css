@@ -60,6 +60,22 @@
      their default focus-visible:ring-ring styling working without a
      per-instance override. */
   --ring: var(--palette-gold);
+
+  /* The fixed header's own height. Anything that has to sit clear of it —
+     the menu accordion's fit-to-screen panels, and the scroll offset that
+     parks a trigger just under the bar — reads it from here rather than
+     repeating the number. */
+  --header-height: 46px;
+
+  /* Height of one accordion trigger on /menu. Paired with the above, it is
+     what lets a category's artwork fill exactly the rest of the screen. */
+  --menu-trigger-height: 48px;
+}
+
+@media (width >= 64rem) {
+  :root {
+    --menu-trigger-height: 64px;
+  }
 }
 
 @theme inline {
@@ -179,6 +195,86 @@ h3 {
   }
 }
 
+/* A /menu spread turns one physical sheet across the spine. A real page
+   doesn't sweep at a constant rate: it peels up slowly against its own
+   stiffness, falls fast once past the balance point, then settles. The
+   percentage stops carry that weighting (no single easing curve says it),
+   and the per-stop `animation-timing-function` shapes each segment. The
+   `translateZ` lift takes the sheet off the book over the arc so it clears
+   the page it is crossing — which is also what keeps it painting above
+   both halves inside the spread's `preserve-3d` context, where plain
+   z-index does not apply.
+
+   These are CSS rather than JS-driven so they cannot be left half-applied:
+   the global `prefers-reduced-motion` override below collapses them to
+   ~0ms, and `animationend` still fires, so the turn always resolves. */
+@keyframes menu-sheet-turn-forward {
+  0% {
+    transform: rotateY(0deg) translateZ(0);
+    animation-timing-function: ease-in;
+  }
+  22% {
+    transform: rotateY(-18deg) translateZ(60px);
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: rotateY(-162deg) translateZ(60px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: rotateY(-180deg) translateZ(0);
+  }
+}
+
+@keyframes menu-sheet-turn-back {
+  0% {
+    transform: rotateY(0deg) translateZ(0);
+    animation-timing-function: ease-in;
+  }
+  22% {
+    transform: rotateY(18deg) translateZ(60px);
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: rotateY(162deg) translateZ(60px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: rotateY(180deg) translateZ(0);
+  }
+}
+
+/* The sheet's two faces are lit in opposition — that contrast is what
+   sells it as one physical page rather than two stacked images. The front
+   is square to the light at rest and rakes away from it as it stands up,
+   so it darkens; it is hidden past 90° by `backface-visibility`, hence the
+   shading finishing early. The back swings *into* the light, so it runs
+   the other way: near-black as it comes into view, clean as it lands. */
+@keyframes menu-sheet-front-shade {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.1;
+  }
+  60%,
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes menu-sheet-back-shade {
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* Hero copy is right-aligned, so it drifts in from the right toward its
    anchor rather than rising — the headline adds a slight scale for weight. */
 @keyframes hero-drift-left {
@@ -270,6 +366,27 @@ h3 {
     @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200;
   }
 
+  /* The one shape every call-to-action on the site shares — "Đọc tiếp",
+     "Xem thực đơn", "Xem thêm", "Đặt bàn", "Nhà tìm người nhà" and the
+     header's booking button. Geometry and type only; each call site still
+     brings its own colours, since the same pill runs on cream, ink and
+     photographic backgrounds.
+
+     32px tall and fully rounded is the client's own spec. That is under
+     the 44px tap-target floor the rest of this codebase holds to, so the
+     CTAs are deliberately the one exception — see the note in
+     `.tmp/fix-plan-round-2.md`.
+
+     Deliberately sets no `display`. It used to say `inline-flex`, which
+     beat the `hidden` on the header's desktop-only CTA — a component-layer
+     class outranks a utility of the same property — and put the booking
+     pill on top of the logo on every phone. The display comes from the
+     call site (`Button`'s own base, or an explicit `inline-flex` on a
+     plain link). */
+  .btn-cta {
+    @apply h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-6 font-sans text-[15px] font-bold uppercase tracking-wide transition-colors duration-200;
+  }
+
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-full font-sans transition-colors duration-200 bg-accent text-white hover:bg-amber-700 active:bg-umber;
   }
@@ -297,6 +414,44 @@ h3 {
   /* Container utilities */
   .container-base {
     @apply w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  /* Left inset that lines a full-bleed panel's copy up with the left text
+     edge of every `container-base` section.
+
+     The Menu and Location sections are split into two halves that start at
+     the viewport edge, so their own fixed `px-16` put their headings ~48px
+     inboard of the headings in the container-based sections above and
+     below them. This reproduces what `max-w-7xl mx-auto px-*` resolves to:
+     the container's own gutter, plus half of whatever the viewport has
+     over 80rem. */
+  .container-edge-left {
+    padding-left: calc(max(0px, (100vw - 80rem) / 2) + 1rem);
+  }
+
+  /* The mirror, for a panel that occupies the right half instead. */
+  .container-edge-right {
+    padding-right: calc(max(0px, (100vw - 80rem) / 2) + 1rem);
+  }
+
+  @media (width >= 48rem) {
+    .container-edge-left {
+      padding-left: calc(max(0px, (100vw - 80rem) / 2) + 1.5rem);
+    }
+
+    .container-edge-right {
+      padding-right: calc(max(0px, (100vw - 80rem) / 2) + 1.5rem);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .container-edge-left {
+      padding-left: calc(max(0px, (100vw - 80rem) / 2) + 2rem);
+    }
+
+    .container-edge-right {
+      padding-right: calc(max(0px, (100vw - 80rem) / 2) + 2rem);
+    }
   }
 
   .container-narrow {

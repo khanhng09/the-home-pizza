@@ -63,6 +63,8 @@ export const socialLinks = [
   },
 ];
 
+export const bookingLink = "https://booking.ipos.vn/public/booking/878f61f7-5486-462a-9a48-43bd4b316758?source=IFRAME&css=overflow-y:hidden;"
+
 // Menu Categories (placeholder, until the Menu page is built)
 export const menuCategories = [
   { id: "pizzas", name: "Pizzas", description: "Our signature handmade pizzas" },

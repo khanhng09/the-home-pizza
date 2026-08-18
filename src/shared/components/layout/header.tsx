@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Menu, X } from 'lucide-react';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
-import { navigation, businessInfo } from '@/shared/constants/site.constant';
+import { navigation, businessInfo, bookingLink } from '@/shared/constants/site.constant';
 import { TheHomeLogo, IcArrowDown } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -29,12 +29,12 @@ export function Header() {
   const tCommon = useTranslations('common');
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // The Menu page and the /story landing sit on a cream background (not a
-  // hero video/image), so they need dark text/logo/button instead of the
-  // cream-on-video treatment. An individual story — /story/<slug> — is the
-  // exception: its article runs on dark paper, so it keeps the cream
-  // treatment, which is why this matches /story exactly rather than by
-  // prefix.
+  // /menu and everything under /story sit on cream paper rather than a
+  // hero video or photo, so the header needs dark type, a dark logo and
+  // the ink-filled CTA there. This is a prefix match on /story on purpose:
+  // an individual article used to run on dark paper and was the one
+  // exception, but it is cream now too, so the landing and its posts share
+  // one treatment.
   const isDark = pathname.startsWith('/menu');
 
   const switchLocale = (nextLocale: string) => {
@@ -44,7 +44,7 @@ export function Header() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md">
-        <div className="container-base flex items-center justify-between h-[46px]">
+        <div className="container-base flex h-[var(--header-height)] items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0 cursor-pointer">
             <TheHomeLogo
@@ -118,18 +118,18 @@ export function Header() {
             </DropdownMenu>
           </nav>
 
-          {/* Desktop CTA Button */}
+          {/* Desktop CTA Button — same filled pill as the hero's "Đặt bàn",
+              which is the reference treatment for every CTA on the site. On
+              the cream-backed screens a cream fill would disappear, so those
+              get the ink-filled twin rather than a different shape. */}
           <Button
             asChild
-            variant="outline"
             className={cn(
-              'hidden lg:inline-flex max-w-35 w-full h-5.5 rounded-full border bg-transparent uppercase font-bold text-sm transition-colors',
-              isDark
-                ? 'border-ink text-ink hover:bg-ink hover:text-cream'
-                : 'border-cream text-cream hover:bg-cream hover:text-ink'
+              'btn-cta hidden w-full max-w-35 lg:inline-flex',
+              isDark ? 'bg-ink text-cream hover:bg-umber' : 'bg-cream text-ink hover:bg-linen'
             )}
           >
-            <Link href="#reservation">{tCommon('bookTable')}</Link>
+            <a href={bookingLink} target="_blank" rel="noopener noreferrer">{tCommon('bookTable')}</a>
           </Button>
 
           {/* Mobile hamburger */}
@@ -206,14 +206,16 @@ export function Header() {
               ))}
             </div>
 
+            {/* Same filled pill as everywhere else, but kept at 44px rather
+                than the CTA's 32: this one is a row in the mobile nav, sized
+                with the nav links above it, and it is a touch target. */}
             <Button
               asChild
-              variant="outline"
-              className="mt-2 h-11 w-full rounded-full border border-cream bg-transparent uppercase font-bold text-sm text-cream transition-colors hover:bg-cream hover:text-ink"
+              className="btn-cta mt-2 h-11 w-full bg-cream text-ink hover:bg-linen"
             >
-              <Link href="#reservation" onClick={() => setMobileOpen(false)}>
+              <a href={bookingLink} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
                 {tCommon('bookTable')}
-              </Link>
+              </a>
             </Button>
           </nav>
         </div>

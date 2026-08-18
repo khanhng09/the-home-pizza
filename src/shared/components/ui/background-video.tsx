@@ -52,6 +52,14 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
       // answer came back as "no motion".
       if (cancelled || prefersReducedMotion) return;
 
+      // Set as *properties*, not just JSX attributes. iOS only treats a
+      // video as autoplay-eligible if it is muted and inline at the moment
+      // resource selection runs, and React's `muted` prop does not always
+      // reach the attribute in time — which is why these heroes played on
+      // desktop and sat on their poster on a phone.
+      video.muted = true;
+      video.playsInline = true;
+
       if (!video.querySelector('source')) {
         for (const rendition of sources) {
           const source = document.createElement('source');
@@ -65,8 +73,8 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
         video.load();
       }
 
-      // Rejects when the browser blocks autoplay despite `muted`; there
-      // is nothing to recover — the poster stays on screen.
+      // Still rejects under iOS Low Power Mode and similar policies, where
+      // nothing but a real gesture will do — hence the listeners below.
       video.play().catch(() => {});
     };
 
@@ -76,9 +84,34 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
       window.addEventListener('load', start, { once: true });
     }
 
+    // Second chance, on the visitor's first touch or scroll. A blocked
+    // autoplay leaves the poster up forever otherwise; these are passive
+    // and remove themselves as soon as the video is actually running.
+    const retry = () => {
+      if (cancelled || prefersReducedMotion || !video.paused) return;
+      start();
+    };
+
+    const retryEvents = ['pointerdown', 'touchstart', 'scroll'] as const;
+    for (const name of retryEvents) {
+      window.addEventListener(name, retry, { passive: true });
+    }
+
+    // Third chance: heroes below the fold (the /humans one) may never have
+    // been eligible while off-screen.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) retry();
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(video);
+
     return () => {
       cancelled = true;
       window.removeEventListener('load', start);
+      for (const name of retryEvents) window.removeEventListener(name, retry);
+      observer.disconnect();
     };
   }, [sources, prefersReducedMotion]);
 
