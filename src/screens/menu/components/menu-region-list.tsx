@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
-import { menuRegionList } from '../constants/menu.constant';
+import type { MenuHeroRegion } from './menu-hero-explorer';
 
 interface MenuRegionListProps {
-  onRegionChange?: (mapImage: string) => void;
+  regions: MenuHeroRegion[];
+  /** `null` = nothing picked yet, i.e. the whole map is showing. */
+  activeId: string | null;
+  onSelect: (id: string) => void;
 }
 
 /**
@@ -16,34 +17,28 @@ interface MenuRegionListProps {
  * mobile and a vertical bordered arrow-list on desktop — two different
  * treatments in the Figma, sharing the same active-region state.
  *
- * Selecting a region is wired up for a future per-region map illustration —
- * today every region points at the same `map-1.png`, so the callback fires
- * but the visual stays the same until region-specific art ships.
+ * Presentational only: the selection lives in `MenuHeroExplorer`, which is
+ * also what swaps the map and the copy in response to it.
  */
-export function MenuRegionList({ onRegionChange }: MenuRegionListProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const t = useTranslations('menuPage.regions');
-
-  const selectRegion = (index: number) => {
-    setActiveIndex(index);
-    onRegionChange?.(menuRegionList[index].mapImage);
-  };
-
+export function MenuRegionList({ regions, activeId, onSelect }: MenuRegionListProps) {
   return (
     <>
       {/* Mobile: horizontal underline tabs */}
       <div className="flex gap-4.5 overflow-x-auto lg:hidden">
-        {menuRegionList.map((region, index) => {
-          const isActive = index === activeIndex;
+        {regions.map((region) => {
+          const isActive = region.id === activeId;
           return (
             <Button
               key={region.id}
               type="button"
               aria-pressed={isActive}
-              onClick={() => selectRegion(index)}
-              className="h-auto flex-col items-start gap-2 rounded-none bg-transparent px-0 pb-2 font-sans text-lg uppercase text-ink shrink-0 hover:bg-transparent"
+              onClick={() => onSelect(region.id)}
+              className={cn(
+                'h-auto flex-col items-start gap-2 rounded-none bg-transparent px-0 pb-2 font-sans text-lg uppercase shrink-0 hover:bg-transparent',
+                isActive ? 'text-umber' : 'text-ink'
+              )}
             >
-              {t(region.id)}
+              {region.label}
               <span className={cn('h-0.5 w-full', isActive ? 'bg-gold' : 'bg-gold/0')} />
             </Button>
           );
@@ -52,18 +47,26 @@ export function MenuRegionList({ onRegionChange }: MenuRegionListProps) {
 
       {/* Desktop: vertical bordered list with arrows */}
       <ul className="hidden w-full lg:block">
-        {menuRegionList.map((region, index) => {
-          const isActive = index === activeIndex;
+        {regions.map((region) => {
+          const isActive = region.id === activeId;
           return (
             <li key={region.id} className="border-b border-ink/70">
               <Button
                 type="button"
                 aria-pressed={isActive}
-                onClick={() => selectRegion(index)}
-                className="group h-auto min-h-11 w-full items-center justify-between gap-4 rounded-none bg-transparent px-0 py-2.5 font-sans text-[27.5px] uppercase tracking-wide text-ink transition-colors hover:bg-transparent hover:text-umber"
+                onClick={() => onSelect(region.id)}
+                className={cn(
+                  'group h-auto min-h-11 w-full items-center justify-between gap-4 rounded-none bg-transparent px-0 py-2.5 font-sans text-[27.5px] uppercase tracking-wide transition-colors hover:bg-transparent hover:text-umber',
+                  isActive ? 'text-umber' : 'text-ink'
+                )}
               >
-                {t(region.id)}
-                <IcArrowRight className="size-8 shrink-0 text-ink transition-transform duration-300 group-hover:translate-x-1" />
+                {region.label}
+                <IcArrowRight
+                  className={cn(
+                    'size-8 shrink-0 transition-transform duration-300 group-hover:translate-x-1',
+                    isActive ? 'text-umber' : 'text-ink'
+                  )}
+                />
               </Button>
             </li>
           );

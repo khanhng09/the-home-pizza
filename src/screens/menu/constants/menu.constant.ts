@@ -5,6 +5,8 @@
  * this file only holds non-text data (image paths, ids, dimensions).
  */
 
+import { menuSpreads } from '@/shared/constants/menu-spreads.constant';
+
 // Hero section
 export const menuHeroContent = {
   backgroundImage: '/images/menu/background.webp',
@@ -21,51 +23,17 @@ export const menuRegionList = [
   { id: 'phu-quoc', mapImage: '/images/menu/map-1.webp' },
 ] as const;
 
-// Accordion catalog — one section per menu category. `spreads` holds the
-// (already-typeset) menu-page images for that category; categories without
-// artwork yet render an empty state instead. The spread artwork itself is
-// Vietnamese-only (baked into the image) — only the alt text is translated.
+// Accordion catalog — one section per menu category. The artwork lives in
+// `shared/constants/menu-spreads.constant.ts`; the home page's menu section
+// pages through the same sets, so neither screen owns them. Categories
+// without artwork yet render an empty state instead. The spread artwork
+// itself is Vietnamese-only (baked into the image) — only the alt text is
+// translated.
 export const menuCatalog = [
-  {
-    id: 'dac-san-viet',
-    spreads: [
-      { src: '/images/menu/dsv-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/dsv-2.webp', width: 777, height: 1100 },
-    ],
-  },
-  {
-    id: 'pizza-classic',
-    spreads: [
-      { src: '/images/menu/pizza-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/pizza-2.webp', width: 777, height: 1100 },
-    ],
-  },
-  {
-    id: 'salad',
-    spreads: [
-      { src: '/images/menu/salad-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/salad-2.webp', width: 777, height: 1100 },
-    ],
-  },
-  {
-    id: 'mon-chinh',
-    spreads: [
-      { src: '/images/menu/mc-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/mc-2.webp', width: 777, height: 1100 },
-    ],
-  },
-  {
-    id: 'pasta',
-    spreads: [
-      { src: '/images/menu/pasta-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/pasta-2.webp', width: 777, height: 1100 },
-    ],
-  },
-  {
-    id: 'trang-mieng',
-    spreads: [
-      { src: '/images/menu/tm-1.webp', width: 777, height: 1100 },
-      { src: '/images/menu/tm-2.webp', width: 777, height: 1100 },
-    ],
-  },
+  { id: 'dac-san-viet', spreads: menuSpreads['dac-san-viet'] },
+  { id: 'pizza-classic', spreads: menuSpreads['pizza-classic'] },
+  { id: 'salad', spreads: menuSpreads.salad },
+  { id: 'mon-chinh', spreads: menuSpreads['mon-chinh'] },
+  { id: 'pasta', spreads: menuSpreads.pasta },
+  { id: 'trang-mieng', spreads: menuSpreads['trang-mieng'] },
 ] as const;

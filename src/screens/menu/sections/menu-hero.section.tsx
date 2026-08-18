@@ -1,13 +1,31 @@
 import { getTranslations } from 'next-intl/server';
-import { menuHeroContent } from '../constants/menu.constant';
-import { MenuRegionList } from '../components/menu-region-list';
+import { menuHeroContent, menuRegionList } from '../constants/menu.constant';
+import { MenuHeroExplorer } from '../components/menu-hero-explorer';
 
 export async function MenuHeroSection() {
   const t = await getTranslations('menuPage.hero');
-  const paragraphs = t.raw('paragraphs') as string[];
+  const tRegions = await getTranslations('menuPage.regions');
+  const tRegionContent = await getTranslations('menuPage.regionContent');
+  const introParagraphs = t.raw('paragraphs') as string[];
+
+  const regions = menuRegionList.map((region) => {
+    const paragraphs = tRegionContent.raw(`${region.id}.paragraphs`) as string[];
+
+    return {
+      id: region.id,
+      label: tRegions(region.id),
+      mapImage: region.mapImage,
+      // Per-region copy has not been written yet, so those keys ship as
+      // empty arrays. Falling back to the intro keeps the panel from going
+      // blank on a region; drop the real text into
+      // `menuPage.regionContent.<id>.paragraphs` and it takes over with no
+      // code change.
+      paragraphs: paragraphs.length > 0 ? paragraphs : introParagraphs,
+    };
+  });
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    <section className="relative min-h-svh overflow-hidden bg-cream lg:min-h-0">
       {/* Background texture */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-cream" />
@@ -18,45 +36,13 @@ export async function MenuHeroSection() {
         />
       </div>
 
-      <div className="container-base relative grid grid-cols-1 gap-8 pt-24 pb-12 lg:grid-cols-2 lg:grid-rows-[auto_auto] lg:items-center lg:gap-16 lg:pt-44 lg:pb-20">
-        {/* Text column — first on mobile, top-right on desktop */}
-        <div className="order-1 flex flex-col items-start gap-6 lg:order-none lg:col-start-2 lg:row-start-1">
-          <p className="font-sans text-lg tracking-wide text-ink lg:text-2xl">
-            {t('greeting')}
-          </p>
-
-          <div className="flex flex-col gap-5 font-sans text-sm text-ink lg:max-w-131 lg:text-xl">
-            {paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-
-        {/* Region tabs — between the text and the map on mobile, under the
-            text on desktop */}
-        <div className="order-2 w-full lg:order-none lg:col-start-2 lg:row-start-2 lg:max-w-132">
-          <MenuRegionList />
-        </div>
-
-        {/* Map illustration — full-bleed (wider than the viewport, per
-            design) on mobile, contained in the left column on desktop */}
-        <div className="order-3 relative lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:aspect-[862/585] lg:w-full">
-          <div
-            className="relative -ml-[7.4%] aspect-[718.824/414] w-[167%] lg:ml-0 lg:size-full lg:aspect-auto"
-          >
-            <img
-              src={menuHeroContent.mapImage}
-              alt={t('mapAlt')}
-              width={1600}
-              height={979}
-              className="absolute inset-0 size-full object-contain"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
-          </div>
-        </div>
-      </div>
+      <MenuHeroExplorer
+        greeting={t('greeting')}
+        introParagraphs={introParagraphs}
+        introMapImage={menuHeroContent.mapImage}
+        mapAlt={t('mapAlt')}
+        regions={regions}
+      />
     </section>
   );
 }

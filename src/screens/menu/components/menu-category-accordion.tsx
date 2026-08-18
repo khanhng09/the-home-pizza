@@ -8,20 +8,34 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/shared/components/ui/accordion';
+import { MENU_PANEL_SIZES } from '@/shared/components/ui/menu-page-flip';
 import { IcArrowRight } from '@/shared/components/icons';
-import { cn } from '@/shared/lib/utils';
 import { menuCatalog } from '../constants/menu.constant';
+import { MenuSpreadViewer } from './menu-spread-viewer';
 
 // Safety net only — used if no accordion-content animation ever fires (e.g.
 // this item has no sibling to collapse), so the trigger still scrolls into
 // view instead of never moving.
 const ACCORDION_SCROLL_FALLBACK_MS = 300;
 
-function scrollTriggerIntoView(trigger: HTMLButtonElement) {
+/**
+ * Parks the trigger directly under the fixed header.
+ *
+ * `scrollIntoView({ block: 'start' })` aligns it with the top of the
+ * *viewport*, which is behind the header — the trigger ended up hidden
+ * under the bar every time. The header's height is a CSS variable so the
+ * offset can't drift away from the bar itself.
+ */
+function scrollTriggerUnderHeader(trigger: HTMLButtonElement) {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  trigger.scrollIntoView({
+  const headerHeight =
+    Number.parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--header-height')
+    ) || 0;
+
+  window.scrollTo({
+    top: window.scrollY + trigger.getBoundingClientRect().top - headerHeight,
     behavior: prefersReducedMotion ? 'auto' : 'smooth',
-    block: 'start',
   });
 }
 
@@ -41,7 +55,7 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
   const root = trigger.closest('[data-slot="accordion"]');
 
   if (!(root instanceof HTMLElement)) {
-    scrollTriggerIntoView(trigger);
+    scrollTriggerUnderHeader(trigger);
     return;
   }
 
@@ -51,7 +65,7 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
     settled = true;
     root.removeEventListener('animationend', onAnimationEnd);
     window.clearTimeout(fallback);
-    scrollTriggerIntoView(trigger);
+    scrollTriggerUnderHeader(trigger);
   };
 
   const onAnimationEnd = (animationEvent: Event) => {
@@ -70,6 +84,18 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
  * expand/collapse gets correct keyboard nav and aria-expanded/aria-controls
  * for free — `type="single" collapsible` gives the "opening one closes the
  * previous one" behavior the design calls for.
+ *
+ * An open panel's height is intrinsic to its own artwork — `MenuSpreadViewer`
+ * sizes itself from the spread's aspect ratio rather than being forced to
+ * fill the leftover viewport height here. A fixed `100svh`-derived height
+ * used to fight the image's own ratio: whichever dimension the viewport
+ * happened to constrain, the page's `object-contain` letterboxed the other
+ * one onto the paper background. Letting the panel's own ratio drive its
+ * height means the artwork always fills the panel edge to edge. The artwork
+ * is the same set the home page's menu section pages through, with the same
+ * underlying page-turn — but as a two-up spread with its own prev/next
+ * arrows, not the home page's single forward-only page. See
+ * `MenuSpreadViewer`'s doc comment for why the two no longer share a viewer.
  */
 export function MenuCategoryAccordion() {
   const t = useTranslations('menuPage');
@@ -83,50 +109,45 @@ export function MenuCategoryAccordion() {
       className="w-full border-b border-ink/25"
     >
       {menuCatalog.map((category) => {
-        const spreadAlts = tCatalog.raw(`${category.id}.spreads`) as string[];
-        return (
-        <AccordionItem
-          key={category.id}
-          value={category.id}
-          className="not-last:border-b-0 border-t border-ink/25"
-        >
-          <AccordionTrigger
-            onClick={handleTriggerClick}
-            className="relative h-16 items-center justify-center gap-4 rounded-none border-none bg-linen px-14 py-0 text-center font-normal hover:bg-linen/70 hover:no-underline focus-visible:rounded-none focus-visible:border-none focus-visible:ring-0 lg:h-[99px] [&_[data-slot=accordion-trigger-icon]]:hidden"
-          >
-            <span className="font-display text-[33px] text-ink lg:text-[59px]">
-              {tCatalog(`${category.id}.label`)}
-            </span>
-            <IcArrowRight
-              aria-hidden="true"
-              className="absolute right-10 hidden h-[62px] w-[62px] shrink-0 text-ink lg:block"
-            />
-          </AccordionTrigger>
+        const label = tCatalog(`${category.id}.label`);
 
-          <AccordionContent className="p-0">
-            {category.spreads.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                {category.spreads.map((spread, index) => (
-                  <img
-                    key={spread.src}
-                    src={spread.src}
-                    alt={spreadAlts[index]}
-                    width={spread.width}
-                    height={spread.height}
-                    loading="lazy"
-                    decoding="async"
-                    sizes="(max-width: 1023px) 100vw, 50vw"
-                    className={cn('h-auto w-full object-cover', index > 0 && 'hidden lg:block')}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p className="px-6 py-16 text-center font-sans text-lg text-ink/60">
-                {t('comingSoon')}
-              </p>
-            )}
-          </AccordionContent>
-        </AccordionItem>
+        return (
+          <AccordionItem
+            key={category.id}
+            value={category.id}
+            className="not-last:border-b-0 border-t border-ink/25"
+          >
+            <AccordionTrigger
+              onClick={handleTriggerClick}
+              className="relative h-[var(--menu-trigger-height)] items-center justify-center gap-4 rounded-none border-none bg-linen px-14 py-0 text-center font-normal hover:bg-linen/70 hover:no-underline focus-visible:rounded-none focus-visible:border-none focus-visible:ring-0 [&_[data-slot=accordion-trigger-icon]]:hidden"
+            >
+              <span className="font-sans text-lg uppercase tracking-wide text-ink lg:text-2xl">
+                {label}
+              </span>
+              <IcArrowRight
+                aria-hidden="true"
+                className="absolute right-10 hidden size-8 shrink-0 text-ink lg:block"
+              />
+            </AccordionTrigger>
+
+            <AccordionContent className="p-0">
+              {category.spreads.length > 0 ? (
+                <MenuSpreadViewer
+                  spreads={category.spreads}
+                  alt={t('catalog.imageAlt', { category: label })}
+                  resetKey={category.id}
+                  sizes={MENU_PANEL_SIZES}
+                  pagesOnDesktop={2}
+                  intervalMs={3000}
+                  className="w-full"
+                />
+              ) : (
+                <p className="px-6 py-16 text-center font-sans text-lg text-ink/60">
+                  {t('comingSoon')}
+                </p>
+              )}
+            </AccordionContent>
+          </AccordionItem>
         );
       })}
     </Accordion>
