@@ -10,14 +10,19 @@ export async function HomeStorySection() {
   const paragraphs = t.raw('paragraphs') as string[];
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    // Mobile: exactly one screen, split in the design's own 493 : 438
+    // proportion between the copy block and the tabs photo — as growth
+    // factors rather than pixels, so the section fits whatever the phone's
+    // viewport actually is instead of the 932px frame it was drawn on.
+    // Desktop is unchanged.
+    <section className="relative flex h-svh flex-col overflow-hidden bg-cream lg:block lg:h-auto">
       {/* The design's copy block, measured to where the tabs photo starts:
           1050 -> 1543 on the 430 frame, 934 -> 1335 on the 1400 one. The
-          photo below is a fixed aspect (438px on mobile, ~511 on desktop),
-          so pinning this block is what makes the section land on the
-          design's 931 / 913 — and keeps it from breathing as the copy
-          re-wraps, which was moving the illustrations with it. */}
-      <div className="relative min-h-[493px] lg:min-h-[401px]">
+          photo below is a fixed aspect on desktop, so pinning this block is
+          what makes the section land on the design's 913 there — and keeps
+          it from breathing as the copy re-wraps, which was moving the
+          illustrations with it. */}
+      <div className="relative flex-[493_1_0%] lg:flex-none lg:min-h-[401px]">
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -35,13 +40,13 @@ export async function HomeStorySection() {
               left edge, copy from the right — so the pair reads as one
               gesture opening the section. */}
           <Reveal variant="slide-right">
-            <h2 className="max-w-60 font-display sm:max-w-none text-5xl md:text-6xl lg:text-7xl xl:text-[80px] leading-[120%] md:leading-none text-foreground">
+            <h2 className="max-w-60 font-display sm:max-w-none text-5xl md:text-6xl lg:text-[80px] leading-[120%] md:leading-none text-foreground">
               {t('heading')}
             </h2>
           </Reveal>
 
           <Reveal variant="slide-left" delayMs={280}>
-            <div className="flex flex-col gap-5 pl-24 font-sans text-sm sm:pl-28 lg:pl-0 sm:text-base md:text-lg lg:text-xl text-foreground">
+            <div className="flex flex-col gap-5 pl-24 text-justify font-sans text-sm sm:pl-28 lg:pl-0 sm:text-base md:text-lg lg:text-xl text-foreground">
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -53,7 +58,12 @@ export async function HomeStorySection() {
           tabs + photo read as the payoff of the story rather than a
           simultaneous element. Pushes forward rather than sliding, to
           settle the converging columns above it. */}
-      <Reveal variant="zoom-in" delayMs={550} durationMs={950}>
+      <Reveal
+        variant="zoom-in"
+        delayMs={550}
+        durationMs={950}
+        className="flex-[438_1_0%] lg:flex-none"
+      >
         <HomeStoryTabs />
       </Reveal>
 

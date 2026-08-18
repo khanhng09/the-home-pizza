@@ -15,7 +15,7 @@ export async function HomeHumansSection() {
     // the 1400 frame); content alone gave 901px. The design leaves the same
     // ~110px band empty below the link list, so the extra height lands where
     // it is drawn rather than stretching anything.
-    <section className="relative overflow-hidden bg-cream lg:min-h-[1010px]">
+    <section className="relative flex min-h-svh flex-col justify-center overflow-hidden bg-cream lg:block lg:min-h-[1010px]">
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 aspect-[430/600] lg:aspect-auto bg-cover bg-center lg:hidden"
@@ -47,7 +47,7 @@ export async function HomeHumansSection() {
               Tailwind emits for the span resets the start back to auto. */}
           <div className="relative lg:col-start-1 lg:row-start-1 lg:row-end-3 lg:self-stretch">
             <Reveal variant="slide-right">
-              <h2 className="font-display text-5xl md:text-6xl lg:text-6xl xl:text-7xl leading-[1.05] text-foreground">
+              <h2 className="font-display text-5xl md:text-6xl lg:text-[80px] leading-[1.05] text-foreground">
                 {t('heading')}
               </h2>
             </Reveal>
@@ -63,7 +63,7 @@ export async function HomeHumansSection() {
             <Button
               asChild
               variant="outline"
-              className="w-full rounded-[3px] border border-umber bg-transparent px-6 font-sans text-lg font-bold uppercase tracking-widest text-umber transition-colors hover:bg-umber hover:text-cream h-7.5 lg:w-auto lg:px-8"
+              className="btn-cta w-full border border-umber bg-transparent text-umber hover:bg-umber hover:text-cream lg:w-auto"
             >
               <Link href="/humans">{t('cta')}</Link>
             </Button>
