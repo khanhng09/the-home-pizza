@@ -2,12 +2,14 @@
 
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
 import { useMediaQuery } from '@/shared/hooks/use-media-query.hook';
+import { CREAM_PAPER_TILE, CREAM_PAPER_TILE_SIZE, DARK_PAPER_TILE, DARK_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 import { responsiveImage } from '@/shared/lib/image';
 import { cn } from '@/shared/lib/utils';
 
-/** Exported so the showcase's preloader can hand the browser the same
- * `sizes` the real `<img>` uses — pick a different candidate there and
- * the warm-up fetches a file the panel will never ask for. */
+/** The home page's menu panel is half the viewport from `lg`. Exported so
+ * the viewer's preloader can hand the browser the same `sizes` the real
+ * `<img>` uses — pick a different candidate there and the warm-up fetches
+ * a file the panel will never ask for. */
 export const MENU_PANEL_SIZES = '(max-width: 1023px) 100vw, 50vw';
 
 const FLIP_DURATION = 0.78;
@@ -111,7 +113,7 @@ const reducedPageVariants: Variants = {
   exit: { opacity: 0, zIndex: 0, transition: { duration: 0.25 } },
 };
 
-interface HomeMenuPageFlipProps {
+interface MenuPageFlipProps {
   /** Identity of the sheet on top. Changing it turns the page, so it has
    * to be unique per spread, not per category. */
   pageKey: string;
@@ -121,32 +123,64 @@ interface HomeMenuPageFlipProps {
   height: number;
   /** ≥ 0 hinges on the left (turning forward), < 0 on the right. */
   direction: number;
+  /** Must describe the box the panel actually paints into — see
+   * `MENU_PANEL_SIZES`. */
+  sizes?: string;
+  /** The paper grain painted on the reverse of the turning sheet, so the
+   * turn never shows a mirrored photo. `dark` is the dó-paper tile the
+   * home showcase has always used; `cream` is /menu's own paper, on its
+   * lighter half of the site. The panel's own background (behind the
+   * photo's `object-contain` letterboxing) is the caller's job, not this
+   * component's — see the note on the root element below. */
+  theme?: 'dark' | 'cream';
 }
 
-export function HomeMenuPageFlip({
+export function MenuPageFlip({
   pageKey,
   src,
   alt,
   width,
   height,
   direction,
-}: HomeMenuPageFlipProps) {
+  sizes = MENU_PANEL_SIZES,
+  theme = 'dark',
+}: MenuPageFlipProps) {
   const prefersReducedMotion = useReducedMotion();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   const isFlip = !prefersReducedMotion && isDesktop;
   const pageVariants = prefersReducedMotion
     ? reducedPageVariants
-    : isDesktop
+    : isFlip
       ? flipPageVariants
       : fadePageVariants;
 
   const hingeLeft = direction >= 0;
   const image = responsiveImage(src);
 
+  const paperClassName = theme === 'dark' ? 'bg-ink' : 'bg-cream';
+  const paperStyle =
+    theme === 'dark'
+      ? { backgroundImage: `url(${DARK_PAPER_TILE})`, backgroundSize: DARK_PAPER_TILE_SIZE }
+      : {
+          backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
+          backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
+        };
+
   return (
+    // `isolate`: the turning sheet lifts itself to `zIndex: 1` mid-flip, and
+    // without a stacking context of its own that would also lift it above
+    // the prev/next controls painted after this panel.
+    //
+    // No background of its own: the caller paints one static paper layer
+    // behind the whole panel (see `MenuSpreadViewer`/`HomeMenuPanel`), and
+    // this sheet's `object-contain` letterboxing shows it through. Painting
+    // it here too used to double it up — each sheet restarting the tile at
+    // its own box origin, which seamed visibly at the spine of a two-up
+    // spread, and re-painted (so it looked like it moved) every time this
+    // component re-mounted under a scroll reveal.
     <div
-      className="absolute inset-0 overflow-hidden bg-ink"
+      className="absolute inset-0 isolate overflow-hidden"
       style={
         isFlip
           ? {
@@ -177,11 +211,16 @@ export function HomeMenuPageFlip({
             alt={alt}
             width={width}
             height={height}
-            sizes={MENU_PANEL_SIZES}
+            sizes={sizes}
             loading="lazy"
             decoding="async"
             className={cn(
-              'absolute inset-0 h-full w-full object-cover',
+              // `object-contain`, not cover: these are typeset menu pages,
+              // and cropping one to fill the panel cut the outer margin —
+              // and with it the first and last column of dishes. This sheet
+              // paints no background of its own, so the page letterboxes
+              // onto the caller's static paper layer instead of a gap.
+              'absolute inset-0 h-full w-full object-contain',
               isFlip && '[backface-visibility:hidden]'
             )}
           />
@@ -216,7 +255,11 @@ export function HomeMenuPageFlip({
                   shows a mirrored photo, with its own light on top. */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-ink [backface-visibility:hidden] [transform:rotateY(180deg)]"
+                className={cn(
+                  'absolute inset-0 bg-repeat [backface-visibility:hidden] [transform:rotateY(180deg)]',
+                  paperClassName
+                )}
+                style={paperStyle}
               >
                 <motion.div
                   variants={backShadeVariants}

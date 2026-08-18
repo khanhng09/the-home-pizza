@@ -7,9 +7,9 @@ import { Link } from '@/i18n/navigation';
 import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { optimizedImage } from '@/shared/lib/image';
+import { DARK_PAPER_TILE, DARK_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 import { cn } from '@/shared/lib/utils';
-import { LOCATION_HOVER_DEBOUNCE_MS, locationContent, locationStates } from '../constants/home.constant';
+import { LOCATION_HOVER_DEBOUNCE_MS, locationStates } from '../constants/home.constant';
 import { HomeLocationGallery } from './home-location-gallery';
 
 export function HomeLocationSwitcher() {
@@ -58,21 +58,19 @@ export function HomeLocationSwitcher() {
     // the 430 frame, 3771 -> 4685 on the 1400 one — split into the copy
     // panel and the photo exactly where the design splits them (371/561 on
     // mobile, half and half on desktop).
-    <div ref={rootRef} className="grid min-h-[932px] bg-deep lg:min-h-[914px] lg:grid-cols-2">
+    <div
+      ref={rootRef}
+      className="flex h-svh flex-col bg-deep lg:grid lg:h-auto lg:min-h-[914px] lg:grid-cols-2"
+    >
       {/* No `overflow-hidden` here: it makes this a scroll container, which
           zeroes its min-content contribution to the grid row — the row then
           sizes off `min-h` alone and clips the copy on any viewport narrower
           than the design's 430 (the location buttons lost 14px at 375). The
           background layers below are `inset-0`, so nothing needs clipping. */}
-      <div className="relative flex min-h-[371px] px-7 pt-10 pb-10 sm:px-10 lg:min-h-[914px] lg:px-14 lg:pt-32 lg:pb-14 xl:px-16">
+      <div className="container-edge-left relative flex min-h-0 flex-[371_1_0%] overflow-y-auto pr-7 pt-10 pb-10 sm:pr-10 lg:flex-none lg:overflow-visible lg:min-h-[914px] lg:pr-14 lg:pt-32 lg:pb-14 xl:pr-16">
         <div
-          className="absolute inset-0 bg-cover bg-center lg:hidden"
-          style={{ backgroundImage: `url(${optimizedImage(locationContent.backgroundImageMobile)})` }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 hidden bg-cover bg-center lg:block"
-          style={{ backgroundImage: `url(${optimizedImage(locationContent.backgroundImage)})` }}
+          className="absolute inset-0 bg-repeat"
+          style={{ backgroundImage: `url(${DARK_PAPER_TILE})`, backgroundSize: DARK_PAPER_TILE_SIZE }}
           aria-hidden="true"
         />
 
@@ -87,7 +85,7 @@ export function HomeLocationSwitcher() {
                 is under the project's 16px floor for body copy, so it goes
                 to `text-base` at the design's measure — the closest fit that
                 still keeps the panel inside its 371px box. */}
-            <p className="max-w-[296px] font-sans text-base leading-[1.4] text-cream lg:max-w-[600px] lg:text-xl xl:text-[22px]">
+            <p className="max-w-[296px] text-justify font-sans text-base leading-[1.4] text-cream lg:max-w-[600px] lg:text-xl xl:text-[22px]">
               {t('paragraph')}
             </p>
           </Reveal>
@@ -102,7 +100,7 @@ export function HomeLocationSwitcher() {
           <Reveal variant="slide-right" delayMs={570}>
             <Button
               asChild
-              className="btn-base h-8 w-full bg-cream font-bold uppercase tracking-wide text-ink hover:bg-linen mt-7 max-w-40 border border-cream px-6 font-sans text-[15px] lg:mt-10 lg:w-auto"
+              className="btn-cta mt-7 w-full max-w-40 border border-cream bg-cream text-ink hover:bg-linen lg:mt-10 lg:w-auto"
             >
               <Link href="/space">
                 {t('cta')}
@@ -164,7 +162,7 @@ export function HomeLocationSwitcher() {
         </div>
       </div>
 
-      <div className="relative min-h-[561px] overflow-hidden lg:min-h-[914px]">
+      <div className="relative flex-[561_1_0%] overflow-hidden lg:flex-none lg:min-h-[914px]">
         <HomeLocationGallery
           locationId={activeLocation.id}
           spreads={activeLocation.spreads}
@@ -178,7 +176,7 @@ export function HomeLocationSwitcher() {
           <Reveal variant="zoom-in" delayMs={450} durationMs={950}>
             <h2
               id="home-location-heading"
-              className="font-display text-[clamp(2.5rem,15vw,4.5rem)] leading-none text-cream uppercase lg:text-[clamp(4rem,8.5vw,9.5rem)]"
+              className="font-display text-5xl md:text-6xl lg:text-[80px] leading-none text-cream uppercase"
             >
               {t('heading')}
             </h2>

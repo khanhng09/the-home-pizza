@@ -6,6 +6,7 @@
  * this file only holds non-text data (image paths, ids, hrefs).
  */
 import { locationPhotos } from "@/shared/constants/location-photos.constant";
+import { menuSpreads } from "@/shared/constants/menu-spreads.constant";
 
 // Hero section
 export const heroContent = {
@@ -54,21 +55,14 @@ export const storyContent = {
   backgroundImageMobile: "/images/home/story/background-mb.webp",
 };
 
+/** `href` is where the arrow in the photo's bottom-right corner leads —
+ * each state is a teaser for the screen that tells that part of the story
+ * in full. */
 export const storyStates = [
-  { id: "dsv", image: "/images/home/story/story-dsv.webp" },
-  { id: "ht", image: "/images/home/story/story-ht.webp" },
-  { id: "tt", image: "/images/home/story/story-tt.webp" },
+  { id: "dsv", image: "/images/home/story/story-dsv.webp", href: "/menu" },
+  { id: "ht", image: "/images/home/story/story-ht.webp", href: "/story" },
+  { id: "tt", image: "/images/home/story/story-tt.webp", href: "/humans" },
 ] as const;
-
-// Menu section
-export const menuContent = {
-  backgroundImage: "/images/home/menu/background.webp",
-  backgroundImageMobile: "/images/home/menu/background-mb.webp",
-};
-
-/** How long each spread holds before the panel turns to the next one
- * within the same category. */
-export const MENU_SPREAD_INTERVAL_MS = 2000;
 
 /** Hover has to settle before it takes the panel over. Without the delay a
  * pointer travelling down the list on its way somewhere else would trigger
@@ -78,65 +72,14 @@ export const MENU_HOVER_DEBOUNCE_MS = 500;
 
 // Selecting a category turns the right-hand panel to its first spread, then
 // the panel keeps turning through the rest of that category's folder on a
-// timer. `dac-san-viet` is ordered north → south to follow the regional
-// narrative the section is about; the others follow their file numbering.
+// timer. The artwork itself lives in `shared/constants/menu-spreads.constant.ts`
+// — /menu's accordion opens the same sets, so neither screen owns them any
+// more.
 export const menuCategoryList = [
-  {
-    id: "dac-san-viet",
-    href: "/menu#dac-san-viet",
-    spreads: [
-      { src: "/images/home/menu/dsv/bac.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/bac-1.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/TRUNG.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/TRUNG1.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/TRUNG2.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/TRUNG3.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/nam.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/nam-1.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/nam-2.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/nam-3.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/PQ.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/PQ1.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/PQ2.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/PQ4.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/dsv/menu-moi-03.webp", width: 582, height: 842 },
-      { src: "/images/home/menu/dsv/menu-moi-05.webp", width: 582, height: 842 },
-    ],
-  },
-  {
-    id: "pizza-classic",
-    href: "/menu#pizza-classic",
-    spreads: [
-      { src: "/images/home/menu/pizza/pizza-32.webp", width: 595, height: 842 },
-      { src: "/images/home/menu/pizza/pizza-33.webp", width: 595, height: 842 },
-      { src: "/images/home/menu/pizza/pizza-34.webp", width: 595, height: 842 },
-      { src: "/images/home/menu/pizza/pizza-35.webp", width: 595, height: 842 },
-      { src: "/images/home/menu/pizza/pizza-36.webp", width: 595, height: 842 },
-      { src: "/images/home/menu/pizza/pizza-37.webp", width: 595, height: 842 },
-    ],
-  },
-  {
-    id: "salad-appertiza",
-    href: "/menu#salad",
-    spreads: [
-      { src: "/images/home/menu/salad/salad-02.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/salad/salad-03.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/salad/salad-04.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/salad/salad-06.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/salad/salad-07.webp", width: 1241, height: 1754 },
-    ],
-  },
-  {
-    id: "pasta",
-    href: "/menu#pasta",
-    spreads: [
-      { src: "/images/home/menu/pasta/pasta-bac.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/pasta/pasta-bac-2.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/pasta/pasta-PQ.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/pasta/salad-11.webp", width: 1241, height: 1754 },
-      { src: "/images/home/menu/pasta/salad-14.webp", width: 1241, height: 1754 },
-    ],
-  },
+  { id: "dac-san-viet", spreads: menuSpreads["dac-san-viet"] },
+  { id: "pizza-classic", spreads: menuSpreads["pizza-classic"] },
+  { id: "salad-appertiza", spreads: menuSpreads.salad },
+  { id: "pasta", spreads: menuSpreads.pasta },
 ] as const;
 
 // Humans section ("Người Nhà")
@@ -149,17 +92,15 @@ export const humansContent = {
   ],
 } as const;
 
+/** The same three destinations as /humans' own hero list, so a visitor
+ * gets to the same place from either screen. "Career Path" is the blog
+ * post that has not been chosen yet — see the note on
+ * `humansHeroLinkList` in the /humans constants. */
 export const humansLinkList = [
-  { id: "humans-of-the-home", href: "/humans" },
-  { id: "career-path", href: "/humans#career-path" },
+  { id: "humans-of-the-home", href: "/humans#humans-of-the-home" },
+  { id: "career-path", href: "/story" },
   { id: "nha-tim-nguoi", href: "/humans#nha-tim-nguoi" },
 ] as const;
-
-// Location section
-export const locationContent = {
-  backgroundImage: "/images/home/location/background.webp",
-  backgroundImageMobile: "/images/home/location/background-mb.webp",
-};
 
 /** How long each photo holds before the panel crossfades to the next one
  * within the same location. Slower than the menu panel's turn rate — this

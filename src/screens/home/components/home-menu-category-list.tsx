@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
-import { Link } from '@/i18n/navigation';
 import { IcArrowRight } from '@/shared/components/icons';
 import { useMediaQuery } from '@/shared/hooks/use-media-query.hook';
 import { cn } from '@/shared/lib/utils';
@@ -10,10 +9,7 @@ import { MENU_HOVER_DEBOUNCE_MS } from '../constants/home.constant';
 
 interface MenuCategory {
   id: string;
-  href: string;
   label: string;
-  /** Accessible name for the row's arrow link ("View the Pasta menu"). */
-  linkLabel: string;
 }
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
@@ -56,10 +52,11 @@ interface HomeMenuCategoryListProps {
 }
 
 /**
- * The label is a button (it turns the page in the panel beside/below the
- * list), the trailing arrow is a separate link into that category on the
- * /menu screen — two jobs, so two controls rather than one element trying
- * to both select and navigate.
+ * Every row does one job: it turns the panel beside/below the list to that
+ * category. The trailing arrow used to be a second control that navigated
+ * to /menu, which made a single row mean two different things depending on
+ * where in it you clicked. It is now decorative — it slides on hover to
+ * mark the row as live — and "Xem thực đơn" is the only way to /menu.
  *
  * A row activates on hover as well as on click, but hover has to hold for
  * `MENU_HOVER_DEBOUNCE_MS` first — see the constant for why. Clicking
@@ -131,7 +128,7 @@ export function HomeMenuCategoryList({
             onPointerEnter={() => handleEnter(index)}
             onPointerLeave={cancelHover}
             className={cn(
-              'relative shrink-0 lg:shrink border-b-2 lg:border-b lg:border-cream',
+              'group relative shrink-0 lg:shrink border-b-2 lg:border-b lg:border-cream',
               isActive ? 'border-gold' : 'border-transparent hover:border-cream/50'
             )}
           >
@@ -148,10 +145,10 @@ export function HomeMenuCategoryList({
                 {category.label}
               </button>
 
-              <Link
-                href={category.href}
-                aria-label={category.linkLabel}
-                className="group hidden shrink-0 items-center justify-center p-3.5 lg:inline-flex"
+              {/* Decorative: the row's own button is the control. */}
+              <span
+                aria-hidden="true"
+                className="hidden shrink-0 items-center justify-center p-3.5 lg:inline-flex"
               >
                 <IcArrowRight
                   className={cn(
@@ -159,7 +156,7 @@ export function HomeMenuCategoryList({
                     isActive ? 'text-gold' : 'text-cream'
                   )}
                 />
-              </Link>
+              </span>
             </div>
 
             {/* Desktop rows sit on a hairline rule rather than a border,
