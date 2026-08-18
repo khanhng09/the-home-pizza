@@ -1,13 +1,11 @@
 import { getTranslations } from 'next-intl/server';
 import { StoryDetailActions } from '../components/story-detail-actions';
 import { StoryDetailBody } from '../components/story-detail-body';
-import {
-  STORY_DETAIL_COMMENTS_ENABLED,
-  STORY_DETAIL_PATTERN,
-} from '../constants/story-detail.constant';
+import { STORY_DETAIL_COMMENTS_ENABLED } from '../constants/story-detail.constant';
 import { IcChevronLeft } from '@/shared/components/icons';
 import { Link } from '@/i18n/navigation';
 import { Reveal } from '@/shared/components/ui/reveal';
+import { DARK_PAPER_TILE, DARK_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 import { formatStoryByline, getInitials } from '@/shared/lib/utils';
 import type { StoryArticle } from '@/shared/types/story-content.type';
 
@@ -35,7 +33,10 @@ export async function StoryDetailArticleSection({
       // teal, and a cream flash before it loads on a slow connection would
       // put cream text on cream.
       className="relative bg-deep bg-repeat"
-      style={{ backgroundImage: `url(${STORY_DETAIL_PATTERN})` }}
+      style={{
+        backgroundImage: `url(${DARK_PAPER_TILE})`,
+        backgroundSize: DARK_PAPER_TILE_SIZE,
+      }}
     >
       {/* 150px is measured from the top of the design canvas, and the
           header is `fixed`, so it is not offset here — the padding has to

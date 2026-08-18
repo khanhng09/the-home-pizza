@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
-import { storyBackdropContent } from '../constants/story.constant';
-import { optimizedImage } from '@/shared/lib/image';
+import { CREAM_PAPER_TILE, CREAM_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 
 /**
  * The paper texture behind the whole /story screen.
@@ -12,23 +11,29 @@ import { optimizedImage } from '@/shared/lib/image';
  * the pattern to their own box, so the grain visibly restarts at the
  * boundary between them; a single element cannot seam against itself.
  *
- * Tiled vertically at natural width instead of `cover`: the screen runs
- * roughly 2.4x taller than the texture renders at full width, so `cover`
- * would scale the grain up by that much and read as a blur. `repeat-y`
- * keeps it at the size the design uses.
+ * Tiled in both axes at a small, DPR-correct size instead of `cover` or a
+ * full-width stretch: painting the whole photo across the section's width
+ * would need roughly its native resolution doubled to stay sharp on a 2x
+ * display, which the source doesn't have — see `CREAM_PAPER_TILE_SIZE`.
  */
 export function StoryBackdrop({ children }: { children: ReactNode }) {
   return (
     <div className="relative bg-cream">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-top bg-[length:100%_auto] bg-repeat-y lg:hidden"
-        style={{ backgroundImage: `url(${optimizedImage(storyBackdropContent.backgroundImageMobile)})` }}
+        className="pointer-events-none absolute inset-0 bg-repeat lg:hidden"
+        style={{
+          backgroundImage: `url(${CREAM_PAPER_TILE.mobile})`,
+          backgroundSize: CREAM_PAPER_TILE_SIZE.mobile,
+        }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden bg-top bg-[length:100%_auto] bg-repeat-y lg:block"
-        style={{ backgroundImage: `url(${optimizedImage(storyBackdropContent.backgroundImage)})` }}
+        className="pointer-events-none absolute inset-0 hidden bg-repeat lg:block"
+        style={{
+          backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
+          backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
+        }}
       />
       <div className="relative">{children}</div>
     </div>

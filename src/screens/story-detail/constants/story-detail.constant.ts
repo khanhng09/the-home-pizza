@@ -4,29 +4,6 @@
  */
 
 /**
- * The dark paper the article sits on, tiled with `background-repeat` across
- * the whole section.
- *
- * This is `pattern-bg.webp` run through `yarn images:tile`: the source is a
- * photograph of dó paper whose left edge does not continue into its right,
- * so repeating it directly draws a faint grid across the page. It is also
- * cropped down to a 360px tile rather than kept at the source's 1400px —
- * repeating the source at full size barely repeats at all inside a normal
- * viewport (less than a third of one tile is visible on a 375px phone), so
- * it reads as one image stretched behind the page rather than a fine paper
- * grain. See `scripts/make-seamless-tile.mjs` for both fixes.
- */
-export const STORY_DETAIL_PATTERN = '/images/pattern-bg.webp';
-
-/** The paper texture behind the recent-posts band, on the cream half of the
- * page. Shared with the /story landing and the home teaser so the grain
- * matches across screens. */
-export const STORY_DETAIL_RELATED_TEXTURE = {
-  desktop: '/images/home/story/background.webp',
-  mobile: '/images/home/story/background-mb.webp',
-};
-
-/**
  * Comments are off.
  *
  * Sanity has no public write path — its API is editor-authenticated, so

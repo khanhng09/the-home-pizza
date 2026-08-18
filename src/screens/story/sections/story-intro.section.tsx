@@ -69,13 +69,18 @@ export async function StoryIntroSection() {
     // Transparent — the paper texture and cream base come from
     // StoryBackdrop, which wraps every section on this screen so the grain
     // runs continuously across their boundaries.
-    <section className="relative">
+    // `h-svh`, not `min-h-svh`: `flex-1` can only divide space a container
+    // actually has, and a box that is merely *at least* one screen tall is
+    // still `height: auto` — so the copy panel kept its full text height
+    // and pushed the section past the screen. A definite height is what
+    // lets the panel shrink and scroll its overflow instead.
+    <section className="relative flex h-svh flex-col lg:block lg:h-auto">
       {/* Wavy roofline band — full-bleed, tucked under the fixed header at
           the very top of the page. The design scales the artwork to 156%
           of the band's height and anchors it to the bottom, cropping the
           top away, so the wave reads deeper than the source's own aspect
           ratio would give. Likely the LCP candidate, hence eager/high. */}
-      <div className="relative h-[23vw] max-h-[99px] overflow-hidden lg:h-[17.07vw] lg:max-h-[239px] w-screen">
+      <div className="relative h-[23vw] max-h-[99px] w-screen shrink-0 overflow-hidden lg:h-[17.07vw] lg:max-h-[239px]">
         <img
           src={heroBand.src}
           srcSet={heroBand.srcSet}
@@ -91,7 +96,11 @@ export async function StoryIntroSection() {
         />
       </div>
 
-      <div className="relative">
+      {/* `min-h-0` at every level of this column: a flex item's default
+          `min-height: auto` refuses to shrink below its content, which is
+          what kept the copy panel at its full text height and pushed the
+          section past one screen. */}
+      <div className="relative flex min-h-0 flex-1 flex-col lg:block">
         {/* ---------- Desktop collage ---------- */}
         <div
           className="relative hidden w-full lg:block"
@@ -169,7 +178,7 @@ export async function StoryIntroSection() {
                   the scrollbar only appears once the copy is taller than
                   this fixed-height panel. */}
               <div
-                className={`flex h-full flex-col gap-4 overflow-y-scroll pr-4 font-sans leading-[1.4] text-foreground text-[clamp(0.875rem,1.43vw,1.25rem)] ${SCROLLBAR}`}
+                className={`flex h-full flex-col gap-4 overflow-y-scroll pr-4 text-justify font-sans leading-[1.4] text-foreground text-[clamp(0.875rem,1.43vw,1.25rem)] ${SCROLLBAR}`}
               >
                 {paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
@@ -186,7 +195,7 @@ export async function StoryIntroSection() {
             off the edge at a constant size — scaling them by viewport
             width would pull them back into the text column on a 320px
             phone. */}
-        <div className="relative overflow-hidden pt-11 lg:hidden">
+        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-11 lg:hidden">
           <Illustration
             name="dong-ho-ghe"
             className="absolute -right-9 top-10 h-[61px] w-[106px] text-gold z-1"
@@ -200,16 +209,20 @@ export async function StoryIntroSection() {
             className="absolute -left-[18px] top-[501px] h-[51px] w-[77px] text-gold z-1"
           />
 
-          <div className="container-base relative">
-            <Reveal variant="zoom-in">
+          <div className="container-base relative flex min-h-0 flex-1 flex-col">
+            <Reveal variant="zoom-in" className="shrink-0">
               <h1 className="text-center font-display leading-[1.2] whitespace-nowrap text-foreground text-[clamp(1.75rem,9.46vw,2.75rem)]">
                 {t('heading')}
               </h1>
             </Reveal>
 
-            <Reveal variant="slide-up" delayMs={150} className="mt-1">
+            {/* The comp draws this 487px tall on its 932 frame. As a share
+                of the screen instead, the intro lands on exactly one screen
+                whatever the phone is, rather than pushing 80px of the next
+                section into view on a shorter one. */}
+            <Reveal variant="slide-up" delayMs={150} className="mt-1 min-h-0 flex-1">
               <div
-                className={`mx-auto flex h-[487px] max-w-[285px] flex-col gap-4 overflow-y-auto pr-3 font-sans text-sm leading-[1.4] text-foreground ${SCROLLBAR}`}
+                className={`mx-auto flex h-full max-w-[285px] flex-col gap-4 overflow-y-auto pr-3 text-justify font-sans text-sm leading-[1.4] text-foreground ${SCROLLBAR}`}
               >
                 {paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>

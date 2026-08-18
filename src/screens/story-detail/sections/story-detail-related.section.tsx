@@ -1,14 +1,11 @@
 import { getTranslations } from 'next-intl/server';
-import {
-  STORY_DETAIL_RELATED_TEXTURE,
-  storyDetailRelatedIllustrations,
-} from '../constants/story-detail.constant';
+import { storyDetailRelatedIllustrations } from '../constants/story-detail.constant';
 import { IcClock } from '@/shared/components/icons';
 import { Illustration } from '@/shared/components/illustrations/illustration';
 import { Link } from '@/i18n/navigation';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { optimizedImage } from '@/shared/lib/image';
 import { sanityResponsiveImage } from '@/shared/lib/sanity/image';
+import { CREAM_PAPER_TILE, CREAM_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 import { formatStoryTimestamp } from '@/shared/lib/utils';
 import type { StoryTeaser } from '@/shared/types/story-content.type';
 
@@ -35,13 +32,19 @@ export async function StoryDetailRelatedSection({ stories }: { stories: StoryTea
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-top bg-[length:100%_auto] bg-repeat-y lg:hidden"
-        style={{ backgroundImage: `url(${optimizedImage(STORY_DETAIL_RELATED_TEXTURE.mobile)})` }}
+        className="pointer-events-none absolute inset-0 bg-repeat lg:hidden"
+        style={{
+          backgroundImage: `url(${CREAM_PAPER_TILE.mobile})`,
+          backgroundSize: CREAM_PAPER_TILE_SIZE.mobile,
+        }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden bg-top bg-[length:100%_auto] bg-repeat-y lg:block"
-        style={{ backgroundImage: `url(${optimizedImage(STORY_DETAIL_RELATED_TEXTURE.desktop)})` }}
+        className="pointer-events-none absolute inset-0 hidden bg-repeat lg:block"
+        style={{
+          backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
+          backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
+        }}
       />
 
       {/* Desktop only — the design's mobile frame draws none of these, and

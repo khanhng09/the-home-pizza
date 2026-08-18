@@ -23,7 +23,7 @@ export async function StoryListSection() {
     // Transparent — the paper texture and cream base come from
     // StoryBackdrop, so the grain carries over from the intro section
     // above without restarting at the boundary.
-    <section aria-labelledby="story-list-heading" className="relative py-10 lg:pt-20 lg:pb-25">
+    <section aria-labelledby="story-list-heading" className="relative flex min-h-svh flex-col justify-center py-10 lg:block lg:min-h-0 lg:pt-20 lg:pb-25">
       <h2 id="story-list-heading" className="sr-only">
         {t('heading')}
       </h2>

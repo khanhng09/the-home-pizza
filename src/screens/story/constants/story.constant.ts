@@ -5,16 +5,6 @@
  * messages/*.json; this file only holds non-text data (image paths, ids, dates).
  */
 
-// Paper texture behind the whole screen — see StoryBackdrop, which paints
-// it once for every section rather than per section. No equivalent exists
-// yet under /images/story (only the photos below and the hero band do), so
-// this still points at the shared paper/plant texture the home page teaser
-// and menu hero already reuse from their own screen folders.
-export const storyBackdropContent = {
-  backgroundImage: "/images/home/story/background.webp",
-  backgroundImageMobile: "/images/home/story/background-mb.webp",
-};
-
 /** Full-bleed wavy roofline band under the fixed header, at the very top
  * of the page — the same motif used at the top of the home hero. */
 export const storyHeroBand = { src: "/images/story/hero.webp", width: 4200, height: 717 };
