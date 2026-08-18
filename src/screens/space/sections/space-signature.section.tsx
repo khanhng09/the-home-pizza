@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { SpaceGallerySlider } from "../components/space-gallery-slider";
-import { spaceBackdrop, spaceLocations, type SpaceLocation } from "../constants/space.constant";
+import { spaceLocations, type SpaceLocation } from "../constants/space.constant";
 import { Reveal } from "@/shared/components/ui/reveal";
-import { optimizedImage, responsiveImage } from "@/shared/lib/image";
+import { CREAM_PAPER_TILE, CREAM_PAPER_TILE_SIZE } from "@/shared/constants/texture.constant";
+import { responsiveImage } from "@/shared/lib/image";
 import { cn } from "@/shared/lib/utils";
 
 /**
@@ -47,7 +48,7 @@ function LocationHero({
     <section
       id={location.slug}
       aria-labelledby={headingID}
-      className="relative h-[66.75vw] max-h-[430px] overflow-hidden bg-ink lg:h-svh lg:max-h-none"
+      className="relative h-svh overflow-hidden bg-ink lg:h-svh lg:max-h-none"
     >
       <picture>
         {heroMobile && location.heroMobile ? (
@@ -111,21 +112,32 @@ function LocationStory({ location, copy }: { location: SpaceLocation; copy: Loca
   const isDark = location.theme === "dark";
 
   return (
-    <section className={cn("relative overflow-hidden", isDark ? "bg-deep" : "bg-cream")}>
+    <section
+      className={cn(
+        "relative flex flex-col justify-center overflow-hidden lg:block",
+        isDark ? "bg-deep" : "bg-cream"
+      )}
+    >
       {!isDark ? (
         <>
-          {/* Cream paper grain, painted at its natural width and tiled down
-              rather than `cover`, so the grain stays the size the comp
-              draws it. Same treatment as StoryBackdrop. */}
+          {/* Cream paper grain, tiled in both axes at a DPR-correct size
+              rather than stretched to the section's width. Same treatment
+              as StoryBackdrop. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-top bg-[length:100%_auto] bg-repeat-y lg:hidden"
-            style={{ backgroundImage: `url(${optimizedImage(spaceBackdrop.textureMobile)})` }}
+            className="pointer-events-none absolute inset-0 bg-repeat lg:hidden"
+            style={{
+              backgroundImage: `url(${CREAM_PAPER_TILE.mobile})`,
+              backgroundSize: CREAM_PAPER_TILE_SIZE.mobile,
+            }}
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 hidden bg-top bg-[length:100%_auto] bg-repeat-y lg:block"
-            style={{ backgroundImage: `url(${optimizedImage(spaceBackdrop.texture)})` }}
+            className="pointer-events-none absolute inset-0 hidden bg-repeat lg:block"
+            style={{
+              backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
+              backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
+            }}
           />
         </>
       ) : null}
@@ -134,8 +146,15 @@ function LocationStory({ location, copy }: { location: SpaceLocation; copy: Loca
           left / photos bleeding off the right edge, the dark one the other
           way round. Below `lg` both stack, and the strip goes full-bleed.
           The copy column carries the band's 52px outer inset in its own
-          width (416 + 52 = 468) so the strip can still reach the edge. */}
-      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-[35px] py-10 lg:h-[655px] lg:flex-row lg:items-center lg:gap-6 lg:py-0">
+          width (416 + 52 = 468) so the strip can still reach the edge.
+          `w-full` rather than leaving `width` to resolve on its own: the
+          gallery's filmstrip scrolls its photos in one un-wrapped row, so
+          without a definite width to stretch into, this flex item's own
+          shrink-to-fit size follows that row's full unscrolled content
+          width (past `max-w-[1400px]`) instead of the viewport — and
+          `mx-auto` then centers that oversized box, pushing every child off
+          both edges of the screen. */}
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-col gap-[35px] py-10 lg:h-[655px] lg:flex-row lg:items-center lg:gap-6 lg:py-0">
         <Reveal
           variant={isDark ? "slide-left" : "slide-right"}
           className={cn(

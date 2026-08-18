@@ -10,17 +10,6 @@
 import { locationPhotos } from "@/shared/constants/location-photos.constant";
 
 /**
- * Paper texture behind the light (Phú Quốc) band. The comp fills that band
- * with cream and lays the same dó-paper photograph the home story teaser
- * and /story screen already use over it at 50% — so it reuses their asset
- * rather than shipping a third copy of the same grain.
- */
-export const spaceBackdrop = {
-  texture: "/images/home/story/background.webp",
-  textureMobile: "/images/home/story/background-mb.webp",
-};
-
-/**
  * The two Signature houses, in the order the page tells them. `theme`
  * drives the whole band: the light one runs cream paper with the copy on
  * the left, the dark one mirrors it against `deep` with the copy on the
