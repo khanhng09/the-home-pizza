@@ -18,13 +18,16 @@ interface MenuRegionListProps {
  * treatments in the Figma, sharing the same active-region state.
  *
  * Presentational only: the selection lives in `MenuHeroExplorer`, which is
- * also what swaps the map and the copy in response to it.
+ * also what swaps the map and the copy in response to it. Only a click
+ * calls `onSelect` — the `hover:`/`group-hover:` classes below are plain
+ * CSS affordance and never touch the selection itself.
  */
 export function MenuRegionList({ regions, activeId, onSelect }: MenuRegionListProps) {
   return (
     <>
-      {/* Mobile: horizontal underline tabs */}
-      <div className="flex gap-4.5 overflow-x-auto lg:hidden">
+      {/* Mobile: horizontal underline tabs. A single hairline runs under
+          all four; the active tab's gold underline sits on top of it. */}
+      <div className="grid grid-cols-4 gap-4.5 border-b border-ink/20 lg:hidden">
         {regions.map((region) => {
           const isActive = region.id === activeId;
           return (
@@ -34,12 +37,22 @@ export function MenuRegionList({ regions, activeId, onSelect }: MenuRegionListPr
               aria-pressed={isActive}
               onClick={() => onSelect(region.id)}
               className={cn(
-                'h-auto flex-col items-start gap-2 rounded-none bg-transparent px-0 pb-2 font-sans text-lg uppercase shrink-0 hover:bg-transparent',
+                'h-auto flex-col items-start gap-0 text-left rounded-none bg-transparent px-0 pb-2 font-sans text-lg uppercase shrink-0 hover:bg-transparent',
                 isActive ? 'text-umber' : 'text-ink'
               )}
             >
-              {region.label}
-              <span className={cn('h-0.5 w-full', isActive ? 'bg-gold' : 'bg-gold/0')} />
+              {/* Each region name is two words ("Bắc Bộ", "Phú Quốc", ...).
+                  Breaking on the space explicitly — rather than leaving it
+                  to natural wrap — keeps every tab at the same two-line
+                  height regardless of column width, instead of some tabs
+                  wrapping and others (whichever happens to be short enough
+                  for its column) staying on one line. */}
+              {region.label.split(' ').map((word) => (
+                <span key={word} className="block">
+                  {word}
+                </span>
+              ))}
+              <span className={cn('-mb-px h-0.5 w-full', isActive ? 'bg-gold' : 'bg-gold/0')} />
             </Button>
           );
         })}

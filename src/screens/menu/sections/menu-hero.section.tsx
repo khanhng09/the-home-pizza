@@ -25,7 +25,7 @@ export async function MenuHeroSection() {
   });
 
   return (
-    <section className="relative min-h-svh overflow-hidden bg-cream lg:min-h-0">
+    <section className="relative h-svh overflow-hidden bg-cream lg:min-h-0">
       {/* Background texture */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-cream" />
