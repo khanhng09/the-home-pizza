@@ -182,6 +182,24 @@ const GROUPS = [
     ],
     widths: [1400],
   },
+  {
+    // /menu hero's paper-grain overlay — a real `<img>` with `srcset`
+    // (not a CSS `background-image` like the group above), full-bleed
+    // behind the whole hero at any viewport width. This one had never
+    // been run through this script at all — 1400×857 committed straight
+    // from Figma at 400KB, downloaded at that size on every device
+    // including phones that only ever paint it at ~390px wide.
+    //
+    // 900 (not the usual 768) is the step that actually serves a common
+    // phone: 768 alone left a DPR-2 390px-wide phone needing 780px,
+    // narrowly over that variant, and jumping all the way to 1400 for it
+    // — the same trap the "story screen" group's own comment calls out.
+    // Source tops out at 1400 native, so nothing above that gains anything
+    // (the script caps to it regardless of what's listed here).
+    name: 'menu hero background',
+    files: ['images/menu/background.webp'],
+    widths: [480, 900, 1400],
+  },
 ];
 
 async function collect(group) {

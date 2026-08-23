@@ -27,37 +27,28 @@ const TEXT_COLUMN_WIDTH = '34rem';
 /**
  * Fixed height — not a floor, an actual cap — for the paragraphs block
  * specifically (not the greeting above it, not the region list below it),
- * with the block scrolling internally past it. Two things depend on this
- * being a hard cap rather than a `min-height`:
+ * with the block scrolling internally past it rather than growing.
  *
- * 1. It's what keeps the region list (and everything below the section,
- *    since the section itself is a fixed `h-svh`) from shifting every time
- *    a region with a different paragraph count is picked — the greeting is
- *    always one line and the list is always the same fixed set of items,
- *    so once this one piece stops growing, the whole column does too.
- * 2. It's what guarantees the column never pushes the map/list past the
- *    bottom of the `h-svh` section, where `overflow-hidden` would otherwise
- *    silently clip them — a `min-height` alone doesn't protect against
- *    that, since content taller than the floor just grows past it.
+ * This is what keeps the region list below it (and, at `lg` and up where
+ * the section is a fixed `h-svh`, the map alongside it) from shifting every
+ * time a region with a different paragraph count is picked — the greeting
+ * is always one line and the list is always the same fixed set of items,
+ * so once this one piece stops growing, the whole column does too. Below
+ * `lg` the section scrolls with the page instead of clipping at one
+ * viewport (see `MenuHeroSection`), so this cap there is purely about that
+ * shift, not about avoiding clipping — nothing below it can run off the
+ * bottom of anything anymore.
  *
- * Mobile gets its own (shorter) cap: it has far less vertical budget once
- * the map and region list below it are accounted for inside one `h-svh`
- * screen, and its narrower column already wraps text into more lines at
- * the same character count. Both were sized against the longest region's
- * copy (Bắc Bộ/Nam Bộ) at each breakpoint's actual column width, with some
- * headroom for font-rendering differences across browsers — see the
- * `overflow-y-auto` on the block itself for what happens past that.
- *
- * The mobile cap specifically trades readable-without-scrolling height for
- * map size: the mobile map's own box grew taller when its source assets
- * were re-cropped tighter (see `renderMobileMaps`), which pushed total
- * content past `h-svh` on common phone heights (e.g. a 390×844 viewport)
- * without this cap shrinking too — clipping the bottom-most food icon,
- * real visible content, not just whitespace. Shrinking this cap instead
- * costs nothing but extra scrolling inside an already-`overflow-y-auto`
- * block, so it's the one to give up space first.
+ * Mobile gets its own (shorter) cap than desktop: its narrower column wraps
+ * the same copy into more lines, so matching desktop's cap would either cut
+ * mobile off much earlier relative to its content or, sized for mobile's
+ * line count, waste a lot of vertical space on desktop's wider column. Both
+ * were sized against the longest region's copy (Bắc Bộ/Nam Bộ) at each
+ * breakpoint's actual column width, with some headroom for font-rendering
+ * differences across browsers — see the `overflow-y-auto` on the block
+ * itself for what happens past that.
  */
-const PARAGRAPHS_HEIGHT_MOBILE_PX = 160;
+const PARAGRAPHS_HEIGHT_MOBILE_PX = 240;
 const PARAGRAPHS_HEIGHT_DESKTOP_PX = 480;
 
 export interface MenuHeroRegion {
@@ -127,9 +118,12 @@ export function MenuHeroExplorer({
   const mobileMapImage = activeRegion?.mobileMapImage ?? introMobileMapImage;
 
   // All five maps stay mounted and crossfade, so switching regions never
-  // flashes the panel empty while the next one downloads. Only the intro
-  // map is the LCP candidate (it's what paints on first load); the four
-  // region maps load lazily since they're only ever seen after a click.
+  // flashes the panel empty while the next one downloads. The intro map is
+  // still the LCP candidate (it's what paints on first load) — see
+  // `MenuHeroSection`'s `<link rel="preload">` for how it actually gets
+  // priority, since `loading="lazy"` below applies to it too now. The four
+  // region maps stay genuinely lazy, since they're only ever seen after a
+  // click.
   const mapSources = [introMapImage, ...regions.map((region) => region.mapImage)].filter(
     (source, index, all) => all.indexOf(source) === index
   );
@@ -140,7 +134,6 @@ export function MenuHeroExplorer({
 
   const renderMaps = (sizes: string) =>
     mapSources.map((source) => {
-      const isIntro = source === introMapImage;
       return (
         <img
           key={source}
@@ -178,9 +171,18 @@ export function MenuHeroExplorer({
             'object-cover object-left will-change-[opacity] transition-opacity duration-500 ease-out',
             source === mapImage ? 'opacity-100' : 'opacity-0'
           )}
-          loading={isIntro ? 'eager' : 'lazy'}
+          // Always `lazy`, intro included — even the LCP candidate. Eager +
+          // `fetchPriority="high"` here would fetch this on every device,
+          // desktop or mobile, since a `display:none` ancestor (this whole
+          // set is `hidden` below `lg`) doesn't stop an eager image from
+          // loading, only from painting. `MenuHeroSection` gives the intro
+          // image its priority instead, via a `media`-gated
+          // `<link rel="preload">` per breakpoint — only the matching
+          // device's request actually fires, and by the time this `<img>`
+          // mounts the resource is already in cache, so `lazy` here costs
+          // nothing.
+          loading="lazy"
           decoding="async"
-          fetchPriority={isIntro ? 'high' : undefined}
         />
       );
     });
@@ -218,7 +220,6 @@ export function MenuHeroExplorer({
   // food icons now fill most of the box instead of a third of it.
   const renderMobileMaps = () =>
     mobileMapSources.map((source) => {
-      const isIntro = source === introMobileMapImage;
       return (
         <img
           key={source}
@@ -234,9 +235,13 @@ export function MenuHeroExplorer({
             'absolute inset-0 size-full object-contain object-center will-change-[opacity] transition-opacity duration-500 ease-out',
             source === mobileMapImage ? 'opacity-100' : 'opacity-0'
           )}
-          loading={isIntro ? 'eager' : 'lazy'}
+          // Always `lazy` — see the desktop set's comment above. Same
+          // reasoning, mirrored: this set is the one `hidden` (via
+          // `lg:hidden`) from `lg` up, and `MenuHeroSection`'s
+          // `(max-width: 1023.98px)` preload is what gets its own intro
+          // image fetched early on the devices that actually show it.
+          loading="lazy"
           decoding="async"
-          fetchPriority={isIntro ? 'high' : undefined}
         />
       );
     });
@@ -277,20 +282,17 @@ export function MenuHeroExplorer({
           to a fixed height (see `PARAGRAPHS_HEIGHT_MOBILE_PX`/
           `PARAGRAPHS_HEIGHT_DESKTOP_PX`) with the overflow scrolling
           internally — so the row's total height is already constant
-          without needing to also floor it here, and it's guaranteed to fit
-          inside the section's `h-svh` rather than merely usually fitting.
+          without needing to also floor it here. At `lg` and up, where the
+          section really is a fixed `h-svh` (see `MenuHeroSection`), that
+          constant height is what keeps the row inside it; below `lg` the
+          section now grows and scrolls with the page instead, so nothing
+          here needs to fit inside a fixed budget at all.
 
           The two-column split only kicks in at `xl` — from `lg` to just
           under `xl` the grid stays single-column so the text/list items sit
           directly on top of the full-bleed map above (each carries its own
           `lg:`/`xl:` card treatment below) instead of being squeezed into a
-          narrow side column.
-
-          Base (mobile) `pt-16`/`pb-8`/`gap-6` are trimmed down from the
-          original `pt-24`/`pb-12`/`gap-8` — reclaiming that padding is what
-          keeps the section's `h-svh` promise above actually true again now
-          that the mobile map itself is taller (see `renderMobileMaps`); the
-          extra padding wasn't load-bearing for anything, just spacing. */}
+          narrow side column. */}
       <div className="relative mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-4 pt-21.5 pb-8 md:px-6 lg:gap-5 lg:px-8 lg:pt-36.5 lg:pb-10 xl:grid-cols-[1fr_var(--text-col)] xl:grid-rows-[auto_auto] xl:items-start xl:gap-6">
         {/* Text column — first on mobile, top-right on desktop. The
             `lg:`/`xl:` pair here is the overlay card: translucent cream
@@ -347,14 +349,14 @@ export function MenuHeroExplorer({
             fine on an actual phone (max ~430px wide, so ~440px tall — this
             asset is nearly square, taller than the old wide crop was) but
             balloons past 800px tall on wider "still under `lg`" widths like
-            a tablet or a resized browser window — and since the section is
-            `h-svh overflow-hidden` at every width below `lg` (only
-            `lg:min-h-0` lifts that), a box that tall gets sliced off by the
-            section's own bottom edge instead of just being big. The cap is
-            a no-op at real phone widths (aspect-driven height stays under
-            it) and only ever kicks in once width would otherwise push
-            height past it — `object-contain` on the images inside already
-            handles fitting into whatever box results, capped or not. */}
+            a tablet or a resized browser window. The section scrolls with
+            the page below `lg` (see `MenuHeroSection`), so an uncapped box
+            wouldn't get clipped by anything anymore — this cap is purely
+            about not letting the map get comically tall relative to the
+            text above it at those in-between widths. A no-op at real phone
+            widths (aspect-driven height stays under it); `object-contain`
+            on the images inside handles fitting into whatever box results,
+            capped or not. */}
         <div className="relative order-3 lg:hidden">
           <div className="relative aspect-[1102/1120] max-h-[460px] w-full">
             {renderMobileMaps()}
