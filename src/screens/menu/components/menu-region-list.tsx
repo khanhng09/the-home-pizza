@@ -46,12 +46,21 @@ export function MenuRegionList({ regions, activeId, onSelect }: MenuRegionListPr
                   to natural wrap — keeps every tab at the same two-line
                   height regardless of column width, instead of some tabs
                   wrapping and others (whichever happens to be short enough
-                  for its column) staying on one line. */}
-              {region.label.split(' ').map((word) => (
-                <span key={word} className="block">
-                  {word}
-                </span>
-              ))}
+                  for its column) staying on one line. Only worth doing at
+                  genuinely narrow (phone) widths, where a column is too
+                  narrow to fit either word on one line anyway — `sm:` and up
+                  a column is comfortably wide enough for the full two-word
+                  label, so the words sit side by side instead of forcing a
+                  two-line tab with a wide dead gap next to it. This inner
+                  span is its own flex row/column, separate from the
+                  underline bar below, since the Button's own `flex-col`
+                  would otherwise blockify these into forced separate rows
+                  regardless of `inline`/`block`. */}
+              <span className="flex flex-col sm:flex-row sm:gap-1">
+                {region.label.split(' ').map((word) => (
+                  <span key={word}>{word}</span>
+                ))}
+              </span>
               <span className={cn('-mb-px h-0.5 w-full', isActive ? 'bg-gold' : 'bg-gold/0')} />
             </Button>
           );
