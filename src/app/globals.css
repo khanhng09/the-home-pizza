@@ -87,7 +87,7 @@
      collapses, so a section sized from it can't grow mid-scroll. Every
      presentational section reads this through `.section-screen` rather
      than repeating the calc. */
-  --section-height: 100svh;
+  --section-height: calc(100svh - var(--header-height));
 
   /* The vertical breathing room inside a screen-locked section. Fluid on
      purpose: the design's own `py-24`/`pt-32` were fixed pixels lifted off
