@@ -108,7 +108,13 @@ export const homeIllustrations: Record<HomeIllustrationSectionId, HomeIllustrati
     desktop: [
       { name: 'dong-ho-hung-que', left: '53.714%', top: '2.376%', width: '11.857%', ratio: '166 / 139' },
       { name: 'dong-ho-cua', left: '2.071%', top: '34.950%', width: '15.571%', ratio: '218 / 148' },
-      { name: 'dong-ho-tieu', left: '87.500%', top: '54.356%', width: '11.929%', ratio: '167 / 109' },
+      // Re-measured for the one-screen section. The comp drew this on a
+      // 1010px-tall frame where `justify-between` left a ~110px band
+      // between the landscape photo and the link list; in a 674px band that
+      // gap is ~71px, and the illustration at its comp width (153px wide,
+      // 100px tall) no longer fits inside it — it landed on the first link
+      // row. Scaled to the band it actually has, in the same spot.
+      { name: 'dong-ho-tieu', left: '89.700%', top: '51.600%', width: '8.500%', ratio: '167 / 109' },
       { name: 'dong-ho-bo', left: '8.429%', top: '77.624%', width: '8.929%', ratio: '125 / 117' },
     ],
   },

@@ -98,8 +98,8 @@ export const humansContent = {
  * `humansHeroLinkList` in the /humans constants. */
 export const humansLinkList = [
   { id: "humans-of-the-home", href: "/humans#humans-of-the-home" },
-  { id: "career-path", href: "/story" },
-  { id: "nha-tim-nguoi", href: "/humans#nha-tim-nguoi" },
+  { id: "career-path", href: "/story/nha-tim-nguoi" },
+  { id: "nha-tim-nguoi", href: "/story/nha-tim-nguoi" },
 ] as const;
 
 /** How long each photo holds before the panel crossfades to the next one

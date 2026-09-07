@@ -8,6 +8,7 @@ import { routing } from '@/i18n/routing';
 import { navigation, businessInfo, bookingLink } from '@/shared/constants/site.constant';
 import { TheHomeLogo, IcArrowDown } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
+import { useScrollDirection } from '@/shared/hooks/use-scroll-direction.hook';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +29,7 @@ export function Header() {
   const t = useTranslations('header');
   const tCommon = useTranslations('common');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hidden = useScrollDirection();
 
   // /menu and everything under /story sit on cream paper rather than a
   // hero video or photo, so the header needs dark type, a dark logo and
@@ -43,7 +45,12 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md">
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md transition-transform duration-200 ease-out',
+          hidden && !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+        )}
+      >
         <div className="container-base flex h-[var(--header-height)] items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0 cursor-pointer">

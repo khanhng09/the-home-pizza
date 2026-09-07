@@ -9,20 +9,20 @@ export async function HumansPeopleStorySection() {
   const paragraphs = t.raw('paragraphs') as string[];
 
   return (
-    <section className="relative flex h-[990px] flex-col overflow-hidden bg-linen lg:block lg:h-auto">
+    <section id="humans-of-the-home" className="section-anchor section-screen relative flex flex-col overflow-hidden bg-linen">
       {/* Same 371 : 561 mobile split as the chef section it mirrors —
        * including the same `min-h-0` requirement on this row and the text
        * column below, or a long paragraph list balloons the row past the
        * section's `h-svh` and the photo half gets clipped by
        * `overflow-hidden`. See the chef section for the full explanation. */}
-      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:flex-none lg:grid-cols-2">
+      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-2">
         {/* Text column — first on mobile (stacked above the photo), right on
          * desktop. Vertical padding is the comp's, which together with the
          * fixed-height scroll window below puts the section at Figma's
          * 371px (mobile) / 914px (desktop). */}
         {/* Mirror of the chef column: this one sits on the *right* half from
          * `lg`, so it is its right edge that has to meet the container's. */}
-        <div className="container-edge-right relative order-1 flex min-h-0 flex-[371_1_0%] flex-col gap-4.5 bg-linen pl-4 pt-[41px] pb-[31px] md:pl-6 lg:order-2 lg:flex-none lg:pl-8 lg:py-[111px]">
+        <div className="container-edge-right relative order-1 flex min-h-0 max-h-full flex-[371_1_0%] flex-col gap-4.5 bg-linen py-[var(--section-py)] pl-4 md:pl-6 lg:order-2 lg:pl-8">
           {/* Figma geometry, 1:1 — mobile from the 430-wide frame, desktop
            * from the 1400-wide one. Gold, like every other illustration on
            * this page: the comp reads them as tone-on-tone watermarks. */}
@@ -34,10 +34,11 @@ export async function HumansPeopleStorySection() {
             </h2>
           </Reveal>
 
-          {/* Desktop keeps the comp's fixed 482px scroll window; mobile
-           * takes the column's leftover height — see the chef section. */}
-          <Reveal variant="slide-left" delayMs={200} className="min-h-0 flex-1 lg:flex-none">
-            <div style={{ direction: 'ltr' }} className="scrollbar-story-umber flex h-full max-w-[300px] md:max-w-147 flex-col gap-4 overflow-y-scroll pr-6 text-justify font-sans text-sm leading-[1.4] text-foreground lg:h-[482px] lg:pr-8 lg:text-xl">
+          {/* Takes the column's leftover height at every breakpoint — see
+           * the chef section for why the comp's fixed 482px desktop window
+           * had to go. */}
+          <Reveal variant="slide-left" delayMs={200} className="min-h-0 flex-1">
+            <div style={{ direction: 'ltr' }} className="scrollbar-story-umber flex h-full max-w-[300px] md:max-w-147 flex-col gap-4 overflow-y-scroll pr-6 text-justify font-sans text-sm leading-[1.4] text-foreground lg:pr-8 lg:text-xl">
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -51,8 +52,8 @@ export async function HumansPeopleStorySection() {
 
         {/* Photo column — second on mobile, left on desktop. No illustration
          * here in either comp; the cá trích belongs to the values section. */}
-        <div className="relative order-2 flex-[561_1_0%] overflow-hidden lg:flex-none lg:order-1">
-          <Reveal variant="zoom-in" delayMs={350} durationMs={950} className="h-full">
+        <div className="relative order-2 min-h-0 flex-[561_1_0%] overflow-hidden lg:order-1">
+          <Reveal variant="fade" delayMs={350} durationMs={950} className="h-full">
             <img
               src={optimizedImage(humansPeopleStoryContent.image.src)}
               srcSet={`${optimizedImage(humansPeopleStoryContent.image.mobileSrc)} 860w, ${optimizedImage(humansPeopleStoryContent.image.src)} 1400w`}
@@ -60,7 +61,7 @@ export async function HumansPeopleStorySection() {
               alt={t('imageAlt')}
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover lg:aspect-[700/914] lg:h-full"
+              className="h-full w-full object-cover"
             />
           </Reveal>
         </div>

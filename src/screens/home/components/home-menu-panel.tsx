@@ -3,16 +3,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { IcShare } from '@/shared/components/icons';
+import { IcChevronRight, IcShare } from '@/shared/components/icons';
 import { MenuPageFlip, MENU_PANEL_SIZES } from '@/shared/components/ui/menu-page-flip';
 import { Reveal } from '@/shared/components/ui/reveal';
 import type { MenuSpread } from '@/shared/constants/menu-spreads.constant';
-import { DARK_PAPER_TILE, DARK_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
 import { responsiveImage } from '@/shared/lib/image';
 import { cn } from '@/shared/lib/utils';
 
 /** How long each page holds before the panel turns to the next one. */
-export const HOME_MENU_INTERVAL_MS = 2000;
+export const HOME_MENU_INTERVAL_MS = 4000;
 
 /** Warms the browser cache so the next page is decoded before it is turned
  * to — see the identical preloader on /menu's spread viewer. */
@@ -50,22 +49,12 @@ interface HomeMenuPanelProps {
  * `screens/menu` for /menu's version; both still turn pages through the
  * same low-level `MenuPageFlip`.
  *
- * Paints one static paper layer behind the pages, as a sibling of — not
- * inside — the scroll-in reveal, so it never scales/fades along with the
- * photo. It's painted once and never touched by the page-turn animation
- * either — see `MenuPageFlip`'s note on why that background moved out of
- * it.
- *
- * Sizes itself from the artwork's own aspect ratio rather than being
- * stretched to fill whatever height the caller hands it — the same reason
- * /menu's `MenuSpreadViewer` does the same. `HomeMenuShowcase` used to force
- * this panel's column to the section's own fixed height so the two columns
- * lined up; that fixed height was also what the copy column's own content
- * had to fit inside, so a longer translation or a wrapped category list
- * forced it into an internal scrollbar. Letting this panel's own ratio set
- * its height instead means the grid row (and with it the copy column) grows
- * to fit whichever side is taller, and the artwork always fills the panel
- * edge to edge with no paper showing through around it.
+ * Fills its whole grid cell with a solid background (the design's flat
+ * clay panel, not the dark dó-paper the rest of the section uses) rather
+ * than being sized to the artwork's own aspect ratio — that sizing now
+ * happens one level in, on the box that actually holds the page image, so
+ * the sheet reads as artwork placed on a mat rather than wallpaper filling
+ * the column edge to edge.
  */
 export function HomeMenuPanel({
   spreads,
@@ -154,72 +143,69 @@ export function HomeMenuPanel({
   return (
     <div
       ref={rootRef}
-      className={cn('relative w-full', className)}
-      style={{ aspectRatio: panelRatio }}
+      // The clay mat: fills the whole grid cell and centers the artwork
+      // box inside its own padding, so the sheet reads as artwork placed on
+      // a mat rather than a full-bleed image.
+      className={cn(
+        'relative flex w-full items-center justify-center bg-gold p-6 sm:p-10 lg:h-full lg:p-14',
+        className
+      )}
     >
-      {/* The panel's own dó-paper, under everything — a sibling of the
-          reveal below, not a child of it, so scrolling the section into
-          view never scales or fades it. Painted once; every page turn
-          after that just changes what's on top of it. */}
+      {/* Sized to the category's own aspect ratio, then capped to the mat's
+          padded content box — mobile is width-driven (`w-full` + ratio ->
+          height follows); desktop is height-driven (`h-full w-auto` + ratio
+          -> width follows), same reason /menu's `MenuSpreadViewer` does the
+          same. `max-w-full`/`max-h-full` are what keep the artwork "vừa đủ"
+          (just large enough) instead of stretching to fill the mat. */}
       <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-ink bg-repeat"
-        style={{ backgroundImage: `url(${DARK_PAPER_TILE})`, backgroundSize: DARK_PAPER_TILE_SIZE }}
-      />
-
-      <Reveal variant="zoom-in" className="absolute inset-0" durationMs={1000} delayMs={150}>
-        {/* Sized to this page's own aspect ratio, not stretched to the
-            panel's — otherwise `object-contain` letterboxes inside a
-            full-panel sheet, and the flip's shading (which paints across
-            the whole sheet, not just the photo) darkens that letterbox
-            gap against the background pattern behind it. Centering it
-            here instead means the gap, if any, is *outside* the sheet —
-            plain static background that the animation never touches. */}
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="relative h-full max-w-full" style={{ aspectRatio: `${page.width} / ${page.height}` }}>
-            <MenuPageFlip
-              pageKey={`${resetKey}-${index}`}
-              src={page.src}
-              alt={alt}
-              width={page.width}
-              height={page.height}
-              direction={active.direction}
-              sizes={sizes}
-            />
-
-            {/* Anchored to the page itself, not the panel, so it stays on
-                the artwork's bottom-right corner the way the design draws
-                it (Figma: 32x32 at x1348/y2711 on the 1400 frame — 20px in
-                from the right edge, 18px up from the bottom). The sheet is
-                centred with margins either side, so anchoring to the panel
-                instead would float the arrow off the page and into the
-                background.
-
-                The design has no pill behind the glyph; `size-11` on the
-                button with a `size-8` icon keeps the 44px tap target the
-                a11y rules require while the *icon* still lands on the
-                design's own offsets (44-32 = 6px of padding a side, so the
-                button insets are 20-6 and 18-6). The drop shadow is the
-                one addition: a bare light glyph on a photo can fall under
-                the 3:1 contrast floor over a pale frame, and this holds it
-                legible without adding a background the design doesn't have. */}
-            {spreads.length > 1 && (
-              <button
-                type="button"
-                onClick={stepForward}
-                onPointerEnter={() => setIsPaused(true)}
-                onPointerLeave={() => setIsPaused(false)}
-                onFocus={() => setIsPaused(true)}
-                onBlur={() => setIsPaused(false)}
-                aria-label={tCommon('nextPage')}
-                className="absolute bottom-3 right-3.5 z-10 flex size-11 cursor-pointer items-center justify-center rounded-full text-cream transition-transform duration-300 [filter:drop-shadow(0_1px_3px_rgb(0_0_0/0.55))] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-              >
-                <IcShare aria-hidden="true" className="size-8" />
-              </button>
-            )}
+        className="relative h-auto max-h-full w-full max-w-full lg:h-full lg:w-auto"
+        style={{ aspectRatio: panelRatio }}
+      >
+        <Reveal variant="fade" className="absolute inset-0" durationMs={1000} delayMs={150}>
+          {/* Sized to this page's own aspect ratio, not stretched to the
+              panel's — otherwise `object-contain` letterboxes inside a
+              full-panel sheet, and the flip's shading (which paints across
+              the whole sheet, not just the photo) darkens that letterbox
+              gap against the background pattern behind it. Centering it
+              here instead means the gap, if any, is *outside* the sheet —
+              plain static background that the animation never touches. */}
+          <div className="flex h-full w-full items-center justify-center">
+            <div
+              className="relative h-full max-w-full shadow-2xl"
+              style={{ aspectRatio: `${page.width} / ${page.height}` }}
+            >
+              <MenuPageFlip
+                pageKey={`${resetKey}-${index}`}
+                src={page.src}
+                alt={alt}
+                width={page.width}
+                height={page.height}
+                direction={active.direction}
+                sizes={sizes}
+              />
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
+
+      {/* Anchored to the mat's own corner, not the artwork — the mat is
+          always bigger than the sheet now, so anchoring to the page (as
+          this used to) would float the control wherever that page's own
+          ratio happens to end, instead of a stable spot on the panel. */}
+      {spreads.length > 1 && (
+        <button
+          type="button"
+          onClick={stepForward}
+          onPointerEnter={() => setIsPaused(true)}
+          onPointerLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+          aria-label={tCommon('nextPage')}
+          className="absolute bottom-3 right-3 flex size-11 cursor-pointer items-center justify-center text-white transition-colors hover:text-cream"
+        >
+          <IcShare className="size-8" />
+        </button>
+      )}
     </div>
   );
 }

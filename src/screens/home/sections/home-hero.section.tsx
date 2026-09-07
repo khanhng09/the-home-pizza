@@ -31,7 +31,15 @@ export async function HomeHeroSection() {
       {/* `min-h-fit` alongside `h-svh`: one screen exactly on a normal
           phone, but allowed to grow rather than crop the headline or the
           award strip on a very short one (360x640 and below). */}
-      <div className="relative flex h-svh min-h-fit flex-col overflow-hidden bg-ink lg:h-auto lg:min-h-screen">
+      {/* The one section deliberately *not* on `--section-height`: the header
+          is glass over this video by design, so the hero owns the whole
+          screen and the bar floats on top of it. Every section below it
+          gets the header subtracted instead.
+          `lg:h-auto lg:min-h-screen` collapsed into the same `h-svh
+          min-h-fit` the mobile branch already used — `min-h-screen` is
+          `100vh`, which on a phone is the *large* viewport height and grows
+          the hero past one screen the moment the address bar collapses. */}
+      <div className="relative flex h-svh min-h-fit flex-col overflow-hidden bg-ink">
         <BackgroundVideo
           sources={heroContent.videoSources}
           poster={heroContent.videoPoster}
@@ -41,7 +49,10 @@ export async function HomeHeroSection() {
         {/* Dark gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-ink/50" />
 
-        <div className="relative flex flex-1 items-center">
+        {/* `pt-[var(--header-height)]` so the copy centres in the band below
+            the bar rather than in the full box — without it the headline
+            sits half a header-height high. */}
+        <div className="relative flex flex-1 items-center pt-[var(--header-height)]">
           {/* Vietnam map decoration — a CSS background rather than an
               `<img>` on purpose. It carries no meaning (it was already
               `alt=""`) and it is desktop-only, and a background on a

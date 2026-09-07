@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Button } from '@/shared/components/ui/button';
 import { humansCtaContent } from '../constants/humans.constant';
 import { Reveal } from '@/shared/components/ui/reveal';
-import { optimizedImage } from '@/shared/lib/image';
+import { responsiveImage } from '@/shared/lib/image';
 
 export async function HumansCtaSection() {
   const t = await getTranslations('humansPage.cta');
@@ -10,13 +10,30 @@ export async function HumansCtaSection() {
   return (
     <section
       id="nha-tim-nguoi"
-      className="relative scroll-mt-[var(--header-height)] overflow-hidden bg-ink"
+      className="section-anchor relative overflow-hidden bg-ink"
     >
-      <div className="relative min-h-svh w-full lg:min-h-0 lg:aspect-[1402/512]">
+      {/* Mobile locks to one screen; desktop keeps the design's 1402:512
+          banner ratio, which already lands at 467px — well inside the
+          674px a 720p laptop has to give. Capping it to `--section-height`
+          would only stretch a banner that is meant to be a band. */}
+      {/* Not `.section-screen` here: that utility and Tailwind's `lg:h-*`
+          land in the same cascade layer at the same specificity, so the one
+          that wins is decided by source order rather than by breakpoint —
+          `.section-screen` was beating `lg:h-auto` and stretching the
+          banner to a full screen. Spelling the height out as a Tailwind
+          arbitrary value keeps both sides inside Tailwind's own ordering,
+          where `lg:` reliably wins. */}
+      <div className="relative h-[var(--section-height)] min-h-fit w-full lg:h-auto lg:aspect-[1402/512]">
         <picture>
-          <source media="(min-width: 1024px)" srcSet={optimizedImage(humansCtaContent.image.src)} />
+          <source
+            media="(min-width: 1024px)"
+            srcSet={responsiveImage(humansCtaContent.image.src).srcSet}
+            sizes="100vw"
+          />
           <img
-            src={optimizedImage(humansCtaContent.image.mobileSrc)}
+            src={responsiveImage(humansCtaContent.image.mobileSrc).src}
+            srcSet={responsiveImage(humansCtaContent.image.mobileSrc).srcSet}
+            sizes="100vw"
             alt={t('imageAlt')}
             loading="lazy"
             decoding="async"
@@ -36,7 +53,9 @@ export async function HumansCtaSection() {
               asChild
               className="btn-cta w-full max-w-55 border border-cream bg-cream text-ink hover:bg-linen"
             >
-              <a href={humansCtaContent.ctaHref}>{t('cta')}</a>
+              <a href={humansCtaContent.ctaHref} target="_blank" rel="noopener noreferrer">
+                {t('cta')}
+              </a>
             </Button>
           </Reveal>
         </div>

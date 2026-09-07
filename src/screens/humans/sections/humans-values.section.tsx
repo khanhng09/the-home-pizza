@@ -19,7 +19,12 @@ export async function HumansValuesSection() {
   const t = await getTranslations('humansPage.values');
 
   return (
-    <section className="relative flex flex-col justify-center overflow-hidden bg-cream lg:block">
+    // Anchored and snapped, but deliberately *not* height-capped: this is
+    // the three-values block, and its own comment below says it is the one
+    // section on the page that cannot lose text to fit a screen. Trimming
+    // the padding brings desktop to ~640 (inside one screen on its own);
+    // mobile stays honest and scrolls.
+    <section className="section-anchor relative flex flex-col justify-center overflow-hidden bg-cream lg:block">
       {/* Background texture — swaps per breakpoint */}
       <div
         className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -37,7 +42,7 @@ export async function HumansValuesSection() {
           cutting text. Everything around the words is tightened instead —
           smaller mark, tighter rhythm, 16px body rather than 20 — which
           brings it close to one screen; desktop keeps the comp exactly. */}
-      <div className="container-base relative grid grid-cols-1 gap-6 py-10 lg:grid-cols-3 lg:gap-30 lg:py-24">
+      <div className="container-base relative grid grid-cols-1 gap-6 py-[var(--section-py)] lg:grid-cols-3 lg:gap-30">
         {humansValuesList.map((value, index) => {
           return (
             <Reveal key={value.id} variant="slide-up" delayMs={index * 150}>

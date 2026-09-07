@@ -14,8 +14,7 @@ export async function HumansChefStorySection() {
     // fixed header's height, so the jump stops with the heading below the
     // bar rather than under it.
     <section
-      id="humans-of-the-home"
-      className="relative flex flex-col h-[990px] scroll-mt-[var(--header-height)] overflow-hidden bg-deep lg:block lg:h-auto"
+      className="section-anchor section-screen relative flex flex-col overflow-hidden bg-deep"
     >
       {/* Background texture — the same tile at every breakpoint, see
           `DARK_PAPER_TILE`. */}
@@ -33,14 +32,14 @@ export async function HumansChefStorySection() {
        * size, so a long paragraph list would refuse to shrink to its 371
        * share and instead balloon the row past the section's `h-svh`,
        * pushing the photo band out of view under `overflow-hidden`. */}
-      <div className="relative flex min-h-0 flex-1 flex-col lg:grid lg:flex-none lg:grid-cols-2">
+      <div className="relative flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-2">
         {/* Text column — vertical padding is the comp's, which together with
          * the fixed-height scroll window below puts the section at Figma's
          * 371px (mobile) / 914px (desktop). */}
         {/* `container-edge-left` rather than a flat `px`: this column
          * starts at the viewport edge, so a fixed inset left its copy
          * inboard of every `container-base` section on the page. */}
-        <div className="container-edge-left relative flex min-h-0 lg:max-h-full flex-[371_1_0%] flex-col gap-4.5 pr-4 pt-[41px] pb-[31px] md:pr-6 lg:flex-none lg:pr-8 lg:pt-[122px] lg:pb-[100px]">
+        <div className="container-edge-left relative flex min-h-0 max-h-full flex-[371_1_0%] flex-col gap-4.5 py-[var(--section-py)] pr-4 md:pr-6 lg:pr-8">
           {/* Figma geometry, 1:1 — mobile from the 430-wide frame, desktop
            * from the 1400-wide one. On desktop this straddles the column
            * divider, so it is anchored to the text column's right edge. */}
@@ -52,12 +51,15 @@ export async function HumansChefStorySection() {
             </h2>
           </Reveal>
 
-          {/* Desktop keeps the comp's fixed 482px scroll window. Mobile
-           * takes whatever the column has left instead of the comp's flat
-           * 165px, so the copy never runs past the bottom of a short
-           * screen. */}
-          <Reveal variant="slide-right" delayMs={200} className="min-h-0 flex-1 lg:flex-none">
-            <div style={{ direction: 'ltr' }} className="scrollbar-story-gold flex h-full max-w-[300px] md:max-w-147 flex-col gap-4 overflow-y-scroll pr-6 text-justify font-sans text-sm leading-[1.4] text-cream lg:h-[482px] lg:pr-8 lg:text-xl">
+          {/* The scroll window takes whatever the column has left over, at
+           * every breakpoint. It used to be the comp's flat 482px on
+           * desktop, which is what pinned the section to 914px there and
+           * pushed it 240px past a 720p laptop screen. Sized from the
+           * column instead, the copy stays fully readable — it just scrolls
+           * inside its own gold-railed window, which is the affordance this
+           * section was already built around. */}
+          <Reveal variant="slide-right" delayMs={200} className="min-h-0 flex-1">
+            <div style={{ direction: 'ltr' }} className="scrollbar-story-gold flex h-full max-w-[300px] md:max-w-147 flex-col gap-4 overflow-y-scroll pr-6 text-justify font-sans text-sm leading-[1.4] text-cream lg:pr-8 lg:text-xl">
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -71,7 +73,7 @@ export async function HumansChefStorySection() {
         </div>
 
         {/* Photo column */}
-        <div className="relative flex flex-[561_1_0%] items-center justify-center overflow-hidden bg-gold px-8 py-[75px] lg:flex-none lg:py-16">
+        <div className="relative flex min-h-0 flex-[561_1_0%] items-center justify-center overflow-hidden bg-gold px-8 py-[var(--section-py)]">
           {/* Mobile-only: the comp repeats the sầu riêng tone-on-tone at the
            * top of the gold band. Desktop has no counterpart. */}
           <Illustration name="dong-ho-sau-rieng" className="pointer-events-none absolute left-[35px] top-[7px] h-[58px] w-[75px] text-gold lg:hidden" />
@@ -81,7 +83,7 @@ export async function HumansChefStorySection() {
            * the image's intrinsic width — which is the chosen `srcset`
            * candidate divided by `sizes`, so the layout would shift with
            * whichever variant the browser happened to pick. */}
-          <Reveal variant="zoom-in" delayMs={350} durationMs={950} className="h-full w-full max-w-[290px] lg:h-auto lg:max-w-[471px]">
+          <Reveal variant="fade" delayMs={350} durationMs={950} className="h-full w-full max-w-[290px] lg:max-w-[471px]">
             <img
               src={optimizedImage(humansChefStoryContent.image.src)}
               srcSet={`${optimizedImage(humansChefStoryContent.image.mobileSrc)} 580w, ${optimizedImage(humansChefStoryContent.image.src)} 942w`}
@@ -89,7 +91,7 @@ export async function HumansChefStorySection() {
               alt={t('imageAlt')}
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover lg:aspect-[290/411] lg:h-auto"
+              className="h-full w-full object-cover"
             />
           </Reveal>
         </div>

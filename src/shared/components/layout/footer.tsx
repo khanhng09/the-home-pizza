@@ -50,7 +50,7 @@ export async function Footer() {
 
           {/* Social Links */}
           <div className="flex flex-col items-start gap-2 lg:flex-0.5">
-            <p className="text-lg text-cream/80">[&nbsp;&nbsp;&nbsp;{t('followUs')}&nbsp;&nbsp;&nbsp;]</p>
+            <p className="text-lg text-cream/80 whitespace-nowrap">[&nbsp;&nbsp;&nbsp;{t('followUs')}&nbsp;&nbsp;&nbsp;]</p>
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => {
                 const Icon = socialIcons[social.icon as keyof typeof socialIcons];

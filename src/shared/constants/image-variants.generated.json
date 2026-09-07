@@ -174,23 +174,29 @@
     860,
     1241
   ],
-  "/images/home/menu/pizza/pizza-32.webp": [
-    595
+  "/images/home/menu/pizza/pizza-32.png": [
+    860,
+    1241
   ],
-  "/images/home/menu/pizza/pizza-33.webp": [
-    595
+  "/images/home/menu/pizza/pizza-33.png": [
+    860,
+    1241
   ],
-  "/images/home/menu/pizza/pizza-34.webp": [
-    595
+  "/images/home/menu/pizza/pizza-34.png": [
+    860,
+    1241
   ],
-  "/images/home/menu/pizza/pizza-35.webp": [
-    595
+  "/images/home/menu/pizza/pizza-35.png": [
+    860,
+    1241
   ],
-  "/images/home/menu/pizza/pizza-36.webp": [
-    595
+  "/images/home/menu/pizza/pizza-36.png": [
+    860,
+    1241
   ],
-  "/images/home/menu/pizza/pizza-37.webp": [
-    595
+  "/images/home/menu/pizza/pizza-37.png": [
+    860,
+    1241
   ],
   "/images/home/menu/salad/salad-02.webp": [
     860,
@@ -248,9 +254,10 @@
     640,
     860
   ],
-  "/images/humans/be-homer.webp": [
-    640,
-    1400
+  "/images/humans/be-homer.png": [
+    768,
+    1400,
+    2160
   ],
   "/images/humans/bg-1-mb.webp": [
     430

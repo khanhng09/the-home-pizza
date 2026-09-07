@@ -130,16 +130,14 @@
         "phu-quoc": {
           "label": "Phu Quoc",
           "mobileLabel": [
-            "Phu",
-            "Quoc"
+            "Phu Quoc"
           ],
           "alt": "The Home Pizza restaurant space in Phu Quoc"
         },
         "nha-trang": {
           "label": "Nha Trang",
           "mobileLabel": [
-            "Nha",
-            "Trang"
+            "Nha Trang"
           ],
           "alt": "The Home Pizza restaurant space in Nha Trang"
         }
@@ -164,16 +162,30 @@
     },
     "regionContent": {
       "bac-bo": {
-        "paragraphs": []
+        "paragraphs": [
+"Spring – Summer – Autumn – Winter, Northern Vietnamese cuisine moves in tune with the four seasons, each flavor reflecting its time of year, from the refined elegance of the capital to the humble simplicity of the Northwest highlands. Northerners, known for their finesse, meticulousness, and deep-rooted traditions, have long prized balance and subtlety in their cooking, where every seasoning is measured with care.",
+"Yet, stepping into the Northwest awakens the palate in a different way: the fertile red basalt soil, cool dry air, and lingering mist infuse wild herbs and local spices with bold, refreshing aromas. This contrast gives rise to a distinctive culinary identity - one that remains deeply connected to the Northern spirit while revealing its own untamed character.",
+"Whether inspired by gentle or robust flavors, the Northern Vietnamese Specialty Pizza captures the familiar, balanced, and effortlessly comforting, like a home-cooked meal."
+        ]
       },
       "trung-bo": {
-        "paragraphs": []
+        "paragraphs": [
+"Central Vietnamese cuisine carries within it the breath of a land shaped by harsh nature. The blazing sun, the dry Lao winds, and the briny taste of the sea may seem like challenges, yet they give rise to remarkably rich flavors. Offshore, the ocean currents bring in firm, flavorful fish; in clay jars, fish sauce ferments under sun and wind, developing its deep aroma; and across the fields, garlic and shallots draw strength from the dry soil to become pungent and full of vitality. Facing the rigors of nature, the people of Central Vietnam have, in turn, “fermented” their own distinctive flavors - bold, spicy, and diverse - from humble family meals to royal delicacies once served at court.",
+"With the Central Specialty Pizza, we preserves the rustic soul of local spices while embracing a touch of refinement, so that every slice tells a story of resilience, vitality, and the enduring harmony between the people and nature of this extraordinary land."
+        ]
       },
       "nam-bo": {
-        "paragraphs": []
+        "paragraphs": [
+          "Nourished the alluvium of the Mekong River, the favor of nature has given the South generous people and a rustic yet sweet and flavorful cuisine.",
+          "The Southern region of Vietnam nurtures vast rice fields, lush fruit orchards, and an intricate network of rivers and canals teeming with fish and shrimp. This land is also a meeting point of Khmer, Hoa, Cham, and Viet communities - each weaving their own colors into a vibrant cultural tapestry. In its cuisine, this harmony reveals itself through flavors that may seem simple but are surprisingly layered: the delicate sweetness of tropical fruits, the rich fragrance of coconut milk, the depth of fermented fish sauce, and the freshness of seafood.",
+          "Journeying through Southern Vietnam, The Home Pizza has found inspiration for pizzas that embody the spirit of the South - bold yet free-spirited, as sweet as garden fruit, and as generous as the people of this land."
+        ]
       },
       "phu-quoc": {
-        "paragraphs": []
+        "paragraphs": [
+"Our journey of creating Vietnamese Specialty Pizzas began on Phú Quốc Island, where our very first home opened. Surrounded by abundant seas, the island is embraced by the warm currents of the Gulf of Thailand, which nurture a rich marine ecosystem of shrimp, crabs, herring, and sea urchins. From its distinctive limestone soil, pepper gardens and fruit orchards thrive year-round under the golden sun and coastal breeze, giving rise to flavors that are bold, fragrant, and unforgetable Phú Quốc. From these signature tastes, we found inspiration for the avant-garde Phú Quốc Specialty Pizza.",
+"You’ll love savoring this creation: fresh seafood and local spices atop an authentic Italian crust, where familiar flavors transform into a refreshing culinary adventure."
+        ]
       }
     },
     "catalog": {
@@ -210,42 +222,43 @@
       }
     },
     "intro": {
-      "paragraph": "Every pizza carries the flavor and mark of The Home's passionate team, like a bridge that brings you closer to the journey of Vietnamese specialty pizza. The Home is delighted to have you stop by, enjoy a pizza, and share your own story — who knows, your story might inspire The Home's chefs to create new flavors, marking another milestone on the Vietnamese Specialty Pizza Map.",
+      "paragraph": "Each pizza carries the flavors and personal touch of the passionate Home team - a small bridge that brings you closer to the journey of Vietnamese Specialty Pizza. We’re always happy to welcome you, to share a slice, exchange stories, and who knows, your story might just inspire our chefs to create new flavors, adding another milestone to the Vietnamese Specialty Pizza map.",
       "quoteLines": [
-        "If you love what The Home stands for,",
-        "let's become \"one Home family\" together!"
+        "If you love our values that we stand for,",
+        "we’d love you to become part of the Home" 
       ]
     },
     "chefStory": {
       "heading": "The Chef's Story",
       "imageAlt": "The Home's Chef Owner kneading pizza dough",
       "paragraphs": [
-        "With many years immersed in the world of Italian and European cuisine, The Home's Chef Owner spent years experiencing hundreds of pizza flavors around the world. Every country tells its own story through this familiar dish. But throughout that journey, he kept asking himself: why does Vietnam, with its rich and diverse cuisine stretching from north to south, still not have a pizza that carries the true soul of Vietnam?",
-        "From that question, the dream of a Vietnamese Specialty Pizza began — a pizza combining Western craftsmanship with homegrown ingredients: from rich H'mong duck meat to sweet Rạch Vẹm shrimp, to the distinctive herbs of Vietnam's S-shaped land. That dream was nurtured in The Home's kitchen, where the Chef Owner and his fellow chefs came together, sharing their love for Vietnamese flavors and their respect for every ingredient.",
-        "At The Home, every pizza that comes out of the oven isn't just a dish — it's The Home's way of telling the story of Vietnamese flavor in a new language."
+"With many years immersed in Italian and European cuisine, our Chef Owner has spent his journey tasting hundreds of pizzas around the world. In every country, the familiar pizza tells a different story, shaped by local culture and ingredients. Yet throughout that journey, one question stayed with him: Why hasn’t Vietnam, with its rich culinary heritage from North to South, had a pizza that truly carries the Vietnamese soul?",
+"From that question, the dream of placing Vietnamese ingredients shine on a pizza base began. A pizza that brings together Western craftsmanship and flavors of homeland - from the bold richness of H’mong duck, the natural sweetness of Rach Vem shrimp, to aromatic herbs unique to the lands of Vietnam. Each ingredient is carefully selected, prepared, and finished with intention, allowing its true character to come through.",
+"That dream is nurtured every day in The Home’s kitchen, where the Chef Owner and the team of chefs work side by side, united by a shared love for Vietnamese flavors and deep respect for each ingredient.",
+"At The Home Pizza, every dish that comes out of the kitchen is more than an experience, it is how we tell the story of Vietnamese flavors in a new culinary language."
       ]
     },
     "peopleStory": {
       "heading": "The People's Story",
       "imageAlt": "A member of The Home serving guests at the restaurant",
       "paragraphs": [
-        "The Home believes that genuine connection begins with the smallest things: a warm greeting, a thoughtful gesture, or the feeling of being truly cared for. The people of The Home carry kindness into every small moment, so that each time you visit, you're not just looking for a meal — you're coming home to somewhere familiar.",
-        "The Home's creative spirit doesn't just live in the kitchen — it shows up in how guests are served, too. Drawing inspiration from Vietnamese cuisine spanning the North, Central, South, and Phu Quoc, the people of The Home are always ready to tell you the story behind every dish and every ingredient, so you feel closer to Vietnamese flavor on a traditional Italian pizza base.",
-        "At The Home, everything is cared for just enough so you can sit back, enjoy your meal, and talk freely — just like you would at home."
+        "At The Home Pizza, we believe genuine connection begins with the smallest things - a warm greeting, a thoughtful gesture, or the simple feeling of being well cared for. Our people carry this sense of kindness into every moment, so that each visit feels less like dining out and more like coming home.",
+        "Our spirit of creativity lives not only in the kitchen, but also in the way we serve. Inspired by Vietnamese cuisine from North to South - and from the mainland to Phu Quoc - our team is always happy to share the stories behind each dish and ingredient, helping you feel closer to Vietnamese flavors reimagined on a classic Italian pizza base.",
+        "At The Home Pizza, everything is prepared with just enough care and attention, so you can sit back, enjoy your meal, and share conversations - naturally, just like at home."
       ]
     },
     "values": {
       "ket-noi": {
         "label": "Connection",
-        "paragraph": "Grounded in the finest essence of Vietnamese cuisine spanning north to south, and inspired by the art of traditional Italian pizza-making, The Home never stops exploring and innovating in every recipe — so each pizza is a refined fusion of Vietnamese specialties and classic pizza craft, delivering a unique, bold, and deeply proud taste experience."
+        "paragraph": "At The Home Pizza, we strive to build sincere connections with our guests, rooted in the kindness of our people - the companions who grow with Nhà every day. This spirit of Home is shared across the team, so every guest can genuinely feel it in each visit."
       },
       "sang-tao": {
         "label": "Creativity",
-        "paragraph": "The Home wants to build a genuine connection between The Home Pizza and its guests, rooted in the kindness of The Home's own people — its true companions. From there, the spirit and values of Home spread to every team member, so every guest can feel it too."
+        "paragraph": "Inspired by the richness of Vietnamese cuisine from North to South and guided by traditional Italian pizza-making, we continuously explores and refines each recipe. Every pizza becomes a thoughtful harmony between Vietnamese specialties and classic pizza foundations - distinctive, full of character, and proudly Vietnamese."
       },
       "tan-tam": {
         "label": "Dedication",
-        "paragraph": "With guests at the center of everything, we constantly strive to deliver the fullest “Home” experience — from the food to the service."
+        "paragraph": "With guests always at the heart of everything we do, we are committed to creating the most complete “Home” experience - thoughtfully crafted, from the food on the table to the way you’re cared for."
       }
     },
     "cta": {
@@ -258,10 +271,11 @@
     "intro": {
       "heading": "The Home's Story",
       "paragraphs": [
-        "Hello from The Home,",
-        "Welcome to a journey exploring Vietnam's specialty map with The Home, on an authentic Italian pizza base — every slice carries the mark of a Vietnamese region, where geography, climate, soil, and culture meet to shape its own distinct ingredients and flavors. From the belief that Vietnamese cuisine is rich enough to step onto the world stage, The Home holds firmly to its mission: drawing the Vietnamese Specialty Pizza Map.",
-        "For The Home, that journey began with something wonderfully simple: in a small kitchen on a hilltop in Sapa one winter afternoon in 2016, our Owner and Head Chef was struck by an unexpected harmony — salty, sour, the fragrant herbs of the Northwest, and the distinctly sweet, earthy taste of H'Mong duck. In the cool mountain air, that flavor sparked a new inspiration, and in that moment, The Home found its own path. The idea for H'Mong Duck Pizza was born — the starting milestone of The Home Pizza's journey to create Vietnamese specialty pizzas. On that journey of bringing regional specialties onto a pizza base, you and The Home keep writing together the dream of spreading Vietnamese culture through familiar flavors.",
-        "When you're at The Home, just make yourself at home!"
+        "To our dear friends,",
+        "At The Home Pizza, we’re on a mission to create the Vietnamese Specialty Pizza Map - reimagining regional flavors from across Vietnam on authentic Italian crusts. Each pizza tells the story of a region in Vietnam, where nature and culture shape unique local ingredients.",
+        "For The Home Pizza, this journey began with a humble thing: in a small kitchen atop a hill in Sapa in 2016, our Chef owner was surprised by an unexpected harmony - the unique salty, sour, and herbal notes of the Northwest blending with the subtle umami and distinct aroma of H’Mông duck meat. In that very moment, the idea for the H’Mông Duck Pizza was born, marking the first milestone in The Home Pizza’s creative journey of celebrating Vietnamese regional specialties.",
+        "And so, as we continue to bring the flavors of each region onto our pizza crusts, we invite you to join us in this dream - to spread the beauty of Vietnamese culture through the warmth of familiar tastes.",
+        "Make yourself at Home!"
       ],
       "photoAlts": {
         "chef-oven": "The Home's Chef Owner working at the pizza oven",
@@ -306,13 +320,14 @@
         "city": "Phu Quoc",
         "heroAlt": "Dining room and bar at The Home Pizza Signature Phu Quoc",
         "paragraphs": [
-          "In 2019, the first The Home Pizza restaurant was born in Phu Quoc, carrying a vision to share Western culinary culture through the spirit of Vietnamese specialty cuisine. Five years later, that journey continues in a new form. Inspired by the idea of \"coming home\", The Home Pizza Signature was created in 2024 with the goal of recreating a dining space beneath the roof of a traditional three-room Vietnamese house, expressed through a modern design language and the feeling of being \"as natural as home\".",
-          "From that spirit, a rustic red brick wall highlights the open kitchen in the front room, welcoming guests with smiles from The Home's chefs as soon as they step inside. In the front yard is a cooling garden, where areca palms rise toward the sun, bamboo rustles in the breeze, and starfruit trees bring a familiar countryside sweetness. Vietnamese families have long planted areca palms at the front of the house as a hospitable greeting, kept starfruit trees for the gentle sweetness of the home garden, and let bamboo whisper by the veranda as a symbol of shelter and resilience. The Home brings those familiar forms into its garden so guests can touch that sense of belonging completely.",
-          "Alongside them are herbs cared for by The Home's own people, letting a gentle fragrance drift through the space and creating an easy, unhurried place to enjoy Vietnamese Specialty Pizza with loved ones.",
-          "A shared space has always been central to Vietnamese community life. That is why The Home gives the whole front yard to gatherings, making family meals feel fuller and warmer.",
-          "Stepping into the main house, guests find a cozy dining space and a modern bar opening under a warm, just-right glow. The main room is accented with woven rattan details, familiar enough and modern enough for guests to feel the Vietnamese specialty spirit more completely.",
-          "Under the shade of trees, or inside the warm dining room, there is a fresh hot Vietnamese Specialty Pizza, a glowing kitchen, and The Home's people welcoming you with a familiar smile. Everything is prepared neatly and thoughtfully so you can sit down naturally and feel at home.",
-          "In the lively center of the island, The Home Pizza Signature welcomes you \"home\" into a familiar and cozy space. Make yourself at home!"
+"In 2019, the first The Home Pizza restaurant was born in Phú Quốc, carrying a vision to share Italian culinary culture through the spirit of Vietnamese local flavors. Five years later, that journey continues in a new form. Inspired by the idea of “coming home,” The Home Pizza Signature was introduced in 2024 with the aim of recreating the atmosphere of a traditional three-compartment Vietnamese house - interpreted through modern design and a feeling that’s natural, just like being at home.",
+"From this spirit, a raw brick wall highlights the open kitchen at the front of the house, welcoming guests with warm smiles from the Home chefs the moment they arrive. Beyond the entrance lies a breezy garden, where tall areca palms catch the sunlight, bamboo rustles gently in the wind, and a humble starfruit tree stands quietly. For generations, Vietnamese families have planted areca palms as a gesture of hospitality, starfruit trees to preserve the garden’s simple sweetness, and bamboo as a symbol of shelter and resilience through time. At The Home, these familiar silhouettes are thoughtfully brought into the garden, allowing guests to reconnect with a deep sense of belonging.",
+"Adding to the experience are herbs lovingly grown by the Home team, their gentle aromas drifting through the space and creating a calm setting for guests to enjoy Vietnamese Specialty Pizzas with their loved ones.",
+"As share space is important to Vietnamese communal life, The Home dedicates the entire front courtyard as a gathering place where families and friends come together, with meals feel fuller and more meaningful.",
+"Stepping into the main house, guests are greeted by a warm dining space and a modern bar, softly lit with golden light. The interior is accented with handcrafted rattan details - familiar yet contemporary - allowing the spirit of Vietnamese specialties to be felt more completely.",
+"Whether under the shade of trees or within the cozy interiors, there is always a freshly baked Vietnamese Specialty Pizza, a glowing kitchen, and familiar faces welcoming you with a smile. Everything is carefully prepared so you can sit down effortlessly and feel that you are home.",
+"In the vibrant heart of Pearl Island, The Home Pizza Signature welcomes you back home to a space that feels warm, familiar, and comforting. Make yourself at home.",
+"Stepping into the main house, guests are greeted by a warm dining space and a modern bar, softly lit with golden light. The interior is accented with handcrafted rattan details - familiar yet contemporary - allowing the spirit of Vietnamese specialties to be felt more completely."
         ]
       },
       "nhaTrang": {

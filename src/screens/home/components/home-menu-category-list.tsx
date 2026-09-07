@@ -1,11 +1,11 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { IcArrowRight } from '@/shared/components/icons';
 import { useMediaQuery } from '@/shared/hooks/use-media-query.hook';
 import { cn } from '@/shared/lib/utils';
-import { MENU_HOVER_DEBOUNCE_MS } from '../constants/home.constant';
+// import { MENU_HOVER_DEBOUNCE_MS } from '../constants/home.constant';
 
 interface MenuCategory {
   id: string;
@@ -71,34 +71,34 @@ export function HomeMenuCategoryList({
   const prefersReducedMotion = useReducedMotion();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  const hoverTimer = useRef<number | null>(null);
+  // const hoverTimer = useRef<number | null>(null);
 
-  const cancelHover = useCallback(() => {
-    if (hoverTimer.current !== null) {
-      window.clearTimeout(hoverTimer.current);
-      hoverTimer.current = null;
-    }
-  }, []);
+  // const cancelHover = useCallback(() => {
+  //   if (hoverTimer.current !== null) {
+  //     window.clearTimeout(hoverTimer.current);
+  //     hoverTimer.current = null;
+  //   }
+  // }, []);
 
   // A row unmounting mid-hover would otherwise leave the timer to fire
   // into a dead component.
-  useEffect(() => cancelHover, [cancelHover]);
+  // useEffect(() => cancelHover, [cancelHover]);
 
-  const handleEnter = useCallback(
-    (index: number) => {
-      onIntent?.(index);
-      cancelHover();
-      hoverTimer.current = window.setTimeout(() => onSelect(index), MENU_HOVER_DEBOUNCE_MS);
-    },
-    [cancelHover, onIntent, onSelect]
-  );
+  // const handleEnter = useCallback(
+  //   (index: number) => {
+  //     onIntent?.(index);
+  //     cancelHover();
+  //     hoverTimer.current = window.setTimeout(() => onSelect(index), MENU_HOVER_DEBOUNCE_MS);
+  //   },
+  //   [cancelHover, onIntent, onSelect]
+  // );
 
   const handleClick = useCallback(
     (index: number) => {
-      cancelHover();
+      // cancelHover();
       onSelect(index);
     },
-    [cancelHover, onSelect]
+    [onSelect]
   );
 
   const listVariants = prefersReducedMotion ? undefined : isDesktop ? desktopList : mobileList;
@@ -114,7 +114,7 @@ export function HomeMenuCategoryList({
       whileInView="shown"
       viewport={{ once: true, margin: '0px 0px -10% 0px', amount: 0.2 }}
       variants={listVariants}
-      className="relative mt-14 overflow-x-auto grid grid-cols-4 md:flex gap-4.5 md:gap-10 lg:mt-24 lg:flex-col lg:gap-0 lg:overflow-x-visible"
+      className="relative mt-8 max-w-[600px] overflow-x-auto grid grid-cols-4 md:flex gap-4.5 md:gap-10 lg:mt-[clamp(1rem,4vh,6rem)] lg:flex-col lg:gap-0 lg:overflow-x-visible"
     >
       {categories.map((category, index) => {
         const isActive = index === activeIndex;
@@ -125,8 +125,8 @@ export function HomeMenuCategoryList({
             variants={itemVariants}
             // On the row, not the button, so the trailing arrow counts as
             // hovering the category too.
-            onPointerEnter={() => handleEnter(index)}
-            onPointerLeave={cancelHover}
+            // onPointerEnter={() => handleEnter(index)}
+            // onPointerLeave={cancelHover}
             className={cn(
               'group relative shrink-0 lg:shrink border-b-2 lg:border-b lg:border-cream',
               isActive ? 'border-gold' : 'border-transparent hover:border-cream/50'
@@ -138,7 +138,7 @@ export function HomeMenuCategoryList({
                 onClick={() => handleClick(index)}
                 aria-pressed={isActive}
                 className={cn(
-                  'flex-1 cursor-pointer text-left font-sans text-[14px] sm:text-[20px] lg:text-[32px] uppercase tracking-wide py-3 lg:py-[11.5px] transition-colors duration-300',
+                  'flex-1 cursor-pointer text-left font-sans text-[14px] sm:text-[20px] lg:text-[clamp(1.25rem,2.2vh,2rem)] uppercase tracking-wide py-3 lg:py-[clamp(0.35rem,1.2vh,0.72rem)] transition-colors duration-300',
                   isActive ? 'text-gold' : 'text-cream hover:text-gold'
                 )}
               >

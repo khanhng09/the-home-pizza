@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IcHeart, IcHeartFilled, IcShare } from '@/shared/components/icons';
+import { IcShare } from '@/shared/components/icons';
 
 /**
  * `localStorage` read through `useSyncExternalStore` rather than seeded
@@ -14,38 +14,38 @@ import { IcHeart, IcHeartFilled, IcShare } from '@/shared/components/icons';
  * without a render-phase state write. Every tab listens to `storage`, so
  * liking a post in one updates the others.
  */
-const likeListeners = new Set<() => void>();
+// const likeListeners = new Set<() => void>();
 
-function subscribeToLikes(onChange: () => void) {
-  likeListeners.add(onChange);
-  window.addEventListener('storage', onChange);
-  return () => {
-    likeListeners.delete(onChange);
-    window.removeEventListener('storage', onChange);
-  };
-}
+// function subscribeToLikes(onChange: () => void) {
+//   likeListeners.add(onChange);
+//   window.addEventListener('storage', onChange);
+//   return () => {
+//     likeListeners.delete(onChange);
+//     window.removeEventListener('storage', onChange);
+//   };
+// }
 
-function readLike(key: string) {
-  try {
-    return window.localStorage.getItem(key) === '1';
-  } catch {
-    // Private mode or blocked storage — the control still toggles for the
-    // session, it just does not persist.
-    return false;
-  }
-}
+// function readLike(key: string) {
+//   try {
+//     return window.localStorage.getItem(key) === '1';
+//   } catch {
+//     // Private mode or blocked storage — the control still toggles for the
+//     // session, it just does not persist.
+//     return false;
+//   }
+// }
 
-function writeLike(key: string, liked: boolean) {
-  try {
-    if (liked) window.localStorage.setItem(key, '1');
-    else window.localStorage.removeItem(key);
-  } catch {
-    /* see readLike */
-  }
-  // `storage` does not fire in the tab that made the change, so this tab is
-  // notified directly.
-  likeListeners.forEach((listener) => listener());
-}
+// function writeLike(key: string, liked: boolean) {
+//   try {
+//     if (liked) window.localStorage.setItem(key, '1');
+//     else window.localStorage.removeItem(key);
+//   } catch {
+//     /* see readLike */
+//   }
+//   // `storage` does not fire in the tab that made the change, so this tab is
+//   // notified directly.
+//   likeListeners.forEach((listener) => listener());
+// }
 
 /**
  * The like/share pair at the end of the article.
@@ -64,15 +64,15 @@ export function StoryDetailActions({ slug, title }: { slug: string; title: strin
   const t = useTranslations('storyDetail.actions');
   const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
 
-  const storageKey = `story-like:${slug}`;
+  // const storageKey = `story-like:${slug}`;
 
-  const liked = useSyncExternalStore(
-    subscribeToLikes,
-    useCallback(() => readLike(storageKey), [storageKey]),
-    () => false
-  );
+  // const liked = useSyncExternalStore(
+  //   subscribeToLikes,
+  //   useCallback(() => readLike(storageKey), [storageKey]),
+  //   () => false
+  // );
 
-  const toggleLike = () => writeLike(storageKey, !liked);
+  // const toggleLike = () => writeLike(storageKey, !liked);
 
   const share = async () => {
     const url = window.location.href;
@@ -100,7 +100,7 @@ export function StoryDetailActions({ slug, title }: { slug: string; title: strin
 
   return (
     <div className="flex items-center -mr-1.5">
-      <button
+      {/* <button
         type="button"
         onClick={toggleLike}
         aria-pressed={liked}
@@ -112,7 +112,7 @@ export function StoryDetailActions({ slug, title }: { slug: string; title: strin
         ) : (
           <IcHeart className="size-8" />
         )}
-      </button>
+      </button> */}
 
       <button
         type="button"

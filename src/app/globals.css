@@ -70,6 +70,31 @@
   /* Height of one accordion trigger on /menu. Paired with the above, it is
      what lets a category's artwork fill exactly the rest of the screen. */
   --menu-trigger-height: 48px;
+
+  /* One open /menu category = one screenful: the fixed header, that
+     category's own trigger, and its artwork filling everything left.
+     Scrolling a category under the header therefore frames it exactly,
+     with no part of it and nothing else in view. Unlike `--section-height`
+     this is *per accordion item*, not per section — the catalog section
+     itself is as tall as its six triggers plus whichever panel is open. */
+  --menu-panel-height: calc(
+    100svh - var(--header-height) - var(--menu-trigger-height)
+  );
+
+  /* One screen, minus the fixed header — the band a section actually gets
+     to itself once the bar is accounted for. `svh` (not `dvh`/`vh`) is the
+     *small* viewport height: it holds still while a mobile address bar
+     collapses, so a section sized from it can't grow mid-scroll. Every
+     presentational section reads this through `.section-screen` rather
+     than repeating the calc. */
+  --section-height: 100svh;
+
+  /* The vertical breathing room inside a screen-locked section. Fluid on
+     purpose: the design's own `py-24`/`pt-32` were fixed pixels lifted off
+     a 1400px Figma frame, and on a 720p laptop that padding alone ate a
+     third of the screen. The `vh` term is what makes the same section feel
+     right on a 13" laptop and a 27" monitor. */
+  --section-py: clamp(1.5rem, 5vh, 6rem);
 }
 
 @media (width >= 64rem) {
@@ -454,8 +479,64 @@ h3 {
     }
   }
 
+  /* Insets the Location section's photo panel off the right edge of its
+     column on desktop only — the comp frames the photo with the section's
+     own background showing around it instead of running it full-bleed.
+     Mobile keeps the photo edge-to-edge, so this only takes effect from
+     `lg` up, and reuses `container-edge-right`'s calc so the photo's right
+     edge lines up with the same container gutter as every other section.
+     A plain `lg:` Tailwind variant can't do this: the class is a hand-written
+     utility (not declared via `@utility`), so Tailwind's variant system
+     doesn't know how to generate a breakpoint-prefixed version of it. */
+  @media (width >= 64rem) {
+    .location-photo-inset {
+      padding-top: var(--section-py);
+      padding-right: calc(max(0px, (100vw - 80rem) / 2) + 2rem);
+      padding-bottom: var(--section-py);
+    }
+  }
+
   .container-narrow {
     @apply w-full max-w-4xl mx-auto px-4 md:px-6;
+  }
+
+  /* One presentational section = one screenful, minus the header.
+
+     `height` + `min-height: fit-content` rather than a bare `height`, and
+     that pair is the whole design of this utility:
+
+     - `height` is what actually locks the section to one screen, so the
+       visitor sees a whole section at a time instead of a fragment.
+     - `min-height: fit-content` is the escape hatch. A hard `height` with
+       `overflow: hidden` silently *deletes* content the moment anything
+       grows — a longer translation, a 200% browser zoom (WCAG 1.4.4), a
+       short laptop in split-screen. With this line the section prefers one
+       screen but grows rather than clipping, which is the soft lock the
+       mobile decision below depends on.
+
+     See `menu-hero.section.tsx` for why a *hard* lock on mobile was tried
+     and reverted: real device viewport heights vary more than any amount
+     of padding-trimming can chase, and `svh` reporting "the smallest this
+     device gets" still isn't "small enough for every device". */
+  .section-screen {
+    height: var(--section-height);
+    min-height: fit-content;
+  }
+
+  /* Below this the viewport is too short for one-screen framing to mean
+     anything — a section given `--section-height` there would be all
+     padding and no content. Hand the height back to the content. */
+  @media (height < 40rem) {
+    .section-screen {
+      height: auto;
+    }
+  }
+
+  /* Parks a section's top edge just below the fixed header instead of
+     behind it. Needed on *every* section, screen-locked or not: without it
+     an in-page jump hides the section's first 46px under the bar. */
+  .section-anchor {
+    scroll-margin-top: var(--header-height);
   }
 
   /* Section spacing */

@@ -130,16 +130,14 @@
         "phu-quoc": {
           "label": "Phú Quốc",
           "mobileLabel": [
-            "Phú",
-            "Quốc"
+            "Phú Quốc"
           ],
           "alt": "Không gian nhà hàng The Home Pizza Phú Quốc"
         },
         "nha-trang": {
           "label": "Nha Trang",
           "mobileLabel": [
-            "Nha",
-            "Trang"
+            "Nha Trang"
           ],
           "alt": "Không gian nhà hàng The Home Pizza Nha Trang"
         }
@@ -235,8 +233,8 @@
       "imageAlt": "Chef Owner của Nhà nhào bột bánh pizza",
       "paragraphs": [
         "Với nhiều năm gắn bó trong thế giới ẩm thực Ý và Âu, Chef Owner của Nhà đã dành nhiều năm trải nghiệm hàng trăm hương vị pizza trên khắp thế giới. Mỗi quốc gia mang đến một cách kể riêng cho chiếc bánh quen thuộc ấy. Nhưng giữa hành trình đó, anh luôn trăn trở: Vì sao Việt Nam dù sở hữu kho tàng ẩm thực phong phú từ Bắc vào Nam, nhưng lại chưa có một chiếc pizza mang đậm hồn Việt.",
-        "Từ câu hỏi ấy, giấc mơ về Pizza Đặc Sản Việt bắt đầu. Một chiếc pizza kết hợp tinh hoa phương Tây với nguyên liệu quê hương: từ thịt vịt H'mông đậm đà, tôm Rạch Vẹm ngọt thanh, đến những loại rau thơm đặc trưng của mảnh đất hình chữ S. Giấc mơ ấy được nuôi dưỡng trong căn bếp của Nhà, nơi Chef Owner và những người đầu bếp đồng hành cùng nhau, chia sẻ tình yêu với hương vị Việt và sự trân trọng dành cho từng nguyên liệu.",
-        "Tại Nhà, mỗi chiếc pizza ra lò không chỉ là một món ăn, mà là cách Nhà kể câu chuyện hương vị Việt theo một ngôn ngữ mới."
+"Từ câu hỏi ấy, giấc mơ đưa nguyên liệu Việt Nam tỏa sáng trên đế bánh pizza đã bắt đầu. Một chiếc pizza kết hợp tinh hoa phương Tây với nguyên liệu quê hương: từ thịt vịt H'mông đậm đà, tôm Rạch Vẹm ngọt thanh, đến những loại rau thơm đặc trưng của mảnh đất hình chữ S - mỗi nguyên liệu được chọn lựa, chế biến và hoàn thiện tỉ mỉ, để hương vị tự thân tỏa sáng. Giấc mơ ấy được nuôi dưỡng trong căn bếp của Nhà, nơi Chef Owner và những người đầu bếp đồng hành cùng nhau, chia sẻ tình yêu với hương vị Việt và sự trân trọng dành cho từng nguyên liệu.",
+"Tại Nhà, mỗi món ăn không chỉ là một trải nghiệm, mà là cách Nhà kể câu chuyện hương vị Việt theo một ngôn ngữ mới.Tại Nhà, mỗi món ăn không chỉ là một trải nghiệm, mà là cách Nhà kể câu chuyện hương vị Việt theo một ngôn ngữ mới."
       ]
     },
     "peopleStory": {
@@ -251,11 +249,11 @@
     "values": {
       "ket-noi": {
         "label": "Kết nối",
-        "paragraph": "Dựa trên giá trị tinh hoa ẩm thực Việt trải dài từ Bắc vào Nam và cảm hứng từ nghệ thuật làm pizza Ý truyền thống, Nhà không ngừng tìm tòi và đổi mới trong từng công thức để mỗi chiếc pizza là sự hòa quyện tinh tế giữa đặc sản Việt Nam và nền tảng pizza cổ điển, mang đến một trải nghiệm vị giác độc đáo, đậm đà bản sắc và đầy tự hào."
+        "paragraph": "Nhà mong muốn xây dựng sự kết nối chân thành giữa The Home Pizza và khách hàng, dựa trên giá trị tử tế của chính những người Nhà - những cộng sự đồng hành. Từ đó lan toả tinh thần/giá trị Home đến từng nhân sự, để mỗi khách hàng đều có thể cảm nhận được."
       },
       "sang-tao": {
         "label": "Sáng tạo",
-        "paragraph": "Nhà mong muốn xây dựng sự kết nối chân thành giữa The Home Pizza và khách hàng, dựa trên giá trị tử tế của chính những người Nhà - những cộng sự đồng hành. Từ đó lan toả tinh thần/giá trị Home đến từng nhân sự, để mỗi khách hàng đều có thể cảm nhận được."
+        "paragraph": "Dựa trên giá trị tinh hoa ẩm thực Việt trải dài từ Bắc vào Nam và cảm hứng từ nghệ thuật làm pizza Ý truyền thống, Nhà không ngừng tìm tòi và đổi mới trong từng công thức để mỗi chiếc pizza là sự hòa quyện tinh tế giữa đặc sản Việt Nam và nền tảng pizza cổ điển, mang đến một trải nghiệm vị giác độc đáo, đậm đà bản sắc và đầy tự hào."
       },
       "tan-tam": {
         "label": "Tận tâm",
@@ -320,13 +318,13 @@
         "city": "Phú Quốc",
         "heroAlt": "Không gian bàn ăn và quầy bar tại The Home Pizza Signature Phú Quốc",
         "paragraphs": [
-          "Năm 2019, Nhà hàng The Home Pizza đầu tiên được ra đời tại Phú Quốc, mang theo tầm nhìn lan tỏa văn hóa ẩm thực phương Tây trên tinh thần ẩm thực đặc sản Việt Nam. Sau 5 năm, hành trình ấy được tiếp tục trong diện mạo mới. Với cảm hứng xuất phát từ ý niệm \"về nhà\", năm 2024, The Home Pizza Signature ra đời mang theo mục tiêu tái hiện không gian ẩm thực dưới mái nhà ba gian truyền thống, thông qua ngôn ngữ thiết kế hiện đại và cảm giác \"tự nhiên như ở nhà\".",
-          "Từ tinh thần đó, bức tường gạch đỏ thô mộc làm nổi bật lên căn bếp mở ở gian trước, đón thực khách bằng những nụ cười của các đầu bếp Nhà ngay khi đặt chân đến. Trước sân nhà là khu vườn mát lành, nơi tán cau vươn cao đón nắng, bụi tre rì rào trong gió mát và cây khế dân dã. Người Việt xưa nay trồng cây cau trước nhà như một lời chào hiếu khách, trồng cây khế để giữ lại vị ngọt dân dã của vườn nhà, và để bụi tre rì rào bên hiên như biểu tượng cho sự che chở, bền bỉ qua năm tháng. Nhà không quên mang những dáng cây ấy vào khu vườn của mình, để bạn Nhà chạm vào cảm giác thân thuộc một cách vẹn tròn nhất.",
-          "Cùng với đó là các loại thảo mộc do người Nhà tự tay chăm sóc, để hương thơm nhẹ nhàng lan tỏa, tạo nên một khoảng không gian thư thả cho bạn Nhà thưởng thức Pizza Đặc Sản Việt cùng người thương.",
-          "Nổi bật trong lối sống cộng đồng của người Việt Nam là sự chú trọng không gian chung. Vậy nên Nhà dành trọn khoảng sân trước làm nơi bạn Nhà tụ họp đông đủ, cho những bữa ăn bên gia đình thêm đong đầy.",
-          "Khi bước vào gian nhà chính, không gian ẩm thực ấm cúng cùng quầy bar hiện đại mở ra, với ánh đèn vàng vừa đủ. Gian nhà chính được điểm xuyết những chi tiết mây đan mộc mạc, vừa đủ thân quen, vừa đủ hiện đại để bạn Nhà cảm nhận tinh thần Đặc Sản Việt trọn vẹn hơn.",
-          "Dưới bóng cây râm mát, hay trong không gian ấm cúng, là chiếc Pizza Đặc Sản Việt còn ấm nóng, là gian bếp đỏ lửa, là người Nhà đón bạn bằng nụ cười thân quen. Tất cả được chuẩn bị gọn gàng, chỉn chu, để bạn có thể ngồi xuống thật tự nhiên và thấy mình đang ở Nhà.",
-          "Giữa trung tâm đảo ngọc nhộn nhịp, The Home Pizza Signature đón bạn \"về nhà\" trong không gian thân thuộc và ấm cúng. Cứ tự nhiên như ở Nhà!"
+"Năm 2019, Nhà hàng The Home Pizza đầu tiên được ra đời tại Phú Quốc, mang theo tầm nhìn lan tỏa văn hóa ẩm thực phương Tây trên tinh thần ẩm thực đặc sản Việt Nam. Sau 5 năm, hành trình ấy được tiếp tục trong diện mạo mới. Với cảm hứng xuất phát từ ý niệm \"về nhà\", năm 2024, The Home Pizza Signature ra đời mang theo mục tiêu tái hiện không gian ẩm thực dưới mái nhà ba gian truyền thống, thông qua ngôn ngữ thiết kế hiện đại và cảm giác \"tự nhiên như ở nhà\".",
+"Từ tinh thần đó, bức tường gạch đỏ thô mộc làm nổi bật lên căn bếp mở ở gian trước, đón thực khách bằng những nụ cười của các đầu bếp Nhà ngay khi đặt chân đến. Trước sân nhà là khu vườn mát lành, nơi tán cau vươn cao đón nắng, bụi tre rì rào trong gió mát và cây khế dân dã. Người Việt xưa nay trồng cây cau trước nhà như một lời chào hiếu khách, trồng cây khế để giữ lại vị ngọt dân dã của vườn nhà, và để bụi tre rì rào bên hiên như biểu tượng cho sự che chở, bền bỉ qua năm tháng. Nhà không quên mang những dáng cây ấy vào khu vườn của mình, để bạn Nhà chạm vào cảm giác thân thuộc một cách vẹn tròn nhất.",
+"Cùng với đó là các loại thảo mộc do người Nhà tự tay chăm sóc, để hương thơm nhẹ nhàng lan tỏa, tạo nên một khoảng không gian thư thả cho bạn Nhà thưởng thức Pizza Đặc Sản Việt cùng người thương.",
+"Nổi bật trong lối sống cộng đồng của người Việt Nam là sự chú trọng không gian chung. Vậy nên Nhà dành trọn khoảng sân trước làm nơi bạn Nhà tụ họp đông đủ, cho những bữa ăn bên gia đình thêm đong đầy.", 
+"Khi bước vào gian nhà chính, không gian ẩm thực ấm cúng cùng quầy bar hiện đại mở ra, với ánh đèn vàng vừa đủ. Gian nhà chính được điểm xuyết những chi tiết mây đan mộc mạc, vừa đủ thân quen, vừa đủ hiện đại để bạn Nhà cảm nhận tinh thần Đặc Sản Việt trọn vẹn hơn.",
+"Dưới bóng cây râm mát, hay trong không gian ấm cúng, là chiếc Pizza Đặc Sản Việt còn ấm nóng, là gian bếp đỏ lửa, là người Nhà đón bạn bằng nụ cười thân quen. Tất cả được chuẩn bị gọn gàng, chỉn chu, để bạn có thể ngồi xuống thật tự nhiên và thấy mình đang ở Nhà.",
+"Giữa trung tâm đảo ngọc nhộn nhịp, The Home Pizza Signature đón bạn \"về nhà\" trong không gian thân thuộc và ấm cúng. Cứ tự nhiên như ở Nhà!"
         ]
       },
       "nhaTrang": {

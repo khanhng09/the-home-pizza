@@ -8,7 +8,7 @@ export function HomeLocationSection() {
     // half-width panel that starts somewhere else.
     <section
       aria-labelledby="home-location-heading"
-      className="relative overflow-hidden bg-ink"
+      className="section-anchor section-screen relative flex flex-col overflow-hidden bg-ink"
     >
       <HomeLocationSwitcher />
       <HomeIllustrationLayer section="location" />

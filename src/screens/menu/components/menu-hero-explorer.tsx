@@ -248,7 +248,7 @@ export function MenuHeroExplorer({
 
   return (
     <div
-      className="relative w-full"
+      className="relative w-full h-full pt-[46px]"
       style={{ '--text-col': TEXT_COLUMN_WIDTH } as React.CSSProperties}
     >
       {/* Map, desktop — full-bleed: sized off the section's own edges
@@ -293,13 +293,20 @@ export function MenuHeroExplorer({
           directly on top of the full-bleed map above (each carries its own
           `lg:`/`xl:` card treatment below) instead of being squeezed into a
           narrow side column. */}
-      <div className="relative mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-4 pt-21.5 pb-8 md:px-6 lg:gap-5 lg:px-8 lg:pt-36.5 lg:pb-10 xl:grid-cols-[1fr_var(--text-col)] xl:grid-rows-[auto_auto] xl:items-start xl:gap-6">
+      {/* `lg:grid-rows-[minmax(0,1fr)_auto]` from `lg` up, at both the
+          single-column (`lg`) and two-column (`xl`) layouts: the copy block
+          takes whatever the one-screen band has left and the region list
+          keeps its natural height. The old `pt-36.5` (146px) plus a fixed
+          480px copy panel put this section at 995px — and the `h-svh
+          overflow-hidden` it used to carry simply *clipped* the bottom
+          275px of that rather than fitting it. */}
+      <div className="relative mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-4 pt-21.5 pb-8 md:px-6 lg:h-full lg:min-h-0 lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-5 lg:px-8 lg:py-[var(--section-py)] xl:grid-cols-[1fr_var(--text-col)] xl:items-stretch xl:gap-6">
         {/* Text column — first on mobile, top-right on desktop. The
             `lg:`/`xl:` pair here is the overlay card: translucent cream
             panel while the map bleeds full-width behind it (`lg` only),
             removed once the two-column split gives it its own clear space
             (`xl`). */}
-        <div className="order-1 flex w-full flex-col items-start gap-4 rounded-2xl lg:order-none lg:ml-auto lg:w-[var(--text-col)] xl:col-start-2 xl:row-start-1 xl:m-0 xl:w-auto">
+        <div className="order-1 flex w-full min-h-0 flex-col items-start gap-4 rounded-2xl lg:order-none lg:ml-auto lg:w-[var(--text-col)] xl:col-start-2 xl:row-start-1 xl:m-0 xl:w-auto">
           <p className="font-sans text-lg tracking-wide text-ink lg:text-2xl">{greeting}</p>
 
           <div
@@ -311,7 +318,7 @@ export function MenuHeroExplorer({
             // longer region is picked — `overflow-y-auto` is what lets a
             // region whose copy doesn't fit that cap still be read in full.
             key={activeId ?? 'intro'}
-            className="flex w-full animate-[fade-in_400ms_ease-out_both] flex-col gap-5 overflow-y-auto pr-2 text-justify font-sans text-sm text-ink h-[var(--paragraphs-h-mobile)] lg:h-[var(--paragraphs-h-desktop)] lg:text-lg"
+            className="flex w-full animate-[fade-in_400ms_ease-out_both] flex-col gap-5 overflow-y-auto pr-2 text-justify font-sans text-sm text-ink h-[var(--paragraphs-h-mobile)] lg:h-auto lg:min-h-0 lg:flex-1 lg:text-lg"
             style={
               {
                 '--paragraphs-h-mobile': `${PARAGRAPHS_HEIGHT_MOBILE_PX}px`,
@@ -328,7 +335,7 @@ export function MenuHeroExplorer({
         {/* Region tabs — between the text and the map on mobile, under the
             text on desktop. Same overlay-card treatment as the text column
             above from `lg` to just under `xl`. */}
-        <div className="order-2 w-full rounded-2xl lg:order-none lg:ml-auto lg:w-[var(--text-col)] xl:col-start-2 xl:row-start-2 xl:m-0 xl:w-full">
+        <div className="order-2 w-full self-end rounded-2xl lg:order-none lg:ml-auto lg:w-[var(--text-col)] xl:col-start-2 xl:row-start-2 xl:m-0 xl:w-full">
           <MenuRegionList regions={regions} activeId={activeId} onSelect={setActiveId} />
         </div>
 

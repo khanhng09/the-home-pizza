@@ -20,31 +20,34 @@ export async function HomeMenuSection() {
   });
 
   return (
-    // Height is content-driven, not forced to the design's own 914px frame
-    // (1847 -> 2761 on the 1400 frame): `HomeMenuShowcase`'s image column
-    // now sets its own height from the artwork's aspect ratio (see
-    // `HomeMenuPanel`'s doc comment), and the copy column grows to match
-    // instead of being clipped into an internal scrollbar by a fixed
-    // budget. The illustration offsets below are percentages of this
-    // section's box, so they stay in the same relative spot either way —
-    // they just no longer land on the design's exact pixels when the
-    // content's own height differs from the design frame's.
-    <section className="relative flex flex-col bg-ink">
+    // One screen, minus the header. The height used to be content-driven,
+    // which meant the menu page's own portrait aspect set it — 905px at
+    // 1280 wide, 231 past a 720p laptop. Now the band comes first and the
+    // panel derives its *width* from it instead (see `HomeMenuShowcase`),
+    // so the whole menu page stays visible without the section outgrowing
+    // the screen.
+    <section className="section-anchor section-screen relative flex flex-col overflow-hidden bg-ink">
       <HomeMenuShowcase categories={categories}>
-        <Reveal variant="slide-right" className="relative z-2">
-          <h2 className="font-display text-5xl md:text-6xl lg:text-[80px] text-cream">
-            {t('heading')}
-          </h2>
-          <p className="mt-6 max-w-[294px] md:max-w-[302px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream">
-            {t('paragraph')}
-          </p>
-          <Button
-            asChild
-            className="btn-cta mt-8 w-full max-w-59.5 bg-cream text-ink hover:bg-linen"
-          >
-            <Link href="/menu">{t('cta')}</Link>
-          </Button>
-        </Reveal>
+        <div className="relative z-2">
+          <Reveal variant="slide-right" >
+            <h2 className="font-display text-5xl md:text-6xl lg:text-[80px] text-cream">
+              {t('heading')}
+            </h2>
+          </Reveal>
+          <Reveal variant="slide-right" delayMs={200}>
+            <p className="mt-6 max-w-[294px] md:max-w-[302px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream">
+              {t('paragraph')}
+            </p>
+          </Reveal>
+          <Reveal variant="slide-right" delayMs={400}>
+            <Button
+              asChild
+              className="btn-cta mt-8 w-full max-w-59.5 bg-cream text-ink hover:bg-linen"
+            >
+              <Link href="/menu">{t('cta')}</Link>
+            </Button>
+          </Reveal>
+        </div>
       </HomeMenuShowcase>
 
       {/* Outside the showcase so the section — not its left content panel —

@@ -23,7 +23,12 @@ export async function StoryListSection() {
     // Transparent — the paper texture and cream base come from
     // StoryBackdrop, so the grain carries over from the intro section
     // above without restarting at the boundary.
-    <section aria-labelledby="story-list-heading" className="relative flex min-h-svh flex-col justify-center py-10 lg:block lg:min-h-0 lg:pt-20 lg:pb-25">
+    // Anchored, not height-capped, and deliberately not snapped: how tall
+    // this gets is decided by how many posts Sanity returns, so there is no
+    // honest way to promise one screen. Capping it would either clip posts
+    // or hide them behind an inner scrollbar inside an outer scroll — see
+    // the one-screen rule's exemptions in AGENTS.md.
+    <section aria-labelledby="story-list-heading" className="section-anchor relative flex min-h-svh flex-col justify-center py-10 lg:block lg:min-h-0 lg:pt-20 lg:pb-25">
       <h2 id="story-list-heading" className="sr-only">
         {t('heading')}
       </h2>

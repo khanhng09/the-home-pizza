@@ -166,6 +166,49 @@ Accessibility is scored as its own Lighthouse category — these rules exist to 
 - For scroll-triggered reveals, prefer `IntersectionObserver` in a small client hook (`shared/hooks/use-in-view.hook.ts`, or a screen-scoped `*.hook.ts` if only one screen needs it) over a heavy scroll-animation library, unless the design genuinely needs one (parallax, scrubbed timelines).
 - Keep animation logic in the client leaf component that needs it (see JS bundle discipline above) — don't mark an entire section `"use client"` just to animate one child element.
 
+## Section height: one screen, minus the header
+
+The client's requirement is that **most sections fit in a single view** — the visitor sees a whole section at a time rather than a fragment of one. Three utilities in `globals.css` carry this; use them instead of writing heights per section.
+
+- **`.section-screen`** — `height: var(--section-height)` (`calc(100svh - var(--header-height))`) plus `min-height: fit-content`. That second line is the **soft lock**, and it is not optional: a bare `height` with `overflow: hidden` silently deletes content the moment anything grows (a longer translation, 200% browser zoom per WCAG 1.4.4, a short laptop). Below `40rem` of viewport height the utility hands the height back to the content entirely.
+- **`.section-anchor`** — `scroll-margin-top: var(--header-height)`. Goes on **every** section, capped or not, so in-page jumps land below the fixed bar rather than behind it.
+- **`.section-snap`** / **`.section-snap-flush`** — opt in to scroll snapping. `html` carries `scroll-snap-type: y proximity` (never `mandatory`: it traps keyboard and trackpad users, and makes a section that has outgrown one screen unreachable). Use `.section-snap` for a `.section-screen` section; use `.section-snap-flush` for a full-bleed `100svh` photo/video hero the header is *drawn* floating over, where a header-offset snap would leave a strip of the previous section showing.
+- **`var(--section-py)`** — `clamp(1.5rem, 5vh, 6rem)`. Replaces the fixed `py-24`/`pt-32`/`pt-36.5` values lifted off the 1400px Figma frames; on a 720p laptop those alone ate a third of the screen.
+
+### Exemptions — sections that must NOT be height-capped
+
+The rule applies to **presentational** sections, not to list or long-form ones. These are exempt by design, get `.section-anchor` only, and no snap:
+
+- `story-detail-article.section.tsx` — the article body (~3757px). Capping it would cut the read or bury it in a nested scroller.
+- `story-list.section.tsx` — the post feed; its height is whatever Sanity returns.
+- `humans-values.section.tsx` — three stacked blocks of real copy; it fits on desktop after the padding trim but is allowed to grow on mobile rather than lose text.
+- `menu-catalog.section.tsx` — capped per accordion *item* instead; see "Pick the right one-screen unit" below.
+
+### Pick the right one-screen *unit*
+
+The unit is not always the `<section>`. On `/menu`'s catalog it is **one open accordion item**: header + that category's own trigger + its artwork = one screenful, via `--menu-panel-height` (`100svh - header - trigger`) on the `AccordionContent`. The section itself is left uncapped — it is as tall as its six triggers plus whichever panel is open — and `.section-anchor`/`.section-snap` go on the **item**, so scrolling parks that item under the bar.
+
+Capping the *section* there instead divides one screen between six triggers and the artwork: 384px of a 674px band goes to navigation and the menu pages render ~200px wide. Per item, the same pages get 432px. Before capping a section that contains a list of controls plus content, check which of the two the visitor is actually meant to see one of at a time.
+
+**And the cap is `lg:`-only.** A one-screen height is only worth having when the content can actually fill it. The menu pages are portrait (ratio 0.708), so at phone widths they are *width*-bound — filling a 718px band would need 508px of width, more than the viewport has — and pinning the screen height there left 188px, 26% of the panel, as bare cream paper above and below the page. Below `lg` the panel carries no height at all: `w-full` plus the viewer's own `aspect-ratio` makes it exactly as tall as the page it shows.
+
+That split is why `MenuSpreadViewer` keeps its inline `aspect-ratio` at every breakpoint rather than taking a "fill" flag. `aspect-ratio` only sizes a box while one dimension is auto, so a caller that pins a height from `lg` up silently switches the panel from artwork-driven to screen-driven — something an inline style, which has no breakpoints, cannot express on its own.
+
+### How to make a section actually fit
+
+Cap the section, then make **one** child absorb the slack — never let two things both assert a height:
+
+- A text block that can overflow gets `min-h-0 flex-1` plus its own `overflow-y-auto` (the pattern `humans-chef-story` and `humans-people-story` were already built around).
+- A photo gets `h-full` + `object-cover` and its cell gets `self-stretch` — a grid with `items-start` will otherwise size the cell to the image's intrinsic height and overflow the row.
+- **Artwork that must stay whole** (the menu pages, the story collage) is sized **height-driven**: `h-full w-auto` with its `aspect-ratio`, in an `auto` grid track. The width then follows from the locked height, so the sheet fills its column with no letterboxing. Do not give it a fixed-fraction column and hope it fits.
+- **Before pinning a height on a box that holds artwork, check which dimension actually binds at that viewport.** If the artwork is width-bound there, a pinned height buys nothing and shows as bare background — let the aspect ratio drive instead, and scope the pinned height to the breakpoints where it holds.
+- Keep `width`/`height` attributes on every `<img>` even when CSS drives the size, so CLS stays at 0.
+
+### Two traps
+
+- **`.section-screen` and Tailwind's `lg:h-*` are the same specificity in the same layer**, so which wins is decided by source order, not by breakpoint — `.section-screen` was beating `lg:h-auto`. When a section wants a *different* height at a breakpoint, spell both sides as Tailwind arbitrary values (`h-[var(--section-height)] min-h-fit lg:h-auto`) so Tailwind's own ordering applies. See `humans-cta.section.tsx`.
+- **The home illustration layer positions `top` as a share of section *height* but `width` as a share of section *width*.** Shorten a section and the artwork keeps its size while the box around it shrinks, so anything sitting low can land on the copy. After changing a section's height, re-measure `home-illustration.constant.ts` for that section at both breakpoints. (Artwork bleeding past the *bottom* edge is often intentional — check the comp before "fixing" it.)
+
 ## Mobile & desktop rules
 
 Lighthouse runs separately for mobile and desktop — both must pass, with **mobile as the stricter gate** (it applies slow-4G + CPU throttling).

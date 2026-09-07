@@ -10,19 +10,19 @@ export async function HomeStorySection() {
   const paragraphs = t.raw('paragraphs') as string[];
 
   return (
-    // Mobile: exactly one screen, split in the design's own 493 : 438
-    // proportion between the copy block and the tabs photo — as growth
-    // factors rather than pixels, so the section fits whatever the phone's
-    // viewport actually is instead of the 932px frame it was drawn on.
-    // Desktop is unchanged.
-    <section className="relative flex h-svh flex-col overflow-hidden bg-cream lg:block lg:h-auto">
-      {/* The design's copy block, measured to where the tabs photo starts:
-          1050 -> 1543 on the 430 frame, 934 -> 1335 on the 1400 one. The
-          photo below is a fixed aspect on desktop, so pinning this block is
-          what makes the section land on the design's 913 there — and keeps
-          it from breathing as the copy re-wraps, which was moving the
-          illustrations with it. */}
-      <div className="relative flex-[493_1_0%] lg:flex-none lg:min-h-[401px]">
+    // One screen at every breakpoint now, split in the design's own
+    // 493 : 438 proportion between the copy block and the tabs photo — as
+    // growth factors rather than pixels, so the section fits whatever the
+    // viewport actually is instead of the frame it was drawn on. Desktop
+    // used to fall back to content height and landed at 868px, ~200 past a
+    // 720p laptop.
+    <section className="section-anchor section-screen relative flex flex-col overflow-hidden bg-cream">
+      {/* The design's copy block. The `lg:min-h-[401px]` that used to pin it
+          is gone: with the section itself locked to one screen, the 493:438
+          split is what holds the proportion the comp draws, at every
+          breakpoint — and it no longer breathes as the copy re-wraps, which
+          is what used to drag the illustrations around with it. */}
+      <div className="relative min-h-0 flex-[493_1_0%]">
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -35,7 +35,7 @@ export async function HomeStorySection() {
           aria-hidden="true"
         />
 
-        <div className="container-base relative grid grid-cols-1 gap-6 pt-20 pb-16 lg:grid-cols-2 lg:gap-16 lg:pt-32.5 lg:pb-25 z-2">
+        <div className="container-base relative grid grid-cols-1 gap-6 py-[var(--section-py)] lg:grid-cols-2 lg:gap-16 z-2">
           {/* The two columns answer each other — heading drifts in from the
               left edge, copy from the right — so the pair reads as one
               gesture opening the section. */}
@@ -58,14 +58,18 @@ export async function HomeStorySection() {
           tabs + photo read as the payoff of the story rather than a
           simultaneous element. Pushes forward rather than sliding, to
           settle the converging columns above it. */}
-      <Reveal
-        variant="zoom-in"
+      {/* <Reveal
+        variant="fade"
         delayMs={550}
         durationMs={950}
         className="flex-[438_1_0%] lg:flex-none"
       >
         <HomeStoryTabs />
-      </Reveal>
+      </Reveal> */}
+
+      <div className="min-h-0 flex-[438_1_0%]">
+        <HomeStoryTabs />
+      </div>
 
       {/* Last, so it sits over the section's own background texture rather
           than under it — the textures are opaque and are painted inside the

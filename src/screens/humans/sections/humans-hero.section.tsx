@@ -15,7 +15,11 @@ export async function HumansHeroSection() {
   return (
     <section className="relative overflow-hidden bg-ink">
       {/* Video background */}
-      <div className="relative flex min-h-svh items-end md:items-center lg:min-h-[934px]">
+      {/* `lg:min-h-[934px]` was the comp's own frame height and ran 260px
+          past a 720p laptop. A video hero has no content that needs the
+          extra room — it just wants the screen — so it goes to `svh` at
+          every breakpoint like the home hero. */}
+      <div className="relative flex h-svh min-h-fit items-end md:items-center">
         <BackgroundVideo
           sources={humansHeroContent.videoSources}
           poster={humansHeroContent.videoPoster}

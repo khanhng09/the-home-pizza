@@ -48,7 +48,7 @@ function LocationHero({
     <section
       id={location.slug}
       aria-labelledby={headingID}
-      className="relative h-svh overflow-hidden bg-ink lg:h-svh lg:max-h-none"
+      className="relative h-svh min-h-fit overflow-hidden bg-ink"
     >
       <picture>
         {heroMobile && location.heroMobile ? (
@@ -114,7 +114,9 @@ function LocationStory({ location, copy }: { location: SpaceLocation; copy: Loca
   return (
     <section
       className={cn(
-        "relative flex flex-col justify-center overflow-hidden lg:block",
+        // 655px desktop / 669px mobile — already inside one screen at both
+        // breakpoints, so this only needs anchoring, not a height cap.
+        "section-anchor relative flex flex-col justify-center overflow-hidden lg:block",
         isDark ? "bg-deep" : "bg-cream"
       )}
     >

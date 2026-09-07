@@ -13,36 +13,42 @@ import { IcArrowRight } from '@/shared/components/icons';
 import { menuCatalog } from '../constants/menu.constant';
 import { MenuSpreadViewer } from './menu-spread-viewer';
 
+
 // Safety net only — used if no accordion-content animation ever fires (e.g.
-// this item has no sibling to collapse), so the trigger still scrolls into
+// this item has no sibling to collapse), so the item still scrolls into
 // view instead of never moving.
 const ACCORDION_SCROLL_FALLBACK_MS = 300;
 
 /**
- * Parks the trigger directly under the fixed header.
+ * Parks the clicked category's accordion *item* directly under the fixed
+ * header — trigger first, then its artwork filling the rest of the screen.
  *
- * `scrollIntoView({ block: 'start' })` aligns it with the top of the
- * *viewport*, which is behind the header — the trigger ended up hidden
- * under the bar every time. The header's height is a CSS variable so the
- * offset can't drift away from the bar itself.
+ * The item, not the section: one open category is this page's one-screen
+ * unit (`--menu-panel-height`), and the section is as tall as all six
+ * triggers plus whichever panel is open.
+ *
+ * `scrollIntoView` aligns to the top of the *viewport*, which is behind the
+ * header — but it honours `scroll-margin-top`, and `.section-anchor` puts
+ * `var(--header-height)` there on the item. So the offset still comes from
+ * the one variable the header's own height comes from, without this
+ * handler reading and applying it by hand.
  */
-function scrollTriggerUnderHeader(trigger: HTMLButtonElement) {
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const headerHeight =
-    Number.parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--header-height')
-    ) || 0;
+function scrollItemUnderHeader(trigger: HTMLButtonElement) {
+  const item = trigger.closest('[data-slot="accordion-item"]');
+  if (!item) return;
 
-  window.scrollTo({
-    top: window.scrollY + trigger.getBoundingClientRect().top - headerHeight,
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  item.scrollIntoView({
     behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    block: 'start',
   });
 }
 
 /**
  * Opening a trigger also collapses whichever item was previously open — if
  * that item sits above the one just clicked, its content shrinking away
- * shifts the clicked trigger upward as it collapses. Scrolling immediately
+ * shifts the clicked item upward as it collapses. Scrolling immediately
  * targets a position that's about to move; guessing at the animation's
  * duration is fragile (it's forced to ~0 under `prefers-reduced-motion`,
  * changes if the CSS duration ever changes, etc). Instead, wait for the
@@ -55,7 +61,7 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
   const root = trigger.closest('[data-slot="accordion"]');
 
   if (!(root instanceof HTMLElement)) {
-    scrollTriggerUnderHeader(trigger);
+    scrollItemUnderHeader(trigger);
     return;
   }
 
@@ -65,7 +71,7 @@ function handleTriggerClick(event: MouseEvent<HTMLButtonElement>) {
     settled = true;
     root.removeEventListener('animationend', onAnimationEnd);
     window.clearTimeout(fallback);
-    scrollTriggerUnderHeader(trigger);
+    scrollItemUnderHeader(trigger);
   };
 
   const onAnimationEnd = (animationEvent: Event) => {
@@ -115,11 +121,14 @@ export function MenuCategoryAccordion() {
           <AccordionItem
             key={category.id}
             value={category.id}
-            className="not-last:border-b-0 border-t border-ink/25"
+            // `section-anchor` on the *item*, not the section: the item is
+            // this page's one-screen unit, so it is the item that has to
+            // park under the header when scrolling settles on it.
+            className="section-anchor border-t border-ink/25 not-last:border-b-0"
           >
             <AccordionTrigger
               onClick={handleTriggerClick}
-              className="relative h-[var(--menu-trigger-height)] items-center justify-center gap-4 rounded-none border-none bg-linen px-14 py-0 text-center font-normal hover:bg-linen/70 hover:no-underline focus-visible:rounded-none focus-visible:border-none focus-visible:ring-0 [&_[data-slot=accordion-trigger-icon]]:hidden"
+              className="relative h-[var(--menu-trigger-height)] shrink-0 items-center justify-center gap-4 rounded-none border-none bg-linen px-14 py-0 text-center font-normal hover:bg-linen/70 hover:no-underline focus-visible:rounded-none focus-visible:border-none focus-visible:ring-0 [&_[data-slot=accordion-trigger-icon]]:hidden"
             >
               <span className="font-sans text-lg uppercase tracking-wide text-ink lg:text-2xl">
                 {label}
@@ -130,7 +139,15 @@ export function MenuCategoryAccordion() {
               />
             </AccordionTrigger>
 
-            <AccordionContent className="p-0">
+            <AccordionContent
+              // Solid backdrop behind the artwork — the image itself is now
+              // inset rather than full-bleed, so this is what shows in the
+              // margin around it instead of bare page background. The
+              // height cap (from `lg`) is applied here, not on the viewer,
+              // so the padding is *inside* the one-screen budget
+              // (`--menu-panel-height`) rather than added on top of it.
+              className="flex justify-center bg-cream p-4 sm:p-6 lg:h-[var(--menu-panel-height)] lg:p-10 border-t border-ink/25"
+            >
               {category.spreads.length > 0 ? (
                 <MenuSpreadViewer
                   spreads={category.spreads}
@@ -138,8 +155,22 @@ export function MenuCategoryAccordion() {
                   resetKey={category.id}
                   sizes={MENU_PANEL_SIZES}
                   pagesOnDesktop={2}
-                  intervalMs={3000}
-                  className="w-full"
+                  intervalMs={4000}
+                  // Two different rules, on purpose.
+                  //
+                  // From `lg`: fills the height of the (now padding-inset)
+                  // content box, width auto — the pages are portrait and
+                  // the panel is wide, so height is the binding dimension
+                  // there and the artwork's own ratio drives its width.
+                  //
+                  // Below `lg`: no height at all — `w-full` plus the
+                  // viewer's own aspect ratio, so the panel is exactly as
+                  // tall as the page it shows. At phone widths the page is
+                  // *width*-bound (a 0.708-ratio page needs 508px of width
+                  // to fill a 718px band, more than the viewport has), so
+                  // pinning the screen height there left 188px — 26% of the
+                  // panel — as bare cream paper above and below the page.
+                  className="w-full lg:h-full lg:w-auto"
                 />
               ) : (
                 <p className="px-6 py-16 text-center font-sans text-lg text-ink/60">

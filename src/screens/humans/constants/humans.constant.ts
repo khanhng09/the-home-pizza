@@ -41,8 +41,8 @@ export const humansHeroContent = {
  */
 export const humansHeroLinkList = [
   { id: "humans-of-the-home", href: "#humans-of-the-home", kind: "anchor" },
-  { id: "career-path", href: "/story", kind: "route" },
-  { id: "nha-tim-nguoi", href: "#nha-tim-nguoi", kind: "anchor" },
+  { id: "career-path", href: "/story/nha-tim-nguoi", kind: "route" },
+  { id: "nha-tim-nguoi", href: "/story/nha-tim-nguoi", kind: "route" },
 ] as const;
 
 // Intro section — quote over a monstera texture panel
@@ -84,8 +84,8 @@ export const humansValuesList = [
 // The button applies via email since no dedicated careers page exists yet.
 export const humansCtaContent = {
   image: {
-    src: "/images/humans/be-homer.webp",
+    src: "/images/humans/be-homer.png",
     mobileSrc: "/images/humans/be-homer-mb.webp",
   },
-  ctaHref: `mailto:${businessInfo.email}`,
+  ctaHref: "/story/nha-tim-nguoi",
 };

@@ -61,8 +61,8 @@ export async function StoryIntroSection() {
     { photo: exterior, style: { right: 0, top: px(67, 'y'), width: px(exterior.collageWidth, 'x'), height: px(196, 'y') }, reveal: 'slide-left' as const, delay: 0 },
     { photo: diningRoom, style: { right: 0, top: px(500, 'y'), width: px(diningRoom.collageWidth, 'x'), height: px(346, 'y') }, reveal: 'slide-left' as const, delay: 220 },
     // The two small squares that sit inboard of each column.
-    { photo: plateDetail, style: { left: px(276, 'x'), top: px(645, 'y'), width: px(plateDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
-    { photo: dishDetail, style: { left: px(1004, 'x'), top: px(645, 'y'), width: px(dishDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'zoom-in' as const, delay: 380 },
+    { photo: plateDetail, style: { left: px(276, 'x'), top: px(645, 'y'), width: px(plateDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'fade' as const, delay: 380 },
+    { photo: dishDetail, style: { left: px(1004, 'x'), top: px(645, 'y'), width: px(dishDetail.collageWidth, 'x'), height: px(126, 'y') }, reveal: 'fade' as const, delay: 380 },
   ];
 
   return (
@@ -74,7 +74,7 @@ export async function StoryIntroSection() {
     // still `height: auto` — so the copy panel kept its full text height
     // and pushed the section past the screen. A definite height is what
     // lets the panel shrink and scroll its overflow instead.
-    <section className="relative flex h-svh flex-col lg:block lg:h-auto">
+    <section className="section-anchor section-screen relative flex flex-col">
       {/* Wavy roofline band — full-bleed, tucked under the fixed header at
           the very top of the page. The design scales the artwork to 156%
           of the band's height and anchors it to the bottom, cropping the
@@ -100,10 +100,18 @@ export async function StoryIntroSection() {
           `min-height: auto` refuses to shrink below its content, which is
           what kept the copy panel at its full text height and pushed the
           section past one screen. */}
-      <div className="relative flex min-h-0 flex-1 flex-col lg:block">
-        {/* ---------- Desktop collage ---------- */}
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        {/* ---------- Desktop collage ----------
+            Height-driven, not width-driven. The 1400x870 canvas used to
+            resolve its height from the full viewport width (796px at 1280,
+            which with the roofline band put the section at 1014 — 340 past
+            a 720p laptop). Anchoring it to the leftover band and letting
+            the *width* follow from the same aspect ratio keeps every
+            percentage offset inside the collage exactly where it was
+            drawn, at whatever scale the screen allows. Same move as the
+            home menu panel. */}
         <div
-          className="relative hidden w-full lg:block"
+          className="relative mx-auto hidden min-h-0 w-full flex-1 lg:block lg:h-full lg:w-auto"
           style={{ aspectRatio: `${DESKTOP_CANVAS.width} / ${DESKTOP_CANVAS.height}` }}
         >
           {/* Positioning stays on a plain wrapper rather than on Reveal —
@@ -162,8 +170,8 @@ export async function StoryIntroSection() {
             className="absolute -translate-x-1/2 -translate-y-1/2"
             style={{ left: '50%', top: px(124, 'y'), width: px(734, 'x') }}
           >
-            <Reveal variant="zoom-in">
-              <h1 className="text-center font-display leading-[1.2] text-foreground whitespace-nowrap text-[clamp(3rem,7.14vw,6.25rem)]">
+            <Reveal variant="fade">
+              <h1 className="text-center font-display leading-[1.2] text-foreground whitespace-nowrap text-[clamp(3rem,7.14vw,6.5rem)]">
                 {t('heading')}
               </h1>
             </Reveal>
@@ -210,8 +218,8 @@ export async function StoryIntroSection() {
           />
 
           <div className="container-base relative flex min-h-0 flex-1 flex-col">
-            <Reveal variant="zoom-in" className="shrink-0">
-              <h1 className="text-center font-display leading-[1.2] whitespace-nowrap text-foreground text-[clamp(1.75rem,9.46vw,2.75rem)]">
+            <Reveal variant="fade" className="shrink-0">
+              <h1 className="text-center font-display whitespace-nowrap text-foreground text-[clamp(2.5rem,9.46vw,2.75rem)]">
                 {t('heading')}
               </h1>
             </Reveal>

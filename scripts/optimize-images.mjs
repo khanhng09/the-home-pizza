@@ -100,18 +100,28 @@ const GROUPS = [
   },
   {
     // Humans screen photos. The chef/homer portraits render at roughly
-    // half the container on desktop and full-bleed on mobile; the CTA and
-    // people-story shots are full-bleed banners.
+    // half the container on desktop and full-bleed on mobile; the CTA's
+    // mobile crop matches that same full-bleed-but-narrow-viewport case.
     name: 'humans screen',
     files: [
       'images/humans/chef.webp',
       'images/humans/chef-mb.webp',
       'images/humans/homer.webp',
       'images/humans/homer-mb.webp',
-      'images/humans/be-homer.webp',
       'images/humans/be-homer-mb.webp',
     ],
     widths: [640, 1400],
+  },
+  {
+    // CTA banner desktop photo — unlike the rest of the humans screen
+    // group, this one has no max-width: the section is a true full-bleed
+    // band the whole viewport width, so the 1400 ceiling the group above
+    // uses left it visibly soft on anything wider than a laptop, or on any
+    // 2x/retina display below that. Matches the other full-bleed banners'
+    // ladder (see "space heroes", "story tabs").
+    name: 'humans CTA banner',
+    files: ['images/humans/be-homer.png'],
+    widths: [768, 1400, 2160],
   },
   {
     // /story screen collage + mobile slider photos. Rendered anywhere from

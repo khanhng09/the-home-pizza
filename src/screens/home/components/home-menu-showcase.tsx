@@ -67,17 +67,18 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
   );
 
   return (
-    // Both columns are sized by their own content now, not by a shared
-    // height budget the section hands down — `HomeMenuPanel` sets its own
-    // height from the artwork's aspect ratio (see its doc comment), and the
-    // grid row (desktop) / flex column (mobile) simply grows to whichever
-    // column is taller. Nothing here needs to scroll internally any more.
-    <div className="flex flex-col lg:grid lg:grid-cols-2">
+    // Equal columns, matching the current design: the image panel is no
+    // longer sized to the menu page's own aspect ratio (that was the old
+    // `[1fr_auto]` track). It now takes the same width as the copy column,
+    // paints a solid background across the whole cell, and lets the page
+    // artwork sit centered inside at whatever size its own ratio allows —
+    // see `HomeMenuPanel`.
+    <div className="flex min-h-0 flex-col lg:grid lg:h-full lg:grid-cols-2">
       {/* Content panel. `container-edge-left` rather than a fixed `px`:
           this panel starts at the viewport edge, so a fixed inset put its
           heading ~48px inboard of every `container-base` section's
           heading. */}
-      <div className="container-edge-left relative">
+      <div className="container-edge-left relative flex min-h-0 flex-col">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-0 aspect-[430/500] bg-repeat lg:aspect-auto"
@@ -85,7 +86,7 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
           />
         </div>
 
-        <div className="relative pr-4 pt-10 pb-10 sm:pr-10 lg:pr-16 lg:py-24">
+        <div className="relative flex min-h-0 flex-1 flex-col py-[var(--section-py)] pr-4 sm:pr-10 lg:pr-16">
           {children}
 
           <HomeMenuCategoryList

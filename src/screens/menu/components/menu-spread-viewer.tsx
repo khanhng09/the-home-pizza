@@ -421,6 +421,14 @@ export function MenuSpreadViewer({
     pageCount === 2 ? `${spreads[0].width * 2} / ${spreads[0].height}` : spreadRatio;
 
   return (
+    // The ratio stays on the element at every breakpoint, but it only
+    // *sizes* the panel while one dimension is auto. A caller that also
+    // pins a height (`/menu`'s catalog does, from `lg` up) makes both
+    // dimensions definite, at which point `aspect-ratio` stops applying and
+    // the sheets inside — each still on its own ratio at the panel's full
+    // height — centre within the box instead. That is what lets one
+    // component be artwork-driven on a phone and screen-driven on a laptop,
+    // which an inline style alone could not express.
     <div ref={rootRef} className={cn('relative', className)} style={{ aspectRatio: panelRatio }}>
       {/* The panel's own cream paper, under everything — painted once here
           rather than per sheet (see `MenuPageFlip`'s note on why it no
@@ -571,7 +579,7 @@ export function MenuSpreadViewer({
           spans the panel so the two arrows sit on its outer edges, but it
           must not swallow clicks across the page in between. */}
       {spreads.length > pageCount && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-3 lg:px-5">
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between">
           {[-1, 1].map((delta) => {
             const isPrevious = delta < 0;
             const Chevron = isPrevious ? IcChevronLeft : IcChevronRight;
@@ -586,7 +594,7 @@ export function MenuSpreadViewer({
                 onFocus={() => setIsPaused(true)}
                 onBlur={() => setIsPaused(false)}
                 aria-label={tCommon(isPrevious ? 'prevPage' : 'nextPage')}
-                className="pointer-events-auto flex size-11 cursor-pointer items-center justify-center rounded-full bg-ink/50 text-cream backdrop-blur-sm transition-colors hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                className={cn("flex size-11 pointer-events-auto cursor-pointer items-center justify-center bg-ink/40 text-cream backdrop-blur-[2px] transition-colors hover:bg-ink/60", isPrevious ? 'rounded-r-md' : 'rounded-l-md')}
               >
                 <Chevron aria-hidden="true" className="size-5" />
               </button>

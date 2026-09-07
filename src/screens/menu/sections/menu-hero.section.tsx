@@ -79,7 +79,7 @@ export async function MenuHeroSection() {
           to its natural content height below `lg` and scroll with the page
           is what actually guarantees nothing gets clipped, on any device,
           without an upper bound on how tall content is allowed to get. */}
-      <section className="relative overflow-hidden bg-cream lg:h-svh">
+      <section className="section-anchor relative overflow-hidden bg-cream lg:h-screen lg:min-h-fit">
         {/* Background texture — full-bleed across the whole section at every
             breakpoint, no separate flat-color layer of its own. It used to be
             narrowed to just the map's own width from `xl` (to stop it running

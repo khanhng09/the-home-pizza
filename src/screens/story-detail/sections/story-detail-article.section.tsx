@@ -32,7 +32,12 @@ export async function StoryDetailArticleSection({
       // `bg-deep` under the tile, not just behind it: the tile is dark
       // teal, and a cream flash before it loads on a slow connection would
       // put cream text on cream.
-      className="relative bg-deep bg-repeat"
+      //
+      // Exempt from the one-screen rule and from snapping: this is the
+      // article body. Capping a 3757px read to one screen would either cut
+      // it or bury it in a nested scroller, and snapping would fight the
+      // reader on every wheel tick.
+      className="section-anchor relative bg-deep bg-repeat"
       style={{
         backgroundImage: `url(${DARK_PAPER_TILE})`,
         backgroundSize: DARK_PAPER_TILE_SIZE,

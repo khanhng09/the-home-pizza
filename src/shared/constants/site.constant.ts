@@ -18,8 +18,8 @@ export const businessInfo = {
   tagline: "Đặc sản Việt trên đế bánh Pizza Ý",
   description:
     "Tại Nhà, mỗi chiếc pizza là một câu chuyện vùng miền. Từ nguyên liệu bản địa đến hương vị đặc trưng, Bản Đồ Pizza Đặc Sản Việt là hành trình đưa tinh hoa ẩm thực Việt lên đế bánh pizza chuẩn Ý.",
-  email: "thehomepizzapq@gmail.com",
-  phone: "+84 988 37 37 93",
+  email: "info@thehomepizza.com",
+  phone: "1900 055550",
   locations: [
     {
       id: "phu-quoc",
@@ -53,12 +53,12 @@ export const navigation = {
 export const socialLinks = [
   {
     id: "facebook",
-    href: "https://facebook.com/thehomepizza",
+    href: "https://facebook.com/thehomepizzapq",
     icon: "IcFacebook",
   },
   {
     id: "instagram",
-    href: "https://instagram.com/thehomepizza",
+    href: "https://instagram.com/thehomepizzapq/",
     icon: "IcInstagram",
   },
 ];

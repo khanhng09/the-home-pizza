@@ -28,7 +28,7 @@ export async function StoryDetailRelatedSection({ stories }: { stories: StoryTea
   return (
     <section
       aria-labelledby="story-related-heading"
-      className="relative overflow-hidden bg-cream pt-11 pb-14 lg:pt-29 lg:pb-34"
+      className="section-anchor relative overflow-hidden bg-cream py-[var(--section-py)]"
     >
       <div
         aria-hidden="true"
