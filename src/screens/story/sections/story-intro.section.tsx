@@ -69,11 +69,14 @@ export async function StoryIntroSection() {
     // Transparent — the paper texture and cream base come from
     // StoryBackdrop, which wraps every section on this screen so the grain
     // runs continuously across their boundaries.
-    // `h-svh`, not `min-h-svh`: `flex-1` can only divide space a container
-    // actually has, and a box that is merely *at least* one screen tall is
-    // still `height: auto` — so the copy panel kept its full text height
-    // and pushed the section past the screen. A definite height is what
-    // lets the panel shrink and scroll its overflow instead.
+    // `.section-screen` still targets one screen first, but only the
+    // desktop collage below still relies on a definite height + its own
+    // internal scroll — its copy box is one absolutely-positioned tile
+    // among six photos pinned by fixed percentages, so letting it grow
+    // would run text over the neighbouring photos rather than past the
+    // section. The mobile copy block has no such neighbours and now grows
+    // the section (and lets the page scroll) instead of hiding text behind
+    // a scrollbar — see the comment on its paragraph list below.
     <section className="section-anchor section-screen relative flex flex-col">
       {/* Wavy roofline band — full-bleed, tucked under the fixed header at
           the very top of the page. The design scales the artwork to 156%
@@ -96,11 +99,15 @@ export async function StoryIntroSection() {
         />
       </div>
 
-      {/* `min-h-0` at every level of this column: a flex item's default
-          `min-height: auto` refuses to shrink below its content, which is
-          what kept the copy panel at its full text height and pushed the
-          section past one screen. */}
-      <div className="relative flex min-h-0 flex-1 flex-col">
+      {/* No `min-h-0` here (or anywhere in the mobile block further down):
+          it doesn't just let this row shrink below its children's content —
+          it also zeroes this row's contribution to `.section-screen`'s own
+          `min-height: fit-content` calculation on the ancestor `<section>`,
+          which otherwise can't tell the section needs to grow past one
+          screen. Confirmed the desktop collage's `lg:h-full` still resolves
+          fine without it — flex layout gives this row a definite computed
+          height regardless. */}
+      <div className="relative flex flex-1 flex-col">
         {/* ---------- Desktop collage ----------
             Height-driven, not width-driven. The 1400x870 canvas used to
             resolve its height from the full viewport width (796px at 1280,
@@ -203,7 +210,13 @@ export async function StoryIntroSection() {
             off the edge at a constant size — scaling them by viewport
             width would pull them back into the text column on a 320px
             phone. */}
-        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden pt-11 lg:hidden">
+        {/* No `overflow-hidden` here any more — the page's own
+            `overflow-x-hidden` on `<body>` (see `[locale]/layout.tsx`)
+            already clips the illustrations' horizontal bleed, and setting
+            it again here would force `overflow-y` to compute to `auto`
+            too (browsers require the other axis to leave `visible` once
+            one axis isn't) — right back to an internal scroll trap. */}
+        <div className="relative flex flex-1 flex-col pt-11 lg:hidden">
           <Illustration
             name="dong-ho-ghe"
             className="absolute -right-9 top-10 h-[61px] w-[106px] text-gold z-1"
@@ -217,21 +230,20 @@ export async function StoryIntroSection() {
             className="absolute -left-[18px] top-[501px] h-[51px] w-[77px] text-gold z-1"
           />
 
-          <div className="container-base relative flex min-h-0 flex-1 flex-col">
+          <div className="container-base relative flex flex-1 flex-col">
             <Reveal variant="fade" className="shrink-0">
               <h1 className="text-center font-display whitespace-nowrap text-foreground text-[clamp(2.5rem,9.46vw,2.75rem)]">
                 {t('heading')}
               </h1>
             </Reveal>
 
-            {/* The comp draws this 487px tall on its 932 frame. As a share
-                of the screen instead, the intro lands on exactly one screen
-                whatever the phone is, rather than pushing 80px of the next
-                section into view on a shorter one. */}
-            <Reveal variant="slide-up" delayMs={150} className="mt-1 min-h-0 flex-1">
-              <div
-                className={`mx-auto flex h-full max-w-[285px] flex-col gap-4 overflow-y-auto pr-3 text-justify font-sans text-sm leading-[1.4] text-foreground ${SCROLLBAR}`}
-              >
+            {/* Used to be pinned to a fixed share of the screen with its own
+                internal `overflow-y-auto`, which hid text behind a
+                scrollbar the moment a translation ran long. No `min-h-0`
+                now: the paragraph list keeps its automatic minimum size, so
+                it grows the section (and the page scrolls) instead. */}
+            <Reveal variant="slide-up" delayMs={150} className="mt-1 flex-1">
+              <div className="mx-auto flex max-w-[285px] flex-col gap-4 pr-3 text-justify font-sans text-sm leading-[1.4] text-foreground">
                 {paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}

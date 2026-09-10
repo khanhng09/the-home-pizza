@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -8,9 +8,27 @@ import { IcArrowRight } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { Reveal } from '@/shared/components/ui/reveal';
 import { DARK_PAPER_TILE, DARK_PAPER_TILE_SIZE } from '@/shared/constants/texture.constant';
+import { responsiveImage } from '@/shared/lib/image';
 import { cn } from '@/shared/lib/utils';
 import { locationStates } from '../constants/home.constant';
-import { HomeLocationGallery } from './home-location-gallery';
+import { HomeLocationGallery, LOCATION_PANEL_SIZES } from './home-location-gallery';
+
+/** Warms the browser cache for every location's *first* photo — mirroring
+ * `HomeStoryTabs`'s own preload effect. Without this, a location's photo
+ * only starts fetching the moment its `<img>` actually mounts, so the
+ * first switch to a location not yet seen this session visibly loads live
+ * (slow), while switching back to one already visited is instant (cached)
+ * — the "sometimes fast, sometimes slow" a visitor notices when flipping
+ * between the two repeatedly. There are only two locations, so preloading
+ * every one of them up front (not just the inactive ones) is cheap. */
+function preloadFirstPhoto(source: string | undefined) {
+  if (!source) return;
+  const { src, srcSet } = responsiveImage(source);
+  const image = new window.Image();
+  image.sizes = LOCATION_PANEL_SIZES;
+  if (srcSet) image.srcset = srcSet;
+  image.src = src;
+}
 
 export function HomeLocationSwitcher() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -24,6 +42,9 @@ export function HomeLocationSwitcher() {
   // still be running the timer).
   const isOnScreen = useInView(rootRef, { amount: 0.2 });
 
+  useEffect(() => {
+    locationStates.forEach((location) => preloadFirstPhoto(location.spreads[0]?.src));
+  }, []);
 
   // A row unmounting mid-hover would otherwise leave the timer to fire
   // into a dead component.
@@ -39,9 +60,14 @@ export function HomeLocationSwitcher() {
     // photo exactly where the design splits them (371/561 on mobile, half
     // and half on desktop). The desktop `min-h-[914px]` this replaces was
     // the comp's own frame height — 240px past a 720p laptop.
+    // No `min-h-0`: besides letting this row shrink below its children's
+    // content, it would zero this row's contribution to `.section-screen`'s
+    // `min-height: fit-content` on the ancestor `<section>` — the section
+    // then can't tell it needs to grow past one screen if the copy is ever
+    // longer than the space this row's proportions leave it.
     <div
       ref={rootRef}
-      className="relative flex min-h-0 flex-1 flex-col bg-deep lg:grid lg:grid-cols-2"
+      className="relative flex flex-1 flex-col bg-deep lg:grid lg:grid-cols-2"
     >
       {/* Moved up from the copy panel so the same paper texture also shows
           through the gap the desktop photo panel now leaves around itself
@@ -54,12 +80,15 @@ export function HomeLocationSwitcher() {
         aria-hidden="true"
       />
 
-      {/* No `overflow-hidden` here: it makes this a scroll container, which
-          zeroes its min-content contribution to the grid row — the row then
-          sizes off `min-h` alone and clips the copy on any viewport narrower
-          than the design's 430 (the location buttons lost 14px at 375). The
-          background layers below are `inset-0`, so nothing needs clipping. */}
-      <div className="container-edge-left relative flex min-h-0 flex-[371_1_0%] overflow-y-auto py-[var(--section-py)] pr-7 lg:flex-none lg:pr-14 xl:pr-16">
+      {/* No `overflow-hidden`/`overflow-y-auto` and no `min-h-0` here: either
+          makes this a scroll container, which zeroes its min-content
+          contribution to the flex row — the row (and with it, `.section-screen`'s
+          `min-height: fit-content` on the section) then sizes off the fixed
+          screen height alone, trapping the copy behind an internal scrollbar
+          instead of letting the whole page grow and scroll past one screen.
+          Leaving the default automatic minimum size in place means this panel
+          never shrinks below its own content, whatever that content needs. */}
+      <div className="container-edge-left relative flex flex-[371_1_0%] pt-[var(--section-py)] pb-2 pr-7 lg:flex-none lg:pr-14 xl:pr-16">
         {/* `z-10` keeps the copy and the location list above the section's
             illustration layer, which is painted after this subtree so it
             clears the panel's background texture. The design stacks them the
@@ -80,7 +109,7 @@ export function HomeLocationSwitcher() {
                 is under the project's 16px floor for body copy, so it goes
                 to `text-base` at the design's measure — the closest fit that
                 still keeps the panel inside its 371px box. */}
-              <p className="mt-6 max-w-[296px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream leading-[1.4] lg:max-w-[600px]">
+              <p className="mt-4 max-w-[296px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream leading-[1.4] lg:max-w-[600px]">
                 {t('paragraph')}
               </p>
             </Reveal>
@@ -95,7 +124,7 @@ export function HomeLocationSwitcher() {
             <Reveal variant="slide-right" delayMs={400}>
               <Button
                 asChild
-                className="btn-cta mt-7 w-full max-w-40 border border-cream bg-cream text-ink hover:bg-linen lg:mt-[clamp(1rem,3vh,2.5rem)] lg:w-auto"
+                className="btn-cta mt-6 w-full max-w-40 border border-cream bg-cream text-ink hover:bg-linen lg:mt-[clamp(1rem,3vh,2.5rem)] lg:w-auto"
               >
                 <Link href="/space">
                   {t('cta')}
@@ -159,7 +188,7 @@ export function HomeLocationSwitcher() {
       {/* `location-photo-inset` only takes effect from `lg` up (mobile keeps
           the photo edge-to-edge) — see the utility in globals.css for why a
           plain `lg:` Tailwind variant can't express this directly. */}
-      <div className="location-photo-inset relative min-h-0 flex-[561_1_0%] overflow-hidden lg:flex-none">
+      <div className="location-photo-inset relative min-h-[280px] flex-[561_1_0%] overflow-hidden lg:min-h-0 lg:flex-none">
         <div className="relative h-full w-full overflow-hidden">
           <HomeLocationGallery
             locationId={activeLocation.id}

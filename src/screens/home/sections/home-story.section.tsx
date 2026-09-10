@@ -21,8 +21,13 @@ export async function HomeStorySection() {
           is gone: with the section itself locked to one screen, the 493:438
           split is what holds the proportion the comp draws, at every
           breakpoint — and it no longer breathes as the copy re-wraps, which
-          is what used to drag the illustrations around with it. */}
-      <div className="relative min-h-0 flex-[493_1_0%]">
+          is what used to drag the illustrations around with it. No
+          `min-h-0`: it would zero this block's contribution to
+          `.section-screen`'s `min-height: fit-content` on the section, so a
+          longer translation couldn't grow the section past one screen and
+          would silently overflow under the section's `overflow-hidden`
+          instead. */}
+      <div className="relative flex-[438_1_0%]">
         {/* Background texture — swaps per breakpoint */}
         <div
           className="absolute inset-0 bg-cover bg-center lg:hidden"
@@ -67,7 +72,7 @@ export async function HomeStorySection() {
         <HomeStoryTabs />
       </Reveal> */}
 
-      <div className="min-h-0 flex-[438_1_0%]">
+      <div className="min-h-60 flex-[493_1_0%]">
         <HomeStoryTabs />
       </div>
 

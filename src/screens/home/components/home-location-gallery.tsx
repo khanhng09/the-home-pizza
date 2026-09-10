@@ -37,22 +37,38 @@ function preload(source: string | undefined) {
   image.src = src;
 }
 
-const FADE_DURATION = 1.1;
+/** Same reveal order as `MenuPageFlip`'s `flipPageVariants` — see the
+ * matching note on `HomeStoryTabs`'s own `photoVariants` for the full
+ * reasoning. The incoming photo mounts at full opacity already, underneath
+ * (`zIndex: 0`); only the outgoing one animates, fading out on top
+ * (`zIndex: 1`). This is what keeps rapid repeated switches (spread
+ * auto-advance, or a visitor clicking between locations quickly) from
+ * ever showing a still-fading, not-yet-opaque frame. */
+const FADE_DURATION = 0.45;
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const photoVariants: Variants = {
-  enter: { opacity: 0, scale: 1.03 },
-  center: { opacity: 1, scale: 1, transition: { duration: FADE_DURATION, ease: EASE_OUT_EXPO } },
-  exit: { opacity: 0, transition: { duration: FADE_DURATION, ease: 'linear' } },
+  enter: { opacity: 1, scale: 1.02, zIndex: 0 },
+  center: {
+    opacity: 1,
+    scale: 1,
+    zIndex: 0,
+    transition: { scale: { duration: FADE_DURATION, ease: EASE_OUT_EXPO }, zIndex: { duration: 0 } },
+  },
+  exit: {
+    opacity: 0,
+    zIndex: 1,
+    transition: { opacity: { duration: FADE_DURATION, ease: 'linear' }, zIndex: { duration: 0 } },
+  },
 };
 
-/** `prefers-reduced-motion`: opacity only, no scale drift. Framer Motion
- * animates via JS, so the global CSS override in `globals.css` never
- * reaches it. */
+/** `prefers-reduced-motion`: no scale drift, same rapid-switch guarantee
+ * via the outgoing-only fade. Framer Motion animates via JS, so the global
+ * CSS override in `globals.css` never reaches it. */
 const reducedPhotoVariants: Variants = {
-  enter: { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 0.25 } },
-  exit: { opacity: 0, transition: { duration: 0.25 } },
+  enter: { opacity: 1, zIndex: 0 },
+  center: { opacity: 1, zIndex: 0 },
+  exit: { opacity: 0, zIndex: 1, transition: { opacity: { duration: 0.25 }, zIndex: { duration: 0 } } },
 };
 
 /**

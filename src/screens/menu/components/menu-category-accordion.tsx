@@ -146,7 +146,7 @@ export function MenuCategoryAccordion() {
               // height cap (from `lg`) is applied here, not on the viewer,
               // so the padding is *inside* the one-screen budget
               // (`--menu-panel-height`) rather than added on top of it.
-              className="flex justify-center bg-cream p-4 sm:p-6 lg:h-[var(--menu-panel-height)] lg:p-10 border-t border-ink/25"
+              className="flex justify-center bg-cream sm:p-6 lg:h-[var(--menu-panel-height)] lg:p-10 border-t border-ink/25"
             >
               {category.spreads.length > 0 ? (
                 <MenuSpreadViewer

@@ -86,7 +86,7 @@ export function HomeMenuShowcase({ categories, children }: HomeMenuShowcaseProps
           />
         </div>
 
-        <div className="relative flex min-h-0 flex-1 flex-col py-[var(--section-py)] pr-4 sm:pr-10 lg:pr-16">
+        <div className="relative flex min-h-0 flex-1 flex-col pt-[var(--section-py)] pb-2 pr-4 sm:pr-10 lg:pr-16">
           {children}
 
           <HomeMenuCategoryList

@@ -48,7 +48,7 @@ export function Header() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md transition-transform duration-200 ease-out',
-          !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+          // !mobileOpen ? '-translate-y-full' : 'translate-y-0'
         )}
       >
         <div className="container-base flex h-[var(--header-height)] items-center justify-between">

@@ -147,7 +147,7 @@ export function HomeMenuPanel({
       // box inside its own padding, so the sheet reads as artwork placed on
       // a mat rather than a full-bleed image.
       className={cn(
-        'relative flex w-full items-center justify-center bg-gold p-6 sm:p-10 lg:h-full lg:p-14',
+        'relative flex w-full items-center justify-center bg-gold sm:p-10 lg:h-full lg:p-14',
         className
       )}
     >
@@ -171,7 +171,7 @@ export function HomeMenuPanel({
               plain static background that the animation never touches. */}
           <div className="flex h-full w-full items-center justify-center">
             <div
-              className="relative h-full max-w-full shadow-2xl"
+              className="relative h-full max-w-full"
               style={{ aspectRatio: `${page.width} / ${page.height}` }}
             >
               <MenuPageFlip

@@ -40,7 +40,16 @@ const flipPageVariants: Variants = {
   center: { rotateY: 0, z: 0, zIndex: 0 },
   exit: (direction: number) => ({
     rotateY: direction >= 0 ? [0, -18, -162, -180] : [0, 18, 162, 180],
-    z: [0, 48, 48, 0],
+    // CSS 3D magnifies a translateZ'd layer by `perspective / (perspective
+    // - z)` — at the root's `perspective: 1400px` (see below), the old
+    // `z: 48` peak scaled this sheet (and the shade overlays riding the
+    // same transform) up by ~3.5%. The *entering* page sits underneath at
+    // z=0, untouched, so during the turn the two pages were visibly
+    // different sizes — the lifted one reading as "taller" against the
+    // static one beside it. 20 (paired with the perspective bump to
+    // 2400px) cuts that to well under 1%, while still lifting the sheet
+    // enough to visibly clear the page it's turning over.
+    z: [0, 20, 20, 0],
     originX: direction >= 0 ? 0 : 1,
     zIndex: 1,
     transition: {
@@ -60,57 +69,80 @@ const flipPageVariants: Variants = {
  * `backface-visibility`, hence the shading finishing early. The back
  * starts edge-on and swings *into* the light, so it runs the opposite
  * way: near-black as it comes into view at 90°, clean by the time it
- * lands. */
+ * lands.
+ *
+ * The keyframe timing here is deliberately keyed to `FLIP_TIMES`/the
+ * rotation math, not picked by eye: with `rotateY` going -18°→-162°
+ * linearly between t=0.22 and t=0.8, the sheet crosses ±90° (the point
+ * `backface-visibility` actually culls it) at t≈0.51. The opacity ramp
+ * peaks at t=0.55, just past that — so the darkest frame lands right as
+ * the face is about to disappear, instead of (the previous timing) the
+ * page still being square-on to the viewer at ~50%+ black. A cover photo
+ * visibly going that dark while still fully facing the viewer read as a
+ * rendering glitch, not a page catching the light edge-on. */
 const frontShadeVariants: Variants = {
   enter: { opacity: 0 },
   center: { opacity: 0 },
   exit: {
-    opacity: [0, 0.12, 0.75],
-    transition: { duration: FLIP_DURATION, times: [0, 0.35, 0.6], ease: 'easeIn' },
+    opacity: [0, 0.06, 0.4],
+    transition: { duration: FLIP_DURATION, times: [0, 0.4, 0.55], ease: 'easeIn' },
   },
 };
 
 const backShadeVariants: Variants = {
-  enter: { opacity: 0.95 },
-  center: { opacity: 0.95 },
+  // Resting at 0 rather than the shade's own peak: this layer sits behind
+  // `backface-visibility:hidden`, so it's only ever meant to be seen mid-flip.
+  // Parking it dark at rest made an idle page's *visibility* the only thing
+  // standing between the viewer and a near-black box — any environment where
+  // that culling isn't airtight (a stacked `preserve-3d` ancestor plus an
+  // independently-opacity-animated descendant is a known cross-browser soft
+  // spot) showed as a dark smear sitting over the artwork with nothing
+  // flipping at all. Resting at 0 means the worst case if culling ever slips
+  // is invisible, not opaque.
+  enter: { opacity: 0 },
+  center: { opacity: 0 },
   exit: {
-    opacity: [0.95, 0.9, 0],
+    opacity: [0, 0.9, 0],
     transition: { duration: FLIP_DURATION, times: [0, 0.5, 1], ease: 'easeOut' },
   },
-};
-
-/** Cast by the standing page onto the one being uncovered, pooled at the
- * spine and lifting as the turn completes. This rides the *entering*
- * page, so it reads the live `direction` straight from props. */
-const gutterShadeVariants: Variants = {
-  enter: { opacity: 0.8 },
-  center: { opacity: 0, transition: { duration: FLIP_DURATION, ease: 'easeOut' } },
-  exit: { opacity: 0, transition: { duration: 0 } },
 };
 
 /** Below `lg` the panel drops the whole 3D model. A 375px-wide sheet
  * turning in perspective is mostly illegible at that size, and it is the
  * expensive path: `preserve-3d` plus a promoted layer plus three
  * animating overlays, on the CPU/GPU budget Lighthouse mobile throttles
- * hardest. A compositor-only crossfade reads the same at that width. */
+ * hardest. A compositor-only crossfade reads the same at that width.
+ *
+ * Same reveal order as `flipPageVariants` above, not a plain opacity
+ * crossfade: the incoming page mounts at full opacity already, sitting
+ * underneath (`zIndex: 0`); only the outgoing page animates, fading out on
+ * top (`zIndex: 1`) to uncover it. A version where the incoming page faded
+ * itself in used to mean a rapid re-tap (or the auto-advance timer firing
+ * faster than a visitor expects) could restart that fade before it ever
+ * reached full opacity — the same page-never-finishes-loading feel this
+ * panel is the reference for elsewhere on the home page. */
 const fadePageVariants: Variants = {
-  enter: { opacity: 0, scale: 1.02, zIndex: 1 },
+  enter: { opacity: 1, scale: 1.02, zIndex: 0 },
   center: {
     opacity: 1,
     scale: 1,
-    zIndex: 1,
-    transition: { duration: FADE_DURATION, ease: EASE_OUT_EXPO },
+    zIndex: 0,
+    transition: { scale: { duration: FADE_DURATION, ease: EASE_OUT_EXPO }, zIndex: { duration: 0 } },
   },
-  exit: { opacity: 0, zIndex: 0, transition: { duration: FADE_DURATION, ease: 'linear' } },
+  exit: {
+    opacity: 0,
+    zIndex: 1,
+    transition: { opacity: { duration: FADE_DURATION, ease: 'linear' }, zIndex: { duration: 0 } },
+  },
 };
 
-/** `prefers-reduced-motion`: opacity only, no rotation and no scale.
- * Framer Motion animates via JS, so the global CSS override in
- * `globals.css` never reaches it. */
+/** `prefers-reduced-motion`: no scale drift, same outgoing-only fade so the
+ * rapid re-tap guarantee still holds. Framer Motion animates via JS, so the
+ * global CSS override in `globals.css` never reaches it. */
 const reducedPageVariants: Variants = {
-  enter: { opacity: 0, zIndex: 1 },
-  center: { opacity: 1, zIndex: 1, transition: { duration: 0.25 } },
-  exit: { opacity: 0, zIndex: 0, transition: { duration: 0.25 } },
+  enter: { opacity: 1, zIndex: 0 },
+  center: { opacity: 1, zIndex: 0 },
+  exit: { opacity: 0, zIndex: 1, transition: { opacity: { duration: 0.25 }, zIndex: { duration: 0 } } },
 };
 
 interface MenuPageFlipProps {
@@ -163,9 +195,9 @@ export function MenuPageFlip({
     theme === 'dark'
       ? { backgroundImage: `url(${DARK_PAPER_TILE})`, backgroundSize: DARK_PAPER_TILE_SIZE }
       : {
-          backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
-          backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
-        };
+        backgroundImage: `url(${CREAM_PAPER_TILE.desktop})`,
+        backgroundSize: CREAM_PAPER_TILE_SIZE.desktop,
+      };
 
   return (
     // `isolate`: the turning sheet lifts itself to `zIndex: 1` mid-flip, and
@@ -184,11 +216,18 @@ export function MenuPageFlip({
       style={
         isFlip
           ? {
-              perspective: '1400px',
-              // Bias the vanishing point toward the hinge so the sheet
-              // arcs around a spine instead of pivoting in mid-air.
-              perspectiveOrigin: hingeLeft ? '30% 50%' : '70% 50%',
-            }
+            // A shallower (bigger-number) perspective than the previous
+            // 1400px — paired with the smaller `z` lift in
+            // `flipPageVariants`, this keeps the turning sheet from
+            // visibly magnifying relative to the static page underneath
+            // it mid-flip (`scale = perspective / (perspective - z)`;
+            // this value gets that well under 1% at the sheet's peak lift
+            // instead of the previous ~3.5%).
+            perspective: '2400px',
+            // Bias the vanishing point toward the hinge so the sheet
+            // arcs around a spine instead of pivoting in mid-air.
+            perspectiveOrigin: hingeLeft ? '30% 50%' : '70% 50%',
+          }
           : undefined
       }
     >
@@ -227,18 +266,6 @@ export function MenuPageFlip({
 
           {isFlip && (
             <>
-              {/* Shadow the standing page throws onto the one below. */}
-              <motion.div
-                aria-hidden="true"
-                variants={gutterShadeVariants}
-                className={cn(
-                  'absolute inset-0',
-                  hingeLeft
-                    ? 'bg-gradient-to-r from-black/85 via-black/25 to-transparent to-55%'
-                    : 'bg-gradient-to-l from-black/85 via-black/25 to-transparent to-55%'
-                )}
-              />
-
               {/* Front face — travels with the photo, hidden past 90°. */}
               <motion.div
                 aria-hidden="true"

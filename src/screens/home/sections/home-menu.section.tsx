@@ -35,14 +35,14 @@ export async function HomeMenuSection() {
             </h2>
           </Reveal>
           <Reveal variant="slide-right" delayMs={200}>
-            <p className="mt-6 max-w-[294px] md:max-w-[302px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream">
+            <p className="mt-4 max-w-[294px] md:max-w-[302px] text-justify font-sans text-sm sm:text-base md:text-lg text-cream">
               {t('paragraph')}
             </p>
           </Reveal>
           <Reveal variant="slide-right" delayMs={400}>
             <Button
               asChild
-              className="btn-cta mt-8 w-full max-w-59.5 bg-cream text-ink hover:bg-linen"
+              className="btn-cta mt-6 w-full max-w-59.5 bg-cream text-ink hover:bg-linen"
             >
               <Link href="/menu">{t('cta')}</Link>
             </Button>

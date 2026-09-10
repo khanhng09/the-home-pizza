@@ -300,7 +300,7 @@ export function MenuHeroExplorer({
           480px copy panel put this section at 995px — and the `h-svh
           overflow-hidden` it used to carry simply *clipped* the bottom
           275px of that rather than fitting it. */}
-      <div className="relative mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-4 pt-21.5 pb-8 md:px-6 lg:h-full lg:min-h-0 lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-5 lg:px-8 lg:py-[var(--section-py)] xl:grid-cols-[1fr_var(--text-col)] xl:items-stretch xl:gap-6">
+      <div className="relative mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-6 px-4 py-8 md:px-6 lg:h-full lg:min-h-0 lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-5 lg:px-8 lg:py-[var(--section-py)] xl:grid-cols-[1fr_var(--text-col)] xl:items-stretch xl:gap-6">
         {/* Text column — first on mobile, top-right on desktop. The
             `lg:`/`xl:` pair here is the overlay card: translucent cream
             panel while the map bleeds full-width behind it (`lg` only),

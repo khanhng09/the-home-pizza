@@ -13,25 +13,45 @@ import { Reveal } from '@/shared/components/ui/reveal';
 
 const STORY_IMAGE_SIZES = '100vw';
 
-/** Same slow dissolve as `HomeLocationGallery`'s panel: a scale-in fade on
- * enter, a plain fade on exit, so both crossfading photo panels on the
- * page read as one consistent motion language. */
-const FADE_DURATION = 1.1;
+/** Same dissolve as `HomeLocationGallery`'s panel, and the same reveal
+ * order as `MenuPageFlip`'s `flipPageVariants`: the *incoming* photo never
+ * fades — it mounts at full opacity, already correct, sitting underneath
+ * (`zIndex: 0`). Only the *outgoing* photo animates, fading out on top
+ * (`zIndex: 1`) to uncover it. A variant where the incoming photo fades
+ * itself in (this used to be `opacity: 0 -> 1` on `enter`/`center`) means
+ * every rapid re-click restarts that fade from zero — click faster than
+ * `FADE_DURATION` and the visible photo never reaches full opacity between
+ * clicks, reading as permanently "still loading". Menu's flip sidesteps
+ * this because the entering page was never gated behind an opacity ramp in
+ * the first place; this crossfade adopts the same guarantee without the
+ * 3D turn — see `zIndex: { duration: 0 }` below, borrowed from the same
+ * fix in `flipPageVariants`. */
+const FADE_DURATION = 0.45;
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const photoVariants: Variants = {
-  enter: { opacity: 0, scale: 1.03 },
-  center: { opacity: 1, scale: 1, transition: { duration: FADE_DURATION, ease: EASE_OUT_EXPO } },
-  exit: { opacity: 0, transition: { duration: FADE_DURATION, ease: 'linear' } },
+  enter: { opacity: 1, scale: 1.02, zIndex: 0 },
+  center: {
+    opacity: 1,
+    scale: 1,
+    zIndex: 0,
+    transition: { scale: { duration: FADE_DURATION, ease: EASE_OUT_EXPO }, zIndex: { duration: 0 } },
+  },
+  exit: {
+    opacity: 0,
+    zIndex: 1,
+    transition: { opacity: { duration: FADE_DURATION, ease: 'linear' }, zIndex: { duration: 0 } },
+  },
 };
 
-/** `prefers-reduced-motion`: opacity only, no scale drift. Framer Motion
- * animates via JS, so the global CSS override in `globals.css` never
- * reaches it. */
+/** `prefers-reduced-motion`: no scale drift, and the outgoing photo still
+ * only fades (not the incoming one) so the same rapid-click guarantee
+ * holds. Framer Motion animates via JS, so the global CSS override in
+ * `globals.css` never reaches it. */
 const reducedPhotoVariants: Variants = {
-  enter: { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 0.25 } },
-  exit: { opacity: 0, transition: { duration: 0.25 } },
+  enter: { opacity: 1, zIndex: 0 },
+  center: { opacity: 1, zIndex: 0 },
+  exit: { opacity: 0, zIndex: 1, transition: { opacity: { duration: 0.25 }, zIndex: { duration: 0 } } },
 };
 
 /** Warms the browser cache for the tabs that aren't showing yet. There are

@@ -10,19 +10,19 @@ export async function HumansPeopleStorySection() {
 
   return (
     <section id="humans-of-the-home" className="section-anchor section-screen relative flex flex-col overflow-hidden bg-linen">
-      {/* Same 371 : 561 mobile split as the chef section it mirrors —
-       * including the same `min-h-0` requirement on this row and the text
-       * column below, or a long paragraph list balloons the row past the
-       * section's `h-svh` and the photo half gets clipped by
-       * `overflow-hidden`. See the chef section for the full explanation. */}
-      <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-2">
+      {/* Same 371 : 561 mobile split as the chef section it mirrors — but no
+       * `min-h-0` on this row or the text column below any more. See the
+       * chef section for the full explanation: a long paragraph list now
+       * keeps its automatic minimum size and grows the section (and the
+       * page scrolls) instead of shrinking into an internal scrollbar. */}
+      <div className="flex flex-1 flex-col lg:grid lg:grid-cols-2">
         {/* Text column — first on mobile (stacked above the photo), right on
          * desktop. Vertical padding is the comp's, which together with the
          * fixed-height scroll window below puts the section at Figma's
          * 371px (mobile) / 914px (desktop). */}
         {/* Mirror of the chef column: this one sits on the *right* half from
          * `lg`, so it is its right edge that has to meet the container's. */}
-        <div className="container-edge-right relative order-1 flex min-h-0 max-h-full flex-[371_1_0%] flex-col gap-4.5 bg-linen py-[var(--section-py)] pl-4 md:pl-6 lg:order-2 lg:pl-8">
+        <div className="container-edge-right relative order-1 flex flex-[371_1_0%] flex-col gap-4.5 bg-linen py-[var(--section-py)] pl-4 md:pl-6 lg:order-2 lg:pl-8">
           {/* Figma geometry, 1:1 — mobile from the 430-wide frame, desktop
            * from the 1400-wide one. Gold, like every other illustration on
            * this page: the comp reads them as tone-on-tone watermarks. */}
@@ -34,11 +34,10 @@ export async function HumansPeopleStorySection() {
             </h2>
           </Reveal>
 
-          {/* Takes the column's leftover height at every breakpoint — see
-           * the chef section for why the comp's fixed 482px desktop window
-           * had to go. */}
-          <Reveal variant="slide-left" delayMs={200} className="min-h-0 flex-1">
-            <div style={{ direction: 'ltr' }} className="scrollbar-story-umber flex h-full max-w-[300px] md:max-w-147 flex-col gap-4 overflow-y-scroll pr-6 text-justify font-sans text-sm leading-[1.4] text-foreground lg:pr-8 lg:text-xl">
+          {/* Takes the column's leftover height at every breakpoint, but no
+           * longer scrolls its own overflow — see the chef section for why. */}
+          <Reveal variant="slide-left" delayMs={200} className="flex-1">
+            <div style={{ direction: 'ltr' }} className="flex max-w-[300px] md:max-w-147 flex-col gap-4 pr-6 text-justify font-sans text-sm leading-[1.4] text-foreground lg:pr-8 lg:text-xl">
               {paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -52,7 +51,7 @@ export async function HumansPeopleStorySection() {
 
         {/* Photo column — second on mobile, left on desktop. No illustration
          * here in either comp; the cá trích belongs to the values section. */}
-        <div className="relative order-2 min-h-0 flex-[561_1_0%] overflow-hidden lg:order-1">
+        <div className="relative order-2 min-h-[280px] flex-[561_1_0%] overflow-hidden lg:order-1 lg:min-h-0">
           <Reveal variant="fade" delayMs={350} durationMs={950} className="h-full">
             <img
               src={optimizedImage(humansPeopleStoryContent.image.src)}

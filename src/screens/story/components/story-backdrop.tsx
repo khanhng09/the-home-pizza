@@ -18,7 +18,7 @@ import { CREAM_PAPER_TILE, CREAM_PAPER_TILE_SIZE } from '@/shared/constants/text
  */
 export function StoryBackdrop({ children }: { children: ReactNode }) {
   return (
-    <div className="relative bg-cream">
+    <div className="relative bg-cream overflow-x-hidden">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-repeat lg:hidden"
