@@ -38,7 +38,10 @@ const MANIFEST_PATH = new URL(
 ).pathname;
 
 /** Photographic content tolerates 80 well; these are all photos or
- * photographed menu spreads, nothing with hard synthetic edges. */
+ * photographed menu spreads, nothing with hard synthetic edges. A group
+ * can override this with its own `quality` — see the story tabs banner,
+ * which carries overlaid display type that shows compression banding
+ * sooner than plain photography does. */
 const QUALITY = 80;
 
 /** Matches this script's own output, so a re-run never treats a variant
@@ -61,14 +64,41 @@ const GROUPS = [
   },
   {
     // Story tabs banner — spans the container at up to 1402 CSS px.
+    // Desktop and mobile now use dedicated crops (not one photo scaled
+    // down) per state, and each of those per-locale ("-eng"/"-vie").
     name: 'story tabs',
     files: [
       'images/home/story/default.webp',
-      'images/home/story/story-dsv.webp',
-      'images/home/story/story-ht.webp',
-      'images/home/story/story-tt.webp',
+      'images/home/story/story-dsv-eng.webp',
+      'images/home/story/story-dsv-vie.webp',
+      'images/home/story/story-ht-eng.webp',
+      'images/home/story/story-ht-vie.webp',
+      'images/home/story/story-tt-eng.webp',
+      'images/home/story/story-tt-vie.webp',
     ],
     widths: [768, 1440, 2160],
+    // Higher than the default 80: this banner carries overlaid display
+    // type ("từ ... đến ...") straight on the photo, and 80 was visibly
+    // banding/fuzzing those letterforms at the 2160 width. Matches the
+    // quality the PNG masters were themselves encoded at, so there's no
+    // second lossy step below what's already committed.
+    quality: 90,
+  },
+  {
+    // Story tabs banner, mobile crop — narrower aspect ratio than the
+    // desktop banner above, so it gets its own (smaller) width ladder
+    // rather than sharing the desktop group's.
+    name: 'story tabs mobile',
+    files: [
+      'images/home/story/story-dsv-mb-eng.webp',
+      'images/home/story/story-dsv-mb-vie.webp',
+      'images/home/story/story-ht-mb-eng.webp',
+      'images/home/story/story-ht-mb-vie.webp',
+      'images/home/story/story-tt-mb-eng.webp',
+      'images/home/story/story-tt-mb-vie.webp',
+    ],
+    widths: [430, 860],
+    quality: 90,
   },
   {
     // Location panel gallery — per-city ambiance photos, same geometry as
@@ -302,7 +332,7 @@ async function run() {
         );
         const info = await sharp(absolute)
           .resize({ width, withoutEnlargement: true })
-          .webp({ quality: QUALITY })
+          .webp({ quality: group.quality ?? QUALITY })
           .toFile(target);
 
         groupOutput += info.size;

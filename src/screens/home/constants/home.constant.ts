@@ -57,11 +57,52 @@ export const storyContent = {
 
 /** `href` is where the arrow in the photo's bottom-right corner leads —
  * each state is a teaser for the screen that tells that part of the story
- * in full. */
+ * in full. Each state carries its own desktop/mobile crop, each in turn
+ * per-locale — `HomeStoryTabs` picks the pair for the current breakpoint
+ * and locale. */
 export const storyStates = [
-  { id: "dsv", image: "/images/home/story/story-dsv.webp", href: "/menu" },
-  { id: "ht", image: "/images/home/story/story-ht.webp", href: "/story" },
-  { id: "tt", image: "/images/home/story/story-tt.webp", href: "/humans" },
+  {
+    id: "dsv",
+    image: {
+      desktop: {
+        vi: "/images/home/story/story-dsv-vie.webp",
+        en: "/images/home/story/story-dsv-eng.webp",
+      },
+      mobile: {
+        vi: "/images/home/story/story-dsv-mb-vie.webp",
+        en: "/images/home/story/story-dsv-mb-eng.webp",
+      },
+    },
+    href: "/menu",
+  },
+  {
+    id: "ht",
+    image: {
+      desktop: {
+        vi: "/images/home/story/story-ht-vie.webp",
+        en: "/images/home/story/story-ht-eng.webp",
+      },
+      mobile: {
+        vi: "/images/home/story/story-ht-mb-vie.webp",
+        en: "/images/home/story/story-ht-mb-eng.webp",
+      },
+    },
+    href: "/story",
+  },
+  {
+    id: "tt",
+    image: {
+      desktop: {
+        vi: "/images/home/story/story-tt-vie.webp",
+        en: "/images/home/story/story-tt-eng.webp",
+      },
+      mobile: {
+        vi: "/images/home/story/story-tt-mb-vie.webp",
+        en: "/images/home/story/story-tt-mb-eng.webp",
+      },
+    },
+    href: "/humans",
+  },
 ] as const;
 
 /** Hover has to settle before it takes the panel over. Without the delay a

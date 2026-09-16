@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react';
 import { storyStates } from '../constants/home.constant';
 import { Link } from '@/i18n/navigation';
@@ -70,13 +70,18 @@ export function HomeStoryTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
   const t = useTranslations('home.story');
+  const locale = useLocale() as 'vi' | 'en';
   const activeState = storyStates[activeIndex];
 
   useEffect(() => {
+    // Only the breakpoint currently in play needs warming — the other
+    // breakpoint's images are `hidden` and never paint on this device.
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
     storyStates.forEach((state, index) => {
-      if (index !== activeIndex) preload(state.image);
+      if (index === activeIndex) return;
+      preload(isDesktop ? state.image.desktop[locale] : state.image.mobile[locale]);
     });
-  }, [activeIndex]);
+  }, [activeIndex, locale]);
 
   return (
     // `h-full` on mobile so the photo fills whatever share of the screen
@@ -126,14 +131,23 @@ export function HomeStoryTabs() {
           The photos are `absolute inset-0 object-cover`, so they crop to
           whatever band they get rather than resisting it. */}
       <div className="relative h-full w-full overflow-hidden">
+        {/* Desktop and mobile are dedicated crops (not one photo scaled
+            down), each toggled the same way the section's own background
+            texture is — via `lg:`/`hidden`, not a media-query-driven JS
+            state — so there's no hydration flash while the right image is
+            detected client-side. Two independent `AnimatePresence` trees
+            because a single `motion.img` can't hold two different `src`
+            values at once; the hidden one animates too, but a sub-second
+            opacity/scale tween on a display:none element costs nothing
+            worth avoiding. */}
         <AnimatePresence initial={false}>
           <motion.img
-            key={activeState.id}
-            src={responsiveImage(activeState.image).src}
-            srcSet={responsiveImage(activeState.image).srcSet}
+            key={`${activeState.id}-mobile`}
+            src={responsiveImage(activeState.image.mobile[locale]).src}
+            srcSet={responsiveImage(activeState.image.mobile[locale]).srcSet}
             alt={t(`states.${activeState.id}`)}
-            width={2804}
-            height={1024}
+            width={2588}
+            height={1199}
             sizes={STORY_IMAGE_SIZES}
             loading="lazy"
             decoding="async"
@@ -141,7 +155,25 @@ export function HomeStoryTabs() {
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 w-full h-auto object-cover lg:hidden"
+          />
+        </AnimatePresence>
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={`${activeState.id}-desktop`}
+            src={responsiveImage(activeState.image.desktop[locale]).src}
+            srcSet={responsiveImage(activeState.image.desktop[locale]).srcSet}
+            alt={t(`states.${activeState.id}`)}
+            width={4167}
+            height={1199}
+            sizes={STORY_IMAGE_SIZES}
+            loading="lazy"
+            decoding="async"
+            variants={prefersReducedMotion ? reducedPhotoVariants : photoVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0 hidden h-full w-full object-cover lg:block"
           />
         </AnimatePresence>
 
