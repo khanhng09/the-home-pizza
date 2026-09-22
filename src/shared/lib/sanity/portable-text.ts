@@ -8,7 +8,7 @@ export interface RawPortableTextBlock {
   _type: 'block' | 'image';
   style?: string;
   children?: { text: string; marks?: string[] }[];
-  markDefs?: { _key: string; href?: string }[];
+  markDefs?: { _key: string; href?: string; style?: string }[];
   alt?: string;
   caption?: string;
   src?: string;
@@ -36,7 +36,12 @@ function toSpans(block: RawPortableTextBlock): StorySpanInput[] {
       .find((def) => def?.href);
 
     if (!marks.length && !linkDef) return child.text;
-    return { text: child.text, marks: marks.length ? marks : undefined, href: linkDef?.href };
+    return {
+      text: child.text,
+      marks: marks.length ? marks : undefined,
+      href: linkDef?.href,
+      style: linkDef?.style === 'button' ? 'button' : undefined,
+    };
   });
 }
 

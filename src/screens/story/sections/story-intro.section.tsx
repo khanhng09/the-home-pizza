@@ -118,7 +118,7 @@ export async function StoryIntroSection() {
             drawn, at whatever scale the screen allows. Same move as the
             home menu panel. */}
         <div
-          className="relative mx-auto hidden min-h-0 w-full flex-1 lg:block lg:h-full lg:w-auto"
+          className="relative mx-auto hidden min-h-0 w-full flex-1 [container-type:inline-size] lg:block lg:h-full lg:w-auto"
           style={{ aspectRatio: `${DESKTOP_CANVAS.width} / ${DESKTOP_CANVAS.height}` }}
         >
           {/* Positioning stays on a plain wrapper rather than on Reveal —
@@ -172,13 +172,26 @@ export async function StoryIntroSection() {
 
           {/* Centering lives on this wrapper, not on Reveal — Framer Motion
               writes its own inline `transform`, which would clobber the
-              `-translate-x-1/2` that centers the heading. */}
+              `-translate-x-1/2` that centers the heading. `z-10` keeps the
+              heading above the collage photos (`z-2`) — belt-and-braces
+              alongside the `cqw` font size below, so a translation that
+              runs long never ends up hidden behind a photo. */}
           <div
-            className="absolute -translate-x-1/2 -translate-y-1/2"
+            className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
             style={{ left: '50%', top: px(124, 'y'), width: px(734, 'x') }}
           >
             <Reveal variant="fade">
-              <h1 className="text-center font-display leading-[1.2] text-foreground whitespace-nowrap text-[clamp(3rem,7.14vw,6.5rem)]">
+              {/* `cqw` (relative to the `[container-type:inline-size]`
+                  collage wrapper above), not `vw`: the collage's own width
+                  is height-driven, not viewport-width-driven (see the
+                  comment on that wrapper), so on a short/wide viewport it
+                  shrinks well below the browser width. Sizing off `vw`
+                  there let the text keep its viewport-scaled size while its
+                  box shrank underneath it, overflowing past `width: 52.4%`
+                  into the corner photos. `cqw` scales the font with the
+                  same box the width percentage above is drawn against, so
+                  the two stay in the same ratio the design was drawn at. */}
+              <h1 className="text-center font-display leading-[1.2] text-foreground whitespace-nowrap text-[clamp(3rem,7.14cqw,6.5rem)]">
                 {t('heading')}
               </h1>
             </Reveal>

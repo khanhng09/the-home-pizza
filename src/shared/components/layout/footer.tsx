@@ -26,13 +26,13 @@ export async function Footer() {
           <div className="flex flex-col lg:gap-1.5 text-base lg:text-lg text-white lg:flex-1.5">
             <p>
               {t('mail')}{' '}
-              <a href={`mailto:${businessInfo.email}`} className="cursor-pointer hover:text-cream transition-colors">
+              <a href={`mailto:${businessInfo.email}`} className="cursor-pointer hover:text-cream hover:underline transition-colors">
                 {businessInfo.email}
               </a>
             </p>
             <p>
               {t('tel')}{' '}
-              <a href={`tel:${businessInfo.phone.replace(/\s/g, '')}`} className="cursor-pointer hover:text-cream transition-colors">
+              <a href={`tel:${businessInfo.phone.replace(/\s/g, '')}`} className="cursor-pointer hover:text-cream hover:underline transition-colors">
                 {businessInfo.phone}
               </a>
             </p>
@@ -43,7 +43,15 @@ export async function Footer() {
             <div className="lg:mt-2">
               <p>{t('address')}</p>
               {businessInfo.locations.map((location) => (
-                <p key={location.id}>{t(`locations.${location.id}`)}</p>
+                <a
+                  key={location.id}
+                  href={location.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer hover:text-cream hover:underline transition-colors block"
+                >
+                  {t(`locations.${location.id}`)}
+                </a>
               ))}
             </div>
           </div>

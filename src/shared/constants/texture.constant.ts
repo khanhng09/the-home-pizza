@@ -14,7 +14,7 @@
  * `scripts/make-seamless-tile.mjs` for why it's a small cropped-and-blended
  * tile rather than the full photograph stretched across the section.
  */
-export const DARK_PAPER_TILE = '/images/pattern-bg.webp';
+export const DARK_PAPER_TILE = '/images/pattern-bg-tile.webp';
 
 /**
  * The CSS size the tile above is painted at — half its 300px pixel size, so
@@ -24,7 +24,7 @@ export const DARK_PAPER_TILE = '/images/pattern-bg.webp';
  * means changing `crop` for this job in `scripts/make-seamless-tile.mjs` to
  * keep the 2:1 ratio.
  */
-export const DARK_PAPER_TILE_SIZE = '300px 300px';
+export const DARK_PAPER_TILE_SIZE = '150px 150px';
 
 /**
  * The cream paper texture shared by the /story-detail related band, the

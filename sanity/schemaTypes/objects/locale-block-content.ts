@@ -28,7 +28,23 @@ const bodyBlockContent = defineArrayMember({
         name: 'link',
         type: 'object',
         title: 'Link',
-        fields: [defineField({ name: 'href', title: 'URL', type: 'url', validation: (Rule) => Rule.required() })],
+        fields: [
+          defineField({ name: 'href', title: 'URL', type: 'url', validation: (Rule) => Rule.required() }),
+          defineField({
+            name: 'style',
+            title: 'Hiển thị',
+            description: 'Nút bấm dùng cho lời kêu gọi hành động (VD: "Ứng tuyển"), cùng kiểu với các nút CTA khác trên web.',
+            type: 'string',
+            options: {
+              list: [
+                { title: 'Văn bản (gạch chân)', value: 'link' },
+                { title: 'Nút bấm (CTA)', value: 'button' },
+              ],
+              layout: 'radio',
+            },
+            initialValue: 'link',
+          }),
+        ],
       },
     ],
   },

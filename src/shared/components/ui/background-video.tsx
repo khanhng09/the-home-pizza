@@ -98,10 +98,15 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
     }
 
     // Third chance: heroes below the fold (the /humans one) may never have
-    // been eligible while off-screen.
+    // been eligible while off-screen. The same observer also stops the
+    // decoder once the hero is scrolled past — a 1920-wide loop left
+    // running behind the rest of the page costs main-thread and battery
+    // for something nobody is looking at.
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) retry();
+        const visible = entries.some((entry) => entry.isIntersecting);
+        if (visible) retry();
+        else if (!video.paused) video.pause();
       },
       { threshold: 0.1 }
     );

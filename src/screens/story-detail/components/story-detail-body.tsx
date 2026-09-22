@@ -6,6 +6,7 @@ import type {
   StorySpanInput,
 } from '@/shared/types/story-content.type';
 import { sanityResponsiveImage } from '@/shared/lib/sanity/image';
+import { Button } from '@/shared/components/ui/button';
 
 /**
  * Renders one article body — the ordered list of typed blocks the content
@@ -70,12 +71,32 @@ function renderSpans(spans: StorySpanInput[]): ReactNode[] {
     // External links get the usual `noopener` pairing; an editor should not
     // have to remember it per link.
     const external = /^https?:/i.test(href);
+    const relProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+
+    // An editor-flagged CTA (e.g. "Ứng tuyển") gets the same `.btn-cta`
+    // pill every other CTA on the site uses, instead of inline underlined
+    // text — see the `style` field on the `link` annotation in
+    // `sanity/schemaTypes/objects/locale-block-content.ts`.
+    if (span.style === 'button') {
+      return (
+        <Button
+          key={key}
+          asChild
+          className="btn-cta mx-1 border border-cream bg-cream text-ink hover:bg-linen"
+        >
+          <a href={href} {...relProps}>
+            {content}
+          </a>
+        </Button>
+      );
+    }
+
     return (
       <a
         key={key}
         href={href}
         className="underline underline-offset-4 transition-colors hover:text-gold"
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        {...relProps}
       >
         {content}
       </a>

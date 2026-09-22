@@ -37,12 +37,33 @@ const MANIFEST_PATH = new URL(
   import.meta.url
 ).pathname;
 
-/** Photographic content tolerates 80 well; these are all photos or
- * photographed menu spreads, nothing with hard synthetic edges. A group
- * can override this with its own `quality` — see the story tabs banner,
- * which carries overlaid display type that shows compression banding
- * sooner than plain photography does. */
-const QUALITY = 80;
+/**
+ * Most of the sources here are *already* lossy WebP (the masters came out
+ * of Figma that way), so every variant is a second lossy pass, not a
+ * first one — and that is what 80 kept getting wrong. At the same pixel
+ * width it was re-encoding `humans/chef.webp` from the source's 212KB
+ * down to 61KB: a 70% cut with no resolution saved to pay for it, which
+ * showed up as the rope-fibre and mosaic-grain texture smearing into
+ * flat blotches. 88 holds that texture (113KB) and still roughly halves
+ * the source.
+ *
+ * Check a change here on a crop at 1:1 against the *source*, not against
+ * the previous variant — a second lossy pass degrades from wherever the
+ * master already sat, so the usual "80 is fine for photos" rule of thumb
+ * (which assumes an untouched original) reads a stop or two too low.
+ *
+ * A group can still override with its own `quality`.
+ */
+const QUALITY = 88;
+
+/**
+ * `effort: 6` (sharp's default is 4) buys a better rate/quality curve for
+ * encode time only — it came out *smaller* than the default at the same
+ * quality, so it costs nothing at runtime. `smartSubsample` keeps chroma
+ * from bleeding on the saturated edges this palette is full of (chilli
+ * red, herb green, the gold overlays).
+ */
+const WEBP_OPTIONS = { effort: 6, smartSubsample: true };
 
 /** Matches this script's own output, so a re-run never treats a variant
  * as a source. */
@@ -332,7 +353,7 @@ async function run() {
         );
         const info = await sharp(absolute)
           .resize({ width, withoutEnlargement: true })
-          .webp({ quality: group.quality ?? QUALITY })
+          .webp({ ...WEBP_OPTIONS, quality: group.quality ?? QUALITY })
           .toFile(target);
 
         groupOutput += info.size;

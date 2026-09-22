@@ -27,7 +27,7 @@ export async function HumansHeroSection() {
         />
 
         {/* Dark gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-ink/60" />
+        {/* <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-ink/60" /> */}
 
         {/* Content — same slow, staggered entrance as the home hero: the
             heading pops in first, then each link cascades in behind it. */}

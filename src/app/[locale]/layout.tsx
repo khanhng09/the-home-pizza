@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
@@ -27,6 +27,13 @@ const raleway = Raleway({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+// `--palette-ink` from globals.css — matches `manifest.ts`'s `theme_color`
+// (kept as a literal hex there since the manifest route can't import CSS
+// custom properties).
+export const viewport: Viewport = {
+  themeColor: "#162F3E",
+};
 
 export async function generateMetadata({
   params,

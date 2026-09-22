@@ -31,6 +31,11 @@ export interface StorySpan {
   marks?: StoryMark[];
   /** Turns the span into a link. Sanitised at render — see `safeHref`. */
   href?: string;
+  /** `'button'` renders the link as a CTA pill (`.btn-cta`, the same
+   * treatment every other CTA on the site uses) instead of inline
+   * underlined text — for a standalone call-to-action embedded in the
+   * article body, e.g. "Ứng tuyển". Defaults to `'link'`. */
+  style?: 'link' | 'button';
 }
 
 /** Authoring shorthand: a bare string is a span with no marks. Normalised

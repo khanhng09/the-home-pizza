@@ -25,11 +25,13 @@ export const businessInfo = {
       id: "phu-quoc",
       name: "Phú Quốc",
       address: "129 Trần Hưng Đạo, Dương Đông, Phú Quốc",
+      googleMapsUrl: "https://share.google/9gPzdDaswfKSLEjLg",
     },
     {
       id: "nha-trang",
       name: "Nha Trang",
       address: "12 - 14 Trần Phú, Tân Thành, Nha Trang",
+      googleMapsUrl: "https://share.google/NzRhP1dRakSfh9AwA",
     },
   ],
 };

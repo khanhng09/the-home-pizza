@@ -30,7 +30,7 @@ export function ogImage(source?: string): string {
 }
 
 /** Prefixes a path with the locale segment, except for the default locale ("as-needed" mode). */
-function localizedPath(locale: string, path: string): string {
+export function localizedPath(locale: string, path: string): string {
   if (locale === routing.defaultLocale) return path;
   const suffix = path === '/' ? '' : path;
   return `/${locale}${suffix}`;
@@ -59,6 +59,16 @@ export function generateRootMetadata(locale: string, title: string, description:
       address: false,
     },
     alternates: { canonical },
+    // `prefers-color-scheme` on <link rel="icon"> only tracks the OS scheme,
+    // not a browser's own manually-set UI theme (e.g. Brave's dark mode with
+    // the OS in light mode) — that mismatch renders the wrong-contrast SVG
+    // invisible on the tab strip. `favicon.ico` carries its own cream
+    // background swatch instead, so it stays legible regardless of the
+    // surrounding chrome color; no need for a scheme-matched pair.
+    icons: {
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+    },
     openGraph: {
       type: 'website',
       locale: OG_LOCALE[locale] ?? OG_LOCALE[routing.defaultLocale],
@@ -229,11 +239,10 @@ export function generateRestaurantSchema() {
     ],
     servesCuisine: ['Italian', 'Pizza'],
     priceRange: '$$',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '247',
-    },
+    // No `aggregateRating` here: Google's structured-data guidelines treat a
+    // rating with no real review source as fabricated content, which risks a
+    // manual action. Add it back only once there's an actual ratings feed
+    // (Google Business Profile, a reviews platform, ...) to source it from.
   });
 }
 

@@ -8,6 +8,7 @@ import { routing } from '@/i18n/routing';
 import { navigation, businessInfo, bookingLink } from '@/shared/constants/site.constant';
 import { TheHomeLogo, IcArrowDown } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
+import { useScrolled } from '@/shared/hooks/use-scrolled.hook';
 // import { useScrollDirection } from '@/shared/hooks/use-scroll-direction.hook';
 import {
   DropdownMenu,
@@ -29,6 +30,7 @@ export function Header() {
   const t = useTranslations('header');
   const tCommon = useTranslations('common');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const scrolled = useScrolled();
   // const hidden = useScrollDirection();
 
   // /menu and everything under /story sit on cream paper rather than a
@@ -47,8 +49,13 @@ export function Header() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 bg-gold/25 backdrop-blur-md transition-transform duration-200 ease-out',
+          'fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-200 ease-out',
           // !mobileOpen ? '-translate-y-full' : 'translate-y-0'
+          scrolled
+            ? isDark
+              ? 'bg-linen shadow-sm'
+              : 'bg-ink shadow-sm'
+            : 'bg-gold/25 backdrop-blur-md'
         )}
       >
         <div className="container-base flex h-[var(--header-height)] items-center justify-between">
@@ -103,10 +110,14 @@ export function Header() {
                 align="end"
                 sideOffset={0}
                 className={cn(
-                  'w-35 min-w-35 rounded-t-none rounded-b-[3px] border p-0 shadow-none backdrop-blur-md',
-                  isDark
-                    ? 'border-ink/15 bg-gold/25 text-ink'
-                    : 'border-cream/25 bg-gold/25 text-cream'
+                  'w-35 min-w-35 rounded-t-none rounded-b-[3px] border p-0 shadow-none',
+                  scrolled
+                    ? isDark
+                      ? 'border-ink/15 bg-linen text-ink'
+                      : 'border-cream/15 bg-ink text-cream'
+                    : isDark
+                      ? 'border-ink/15 bg-gold/25 text-ink backdrop-blur-md'
+                      : 'border-cream/25 bg-gold/25 text-cream backdrop-blur-md'
                 )}
               >
                 {routing.locales.map((loc) => (
