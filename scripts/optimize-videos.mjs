@@ -7,38 +7,37 @@
  *
  * Two problems with the source files, not just size:
  *
- * 1. They are AV1 (home) and HEVC (humans) inside an `.mp4` container.
- *    Safari cannot decode AV1 without hardware support, and Chrome/Firefox/
- *    Android generally cannot decode HEVC at all (licensing, not codec
- *    support) — so on a large share of devices these heroes were
- *    rendering as an empty box. Every output here ships an H.264/MP4
- *    rendition, which plays everywhere.
+ * 1. Both sources are HEVC (one in a `.mov` container, one in `.mp4`).
+ *    Chrome/Firefox/Android generally cannot decode HEVC at all
+ *    (licensing, not codec support) — so on most non-Apple devices these
+ *    heroes were rendering as an empty box. Every output here ships an
+ *    H.264/MP4 rendition, which plays everywhere, and an AV1/WebM
+ *    rendition, which is smaller wherever it decodes.
  * 2. Both carry an AAC track that nothing can hear: the elements are
  *    `muted`. `-an` drops it.
  *
- * The home footage is ambient background behind a dark gradient and
- * large type, cropped hard by `object-cover`. That justifies settings
- * that would be too aggressive for foreground video: 24fps, moderate
- * denoise (which both suppresses handheld sensor noise and makes the
- * high-frequency woven textures far cheaper to encode), and a low
- * bitrate.
+ * Both heroes are now the same kind of footage: 4K narrative shots (food
+ * macro detail, dark handheld interiors) rather than a light ambient
+ * loop, so both use NARRATIVE_RENDITIONS and the same encoder tuning.
+ * This used to be two different profiles — the home hero's original
+ * footage was a light ambient loop that tolerated a low, denoised
+ * bitrate — but once home's source was replaced with narrative footage
+ * too, that profile just reproduced the same mistake discovered on the
+ * humans hero, in order of how much it mattered:
  *
- * The humans footage is a narrative shot (food macro detail, burned-in
- * captions spanning most of the frame width) rather than an ambient
- * loop, so it carries its own ladder, denoise, CRFs and encoder tuning.
- * Two things were wrong when the home settings were reused for it, in
- * order of how much they mattered:
- *
- * 1. Resolution. See HUMANS_RENDITIONS — `object-cover` was upscaling
- *    the rendition ~2.5x, and no CRF survives that.
- * 2. Filtering and CRF, which softened the herb/crust texture and the
+ * 1. Resolution. See NARRATIVE_RENDITIONS — `object-cover` upscales a
+ *    1080 rendition ~2.5x on a full-viewport hero, and no CRF survives
+ *    that.
+ * 2. Filtering and CRF, which softened food texture and any burned-in
  *    caption edges on top of the upscale.
  *
  * Judge a change here by extracting a frame and comparing it against
  * the source *at the size it is displayed at* (upscaled to the measured
  * device-pixel width), not at the encode's own resolution — a crop that
- * looks fine at 1:1 can still be mush once the browser enlarges it.
- * Nothing in this script detects which kind of footage a source is.
+ * looks fine at 1:1 can still be mush once the browser enlarges it. If a
+ * future source really is a light ambient loop again, give it back a
+ * lower-bitrate profile rather than reusing this one by default —
+ * nothing here detects which kind of footage a source is.
  */
 import { mkdir, stat } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
@@ -50,29 +49,13 @@ const run = promisify(execFile);
 
 const PUBLIC_DIR = new URL('../public/', import.meta.url).pathname;
 
-/** Smooths sensor noise and the woven-texture detail that dominates the
- * bitrate of the home loop. Values are deliberately mild — enough to
- * help the encoder, not enough to read as a blur under the overlay. */
-const DENOISE = 'hqdn3d=6:4:8:6';
 /** Light touch, for a rendition whose downscale ratio is small enough
- * that it is not already averaging the noise away on its own. */
+ * that it is not already averaging sensor noise away on its own. */
 const LIGHT_DENOISE = 'hqdn3d=2:1:2:1';
 const FPS = '24';
 
 /**
- * Mobile renders the home loop at roughly 460 CSS px wide after
- * `object-cover` crops it, so 720 is already generous there; desktop
- * upscales whatever it is given, so 1080 (the source width) is the
- * ceiling worth keeping. CRFs were picked per rendition by inspecting
- * decoded frames.
- */
-const RENDITIONS = [
-  { width: 720, av1Crf: 52, h264Crf: 36, denoise: DENOISE },
-  { width: 1080, av1Crf: 50, h264Crf: 35, denoise: DENOISE },
-];
-
-/**
- * The humans ladder is driven by *display* size, not by source size.
+ * The ladder is driven by *display* size, not by source size.
  * `object-cover` scales this 16:9 footage to cover a full-viewport
  * portrait-ish box, so the browser upscales whatever it is handed: a
  * 1080-wide rendition measured a 2.5x upscale on a 1024x768 pane at
@@ -83,11 +66,11 @@ const RENDITIONS = [
  *
  * Denoise is per rendition here because the downscale ratio already
  * does that job: 4K → 1920 averages 2x2 pixels and needs no filter
- * (adding one measurably softened the herb texture), while 4K → 1080
- * averages 3.5x1 and can still afford a light pass to save bytes on
- * the rendition phones actually download.
+ * (adding one measurably softened texture on the humans footage), while
+ * 4K → 1080 averages 3.5x1 and can still afford a light pass to save
+ * bytes on the rendition phones actually download.
  */
-const HUMANS_RENDITIONS = [
+const NARRATIVE_RENDITIONS = [
   /** The AV1 CRF here is not a typo against the 1920 tier's lower one:
    * `tune=0` plus variance boost spend noticeably more bits at a given
    * CRF, and at 40 this rendition came out well over its H.264 sibling
@@ -101,22 +84,35 @@ const HUMANS_RENDITIONS = [
  * SVT-AV1 defaults to `tune=1` (PSNR), which optimises for the metric
  * rather than for what an eye reads as sharp; `tune=0` spends the same
  * bitrate on subjective quality instead. `enable-variance-boost` gives
- * more bits to dark, low-variance blocks — most of this footage is a
- * dim interior, which is exactly where flat banding showed up. Both are
- * free at runtime: same file size, better picture.
+ * more bits to dark, low-variance blocks — both heroes spend a lot of
+ * their runtime in dim interiors, which is exactly where flat banding
+ * showed up. Both are free at runtime: same file size, better picture.
  */
-const HUMANS_SVTAV1_PARAMS = 'tune=0:enable-variance-boost=1';
+const NARRATIVE_SVTAV1_PARAMS = 'tune=0:enable-variance-boost=1';
+
+/** Slower presets and lanczos cost encode time only — this output is
+ * committed, so a few extra minutes here buys every visitor a better
+ * picture at no transfer cost. */
+const NARRATIVE_ENCODER_TUNING = {
+  renditions: NARRATIVE_RENDITIONS,
+  av1Preset: '4',
+  x264Preset: 'veryslow',
+  svtav1Params: NARRATIVE_SVTAV1_PARAMS,
+  scaleFlags: 'lanczos',
+};
 
 const SOURCES = [
   {
-    input: 'videos/home/hero-banner.mp4',
+    input: 'videos/home/hero-home.mov',
     outputDir: 'videos/home',
     name: 'hero-banner',
     poster: 'images/home/hero-poster.webp',
-    /** Frame 0 carries the title card, so it is what the loop starts on
-     * — using it keeps the handover from poster to video seamless. */
+    /** Frame 0 is the loop's opening beat (fishermen on the beach at
+     * dawn), so it is what the loop starts and ends on — using it keeps
+     * the handover from poster to video, and the loop's own seam,
+     * seamless. */
     posterAt: '0',
-    renditions: RENDITIONS,
+    ...NARRATIVE_ENCODER_TUNING,
   },
   {
     input: 'videos/humans/hero.mp4',
@@ -124,14 +120,7 @@ const SOURCES = [
     name: 'hero',
     poster: 'images/humans/hero-poster.webp',
     posterAt: '0',
-    renditions: HUMANS_RENDITIONS,
-    /** Slower presets and lanczos cost encode time only — this output is
-     * committed, so a few extra minutes here buys every visitor a better
-     * picture at no transfer cost. */
-    av1Preset: '4',
-    x264Preset: 'veryslow',
-    svtav1Params: HUMANS_SVTAV1_PARAMS,
-    scaleFlags: 'lanczos',
+    ...NARRATIVE_ENCODER_TUNING,
   },
 ];
 
