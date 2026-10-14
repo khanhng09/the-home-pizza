@@ -1,0 +1,34 @@
+# Browser caching for files served from `public/`.
+#
+# Netlify's default for static files is `max-age=0, must-revalidate`, so
+# every visit re-asks the CDN for every image and video. These filenames
+# are NOT content-hashed (`scripts/optimize-images.mjs` rewrites
+# `<name>.w<width>.webp` in place), so `immutable` / a one-year max-age
+# would pin a stale file in returning visitors' browsers. A week is the
+# compromise: repeat visits are free, and a replaced asset reaches
+# everyone within seven days. To ship a change to an existing asset
+# immediately, give it a new filename instead of overwriting it.
+#
+# `/_next/static/*` (JS, CSS, and the fonts loaded through next/font) is
+# already content-hashed and served `immutable` by the Next.js runtime —
+# don't add a rule for it here.
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/illustrations/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/videos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
