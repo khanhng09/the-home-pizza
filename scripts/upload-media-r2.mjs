@@ -1,5 +1,5 @@
 /**
- * Uploads `public/images` and `public/videos` to the Cloudflare R2 bucket
+ * Uploads `public/images`, `public/videos` and `public/illustrations` to the Cloudflare R2 bucket
  * that `NEXT_PUBLIC_MEDIA_BASE_URL` points at (see `shared/lib/media.ts`).
  *
  * Run with `yarn media:upload` (add `--dry-run` to only list what would
@@ -31,7 +31,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..', 'public');
-const FOLDERS = ['images', 'videos'];
+const FOLDERS = ['images', 'videos', 'illustrations'];
 const CONCURRENCY = 6;
 const DRY_RUN = process.argv.includes('--dry-run');
 

@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { mediaUrl } from '@/shared/lib/media';
 import { cn } from '@/shared/lib/utils';
 
 /** Masks produced by `yarn illustrations:extract`. Adding a name here
@@ -50,9 +51,14 @@ interface IllustrationProps {
  * A mask rather than an `<img>` so `currentColor` still applies: every
  * call site colours these with `text-gold` or `text-accent/60`, and a
  * raster `<img>` would have needed one baked file per colour.
+ *
+ * A cross-origin mask is fetched in CORS mode, so the media origin must
+ * answer with `Access-Control-Allow-Origin` — a Cloudflare Response Header
+ * Transform Rule on `media.thehomepizza.com` sets it on every response,
+ * cached ones included. Without it these render as nothing, silently.
  */
 export function Illustration({ name, className, style }: IllustrationProps) {
-  const mask = `url(/illustrations/${name}.webp)`;
+  const mask = `url(${mediaUrl(`/illustrations/${name}.webp`)})`;
 
   return (
     <span

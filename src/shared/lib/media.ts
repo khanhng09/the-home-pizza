@@ -1,9 +1,9 @@
 /**
- * Origin the `/images/*` and `/videos/*` files are served from — the
- * Cloudflare R2 bucket's custom domain (e.g. `https://media.thehomepizza.com`),
- * uploaded by `yarn media:upload`.
+ * Origin the `/images/*`, `/videos/*` and `/illustrations/*` files are
+ * served from — the Cloudflare R2 bucket's custom domain (e.g.
+ * `https://media.thehomepizza.com`), uploaded by `yarn media:upload`.
  *
- * Netlify bills bandwidth per GB, and those two folders were ~90% of it;
+ * Netlify bills bandwidth per GB, and images + videos alone were ~90% of it;
  * R2 doesn't bill egress at all. The files stay in `public/` too, so with
  * this unset (local dev, or a deploy before the bucket is filled) every
  * path falls back to the copy Netlify serves.
@@ -13,11 +13,12 @@
  */
 export const MEDIA_BASE_URL = (process.env.NEXT_PUBLIC_MEDIA_BASE_URL ?? '').replace(/\/+$/, '');
 
-/** Only these folders are uploaded. `/illustrations/*` stays on Netlify on
- * purpose: it's painted through CSS `mask-image`, which fetches in CORS
- * mode, and it's under 1MB. OG images stay too — crawlers resolve them
- * against `SITE_URL` (see `shared/lib/metadata.ts`). */
-const MEDIA_PREFIXES = ['/images/', '/videos/'];
+/** The folders `yarn media:upload` sends. `/illustrations/*` is painted
+ * through CSS `mask-image`, which fetches in CORS mode — see
+ * `Illustration` for the header that makes that work. OG images stay on
+ * Netlify: crawlers resolve them against `SITE_URL` (see
+ * `shared/lib/metadata.ts`). */
+const MEDIA_PREFIXES = ['/images/', '/videos/', '/illustrations/'];
 
 /**
  * Rewrites a `public/` media path to the media origin. Anything else —
