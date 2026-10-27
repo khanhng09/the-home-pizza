@@ -4,10 +4,12 @@ import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Script from "next/script";
+import { preconnect } from "react-dom";
 import localFont from "next/font/local";
 import { Raleway } from "next/font/google";
 import { Header, Footer } from "@/shared/components/layout";
 import { generateRootMetadata } from "@/shared/lib/metadata";
+import { MEDIA_BASE_URL } from "@/shared/lib/media";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
@@ -65,6 +67,11 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
+
+  // Every page's LCP image (hero poster, map) now comes from the media
+  // origin — open that connection alongside the document's instead of
+  // after the HTML has been parsed down to the first `<img>`.
+  if (MEDIA_BASE_URL) preconnect(MEDIA_BASE_URL);
 
   return (
     <html

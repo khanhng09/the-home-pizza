@@ -13,6 +13,7 @@
     "images:og": "node scripts/make-og-images.mjs",
     "illustrations:extract": "node scripts/extract-illustrations.mjs",
     "videos:optimize": "node scripts/optimize-videos.mjs",
+    "media:upload": "node --env-file-if-exists=.env.local scripts/upload-media-r2.mjs",
     "sanity:seed-story": "sanity exec scripts/seed-sanity-story.ts --with-user-token"
   },
   "dependencies": {

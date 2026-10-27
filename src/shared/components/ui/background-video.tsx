@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
+import { mediaUrl } from '@/shared/lib/media';
 
 export interface BackgroundVideoSource {
   src: string;
@@ -63,7 +64,7 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
       if (!video.querySelector('source')) {
         for (const rendition of sources) {
           const source = document.createElement('source');
-          source.src = rendition.src;
+          source.src = mediaUrl(rendition.src);
           source.type = rendition.type;
           if (rendition.media) source.media = rendition.media;
           video.appendChild(source);
@@ -124,7 +125,7 @@ export function BackgroundVideo({ sources, poster, className }: BackgroundVideoP
     <video
       ref={videoRef}
       className={className}
-      poster={poster}
+      poster={mediaUrl(poster)}
       muted
       loop
       playsInline

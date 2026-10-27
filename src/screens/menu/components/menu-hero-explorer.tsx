@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { MenuRegionList } from './menu-region-list';
+import { mediaUrl } from '@/shared/lib/media';
 import { cn } from '@/shared/lib/utils';
 
 /**
@@ -137,7 +138,7 @@ export function MenuHeroExplorer({
       return (
         <img
           key={source}
-          src={source}
+          src={mediaUrl(source)}
           alt={source === mapImage ? mapAlt : ''}
           aria-hidden={source === mapImage ? undefined : true}
           width={1600}
@@ -223,7 +224,7 @@ export function MenuHeroExplorer({
       return (
         <img
           key={source}
-          src={source}
+          src={mediaUrl(source)}
           alt={source === mobileMapImage ? mapAlt : ''}
           aria-hidden={source === mobileMapImage ? undefined : true}
           width={1102}

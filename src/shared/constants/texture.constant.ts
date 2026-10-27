@@ -1,3 +1,5 @@
+import { mediaUrl } from '@/shared/lib/media';
+
 /**
  * The dark dó paper texture shared by the /story-detail article, the home
  * menu and location panels, and the /humans chef-story band — one tile
@@ -14,7 +16,7 @@
  * `scripts/make-seamless-tile.mjs` for why it's a small cropped-and-blended
  * tile rather than the full photograph stretched across the section.
  */
-export const DARK_PAPER_TILE = '/images/pattern-bg-tile.webp';
+export const DARK_PAPER_TILE = mediaUrl('/images/pattern-bg-tile.webp');
 
 /**
  * The CSS size the tile above is painted at — half its 300px pixel size, so
@@ -37,8 +39,8 @@ export const DARK_PAPER_TILE_SIZE = '150px 150px';
  * blended tile rather than the full photograph stretched across the section.
  */
 export const CREAM_PAPER_TILE = {
-  desktop: '/images/home/story/background-tile.webp',
-  mobile: '/images/home/story/background-mb-tile.webp',
+  desktop: mediaUrl('/images/home/story/background-tile.webp'),
+  mobile: mediaUrl('/images/home/story/background-mb-tile.webp'),
 };
 
 /**

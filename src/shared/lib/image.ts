@@ -1,4 +1,5 @@
 import variantManifest from '@/shared/constants/image-variants.generated.json';
+import { mediaUrl } from '@/shared/lib/media';
 
 const VARIANTS: Record<string, number[]> = variantManifest;
 
@@ -23,13 +24,16 @@ export interface ResponsiveImageSource {
  * Anything absent from the manifest falls through to its original path,
  * so adding an image without re-running the script degrades to the
  * unoptimized file instead of a 404.
+ *
+ * The returned URLs point at the media origin (`mediaUrl`) — `source`
+ * itself stays a `public/` path, since that's the manifest key.
  */
 export function responsiveImage(source: string): ResponsiveImageSource {
   const widths = VARIANTS[source];
-  if (!widths?.length) return { src: source };
+  if (!widths?.length) return { src: mediaUrl(source) };
 
   const base = source.replace(/\.[a-z0-9]+$/i, '');
-  const variant = (width: number) => `${base}.w${width}.webp`;
+  const variant = (width: number) => mediaUrl(`${base}.w${width}.webp`);
 
   return {
     src: variant(widths[widths.length - 1]),

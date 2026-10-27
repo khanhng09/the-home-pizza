@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { responsiveImage } from '@/shared/lib/image';
+import { mediaUrl } from '@/shared/lib/media';
 import { menuHeroContent, menuRegionList } from '../constants/menu.constant';
 import { MenuHeroExplorer } from '../components/menu-hero-explorer';
 
@@ -51,14 +52,14 @@ export async function MenuHeroSection() {
       <link
         rel="preload"
         as="image"
-        href={menuHeroContent.mapImage}
+        href={mediaUrl(menuHeroContent.mapImage)}
         media="(min-width: 1024px)"
         fetchPriority="high"
       />
       <link
         rel="preload"
         as="image"
-        href={menuHeroContent.mobileMapImage}
+        href={mediaUrl(menuHeroContent.mobileMapImage)}
         media="(max-width: 1023.98px)"
         fetchPriority="high"
       />
