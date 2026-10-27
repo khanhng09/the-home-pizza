@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { businessInfo, navigation, socialLinks } from '@/shared/constants/site.constant';
+import { businessInfo, socialLinks } from '@/shared/constants/site.constant';
 import { IcFacebook, IcInstagram, TheHomeLogo } from '@/shared/components/icons';
 
 const socialIcons = {
