@@ -65,6 +65,10 @@ export const socialLinks = [
   },
 ];
 
+/** Temporarily off: hides every "Đặt bàn" / "Book a Table" CTA (header,
+ * mobile nav, home hero). Flip back to `true` to bring them all back. */
+export const bookingEnabled = false;
+
 export const bookingLink = "https://booking.ipos.vn/public/booking/878f61f7-5486-462a-9a48-43bd4b316758?source=IFRAME&css=overflow-y:hidden;"
 
 // Menu Categories (placeholder, until the Menu page is built)

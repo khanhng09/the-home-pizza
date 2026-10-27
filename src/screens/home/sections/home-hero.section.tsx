@@ -3,7 +3,7 @@ import { Button } from '@/shared/components/ui/button';
 import { optimizedImage, responsiveImage } from '@/shared/lib/image';
 import { heroContent, trustBadges } from '../constants/home.constant';
 import { BackgroundVideo } from '@/shared/components/ui/background-video';
-import { bookingLink } from '@/shared/constants/site.constant';
+import { bookingEnabled, bookingLink } from '@/shared/constants/site.constant';
 
 export async function HomeHeroSection() {
   const t = await getTranslations('home.hero');
@@ -78,14 +78,16 @@ export async function HomeHeroSection() {
               {t('heading')}
             </h1>
             <p className="font-sans text-lg sm:text-2xl md:text-3xl lg:text-4xl text-cream animate-[hero-drift-left_900ms_cubic-bezier(0.16,1,0.3,1)_both] [animation-delay:600ms]">{t('subheading')}</p>
-            <div className="hidden lg:block animate-[rise-in_800ms_cubic-bezier(0.16,1,0.3,1)_both] [animation-delay:900ms] max-w-47 w-full">
-              <Button
-                asChild
-                className="btn-cta mt-3.5 w-full max-w-47 bg-cream text-ink hover:bg-linen"
-              >
-                <a href={bookingLink} target="_blank" rel="noopener noreferrer">{t('cta')}</a>
-              </Button>
-            </div>
+            {bookingEnabled && (
+              <div className="hidden lg:block animate-[rise-in_800ms_cubic-bezier(0.16,1,0.3,1)_both] [animation-delay:900ms] max-w-47 w-full">
+                <Button
+                  asChild
+                  className="btn-cta mt-3.5 w-full max-w-47 bg-cream text-ink hover:bg-linen"
+                >
+                  <a href={bookingLink} target="_blank" rel="noopener noreferrer">{t('cta')}</a>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
