@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Menu, X } from 'lucide-react';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
-import { navigation, businessInfo, bookingLink } from '@/shared/constants/site.constant';
+import { navigation, businessInfo, bookingEnabled, bookingLink } from '@/shared/constants/site.constant';
 import { TheHomeLogo, IcArrowDown } from '@/shared/components/icons';
 import { Button } from '@/shared/components/ui/button';
 import { useScrolled } from '@/shared/hooks/use-scrolled.hook';
@@ -58,9 +58,16 @@ export function Header() {
             : 'bg-gold/25 backdrop-blur-md'
         )}
       >
-        <div className="container-base flex h-[var(--header-height)] items-center justify-between">
+        {/* From `lg` up the bar is a `1fr auto 1fr` grid rather than
+            `justify-between`: the two outer tracks always share the leftover
+            width equally, so the nav sits on the exact centre of the bar no
+            matter how wide the logo is or whether the CTA is rendered. With
+            `justify-between` the nav floated to wherever the gap between
+            its neighbours happened to fall — and jumped to the right edge
+            the moment the CTA was switched off. */}
+        <div className="container-base flex h-[var(--header-height)] items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
           {/* Logo */}
-          <Link href="/" className="shrink-0 cursor-pointer">
+          <Link href="/" className="shrink-0 cursor-pointer lg:justify-self-start">
             <TheHomeLogo
               aria-label={businessInfo.name}
               className={cn('h-4 w-auto lg:h-3.5', isDark ? 'text-ink' : 'text-cream')}
@@ -68,7 +75,7 @@ export function Header() {
           </Link>
 
           {/* Main Navigation */}
-          <nav className="hidden lg:flex items-center gap-7.5 h-full">
+          <nav className="hidden lg:col-start-2 lg:flex items-center gap-7.5 h-full">
             {navigation.main.map((item) => {
               const active = isNavItemActive(pathname, item.href);
               return (
@@ -140,15 +147,17 @@ export function Header() {
               which is the reference treatment for every CTA on the site. On
               the cream-backed screens a cream fill would disappear, so those
               get the ink-filled twin rather than a different shape. */}
-          <Button
-            asChild
-            className={cn(
-              'btn-cta hidden w-full max-w-35 lg:inline-flex',
-              isDark ? 'bg-ink text-cream hover:bg-umber' : 'bg-cream text-ink hover:bg-linen'
-            )}
-          >
-            <a href={bookingLink} target="_blank" rel="noopener noreferrer">{tCommon('bookTable')}</a>
-          </Button>
+          {bookingEnabled && (
+            <Button
+              asChild
+              className={cn(
+                'btn-cta hidden w-full max-w-35 lg:col-start-3 lg:inline-flex lg:justify-self-end',
+                isDark ? 'bg-ink text-cream hover:bg-umber' : 'bg-cream text-ink hover:bg-linen'
+              )}
+            >
+              <a href={bookingLink} target="_blank" rel="noopener noreferrer">{tCommon('bookTable')}</a>
+            </Button>
+          )}
 
           {/* Mobile hamburger */}
           <button
@@ -227,14 +236,16 @@ export function Header() {
             {/* Same filled pill as everywhere else, but kept at 44px rather
                 than the CTA's 32: this one is a row in the mobile nav, sized
                 with the nav links above it, and it is a touch target. */}
-            <Button
-              asChild
-              className="btn-cta mt-2 h-11 w-full bg-cream text-ink hover:bg-linen"
-            >
-              <a href={bookingLink} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
-                {tCommon('bookTable')}
-              </a>
-            </Button>
+            {bookingEnabled && (
+              <Button
+                asChild
+                className="btn-cta mt-2 h-11 w-full bg-cream text-ink hover:bg-linen"
+              >
+                <a href={bookingLink} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
+                  {tCommon('bookTable')}
+                </a>
+              </Button>
+            )}
           </nav>
         </div>
       )}
