@@ -33,6 +33,7 @@ export const menuSpreads = {
     { src: "/images/home/menu/dsv/nam-1.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/dsv/nam-2.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/dsv/nam-3.webp", width: 1241, height: 1754 },
+    { src: "/images/home/menu/dsv/nam-4.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/dsv/PQ.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/dsv/PQ1.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/dsv/PQ2.webp", width: 1241, height: 1754 },
@@ -58,6 +59,7 @@ export const menuSpreads = {
   pasta: [
     { src: "/images/home/menu/pasta/pasta-bac.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/pasta/pasta-bac-2.webp", width: 1241, height: 1754 },
+    { src: "/images/home/menu/pasta/pasta-nam-trung-binh.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/pasta/pasta-PQ.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/pasta/salad-11.webp", width: 1241, height: 1754 },
     { src: "/images/home/menu/pasta/salad-14.webp", width: 1241, height: 1754 },
